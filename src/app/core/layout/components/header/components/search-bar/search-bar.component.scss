@@ -1,0 +1,31 @@
+.form-control:focus {
+    border-color: currentColor;
+    box-shadow: none;
+}
+
+span.input-group-text {
+    cursor: pointer;
+}
+
+input::placeholder {
+    font-size: 13px;
+}
+
+.search__container {
+    border: 1px solid var(--white-100);
+    border-radius: 20px;
+    padding: 8px;
+    background-color: transparent;
+}
+
+.search__input {
+    outline: none;
+    border: none;
+    padding: 0px;
+    background-color: transparent;
+}
+
+::placeholder , i {
+    color: var(--white-100);
+    opacity:70%;
+  }

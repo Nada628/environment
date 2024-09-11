@@ -1,0 +1,12 @@
+::ng-deep .mat-horizontal-stepper-header-container {
+    display: none !important;
+  }
+
+.mat-stepper-vertical, .mat-stepper-horizontal {
+    font-family: "Tajawal-Regular";
+}
+
+.custom-btn {
+  text-align: end !important;
+  margin-top: 25px;
+}

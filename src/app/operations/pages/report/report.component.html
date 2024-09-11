@@ -1,0 +1,16 @@
+<app-subtitle>{{ "routingHeader.reports" | translate }}</app-subtitle>
+<app-filter></app-filter>
+<app-search></app-search>
+
+<div class="d-flex align-items-center justify-content-between section">
+  <div>
+    <div class="custom-title">{{ "reports.totalReports" | translate }}</div>
+    <div class="table">
+      <app-dynamic-table #reportsData></app-dynamic-table>
+    </div>
+  </div>
+  <div class="col-md-3 col-5">
+    <app-dynamic-pie-chart [data]="chartData.chardData"></app-dynamic-pie-chart>
+  </div>
+</div>
+<app-dynamic-table #dynamicTableWrapper></app-dynamic-table>

@@ -1,0 +1,129 @@
+
+<form [formGroup]="approvalForm" class="p-6 bg-white shadow-md rounded-lg max-w-4xl mx-auto">
+    <h1 class="text-2xl font-semibold mb-6 text-center my-5">نموذج الموافقة</h1>
+  
+    <!-- First Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+      <div class="col-span-2 text-end d-flex gap-2 align-items-center">
+        <h4 class="m-0">السيد اللواء / رئيس مجلس إدارة الهيئة العامة للمنطقة الحرة</h4>
+        <input type="text">
+      </div>
+      <h3 class="mr-50 my-4">تحية طيبة وبعد ...</h3>
+      <div>
+        <span>في إطار التعاون الوثيق بين الهيئة العامة لشؤون الحرة </span>
+        <input type="text">
+        <span> وجهاز شؤون البيئة وبالاشارة الي الطلب المقدم من شركة</span>
+        <input type="text">
+        <span> إلى جهاز شئون البيئة بتاريخ</span>
+        <input type="date" name="" id="" [value]="paymentDetails?.request_expense_created_at">
+        <span> للإفادة برأي الجهاز في تفريغ شحنة فحم</span>
+        <input type="text">
+        <span> من</span>
+        <input type="text">
+        <span> عن طريق شركة</span>
+        <input type="text">
+        <span> ذلك لصالح شركة</span>
+        <input type="text">
+        <span> والتي من المتوقع نقلها بتاريخ </span>
+        <input type="date" name="" id="" [value]="paymentDetails?.date">
+     </div>
+
+     <h2 class="mr-50 mt-3">بيانات الشحنة</h2>
+     <div class="d-flex gap-5 data ">
+      <div class="w-50">
+        <div>
+          <p class="block mb-2 text-sm font-medium text-gray-700">الجهة الوارد منها الشحن</p>
+          <input  type="text" class="w-100 p-3 border border-gray-300 rounded-md" [value]="paymentDetails?.import_coal_company" disabled>
+        </div>
+        <div>
+          <p class="block mb-2 text-sm font-medium text-gray-700">تاريخ الشحن</p>
+          <input  type="date"
+           class="w-100 p-3 border border-gray-300 rounded-md" [value]="paymentDetails?.shipment_date" disabled>
+        </div>
+        <div>
+          <p class="block mb-2 text-sm font-medium text-gray-700"> الشركة القائمة بأعمال التفريغ /التخزين /النقل</p>
+          <input  type="text" class="w-100 p-3 border border-gray-300 rounded-md"
+          [value]="paymentDetails?.companies" disabled>
+        </div>
+        <div>
+          <p class="block mb-2 text-sm font-medium text-gray-700"> الشركة المنتجة</p>
+          <input  type="text" class="w-100 p-3 border border-gray-300 rounded-md"
+          [value]="paymentDetails?.incoming_harbor_name" disabled>
+        </div>
+      </div>
+      <div class="w-50">
+        <div>
+          <p class="block mb-2 text-sm font-medium text-gray-700">إجمالي وزن الشحنة</p>
+          <input  type="text" class="w-100 p-3 border border-gray-300 rounded-md"  [value]="paymentDetails?.total_weight_ton" disabled>
+        </div>
+        <div>
+          <p class="block mb-2 text-sm font-medium text-gray-700">نوع الفحم و الغرض المستخدم لأجله</p>
+          <input  type="text" class="w-100 p-3 border border-gray-300 rounded-md"
+          [value]="paymentDetails?.coal_type_name" disabled>
+        </div>
+        <div>
+          <p class="block mb-2 text-sm font-medium text-gray-700"> الجهة المستورد لصالحها</p>
+          <input  type="text" class="w-100 p-3 border border-gray-300 rounded-md"
+          [value]="paymentDetails?.transfer_steps" disabled>
+        </div>
+        <div>
+          <p class="block mb-2 text-sm font-medium text-gray-700"> طريقة الشحن</p>
+          <input  type="text" class="w-100 p-3 border border-gray-300 rounded-md" disabled>
+        </div>
+      </div>
+    </div>
+    </div>
+  </form>
+
+  <div class="my-5">
+    <p>وبالإشارة إلى تعديل اللائحة التنفيذية الصادرة بقرار رئيس مجلس الوزراء رقم (964) لسنة 2015 وتعديلها رقم (544) لسنة 2016 و (618) لسنة 2017 الخاصة
+      لقانون البينة رقم (4) لسنة 1994 (ملحق رقم 12 الخاص بمعايبر واشتراطات تداول واستخدام الفحم الحجري أو البترولي)
+      </p>
+      <div>
+        <p>قإنه لا يوجد مائع لدى جهاز شئون البيئة من نقل فحم</p>
+        <input type="text">
+      </div>
+      <div>
+        <p>على أن تقوم الهيئة العامة للمنطقة الحرة بمسطرد بإلزام   </p>
+        <input type="text">
+      </div>
+      <p>بالضوابط والاشتراطات والمعايير الواردة بقانون البينة رقم (4) لسئة 1994 وتعديلاته واللائحة التنفيذية وتعديلاتها الصادرة بقرار را لس الوزراء
+        رقم (964) لسنة 2015 (ملحق 12 الخاص بمعايير واشتراطات تداول واستخدام الفحم الحجري أو البترولي) وذلك أثناء أعمال التفريغ والنقل وعلى أن يتم
+        التكرم بإخطارنا بميعاد تفريغ الشحنة حتى از إرسال ممثل عنه لمتابعة أعمال التداول للشحنة المذكورة</p>
+        <div>
+          <p>علما بأن الشركة قامت بسداد المصروفات الإدارية والرسوم عن شحنة الفحم المذكورة بعالية بتاريخ </p>
+          <input type="text">
+        </div>
+        <div>
+          <p>وذلك طبقًا لما ورد من صندوق حماية البيئة إلى وحدة الفحم الحجري أو البترولى بتاريخ</p>
+          <input type="text">
+        </div>
+        <p>والمقررة طبقا لقرار ر: لس الوزراء رقم (964) لسئة 2015 والمحددة بقرار السيد الأستاذ الدكتور/ وزير البينة رقم (61) لسنة 2016 والمعدل بالقرار رقم (365)
+          السنة 2019 والقرار (161) لسنة2022. والقرار الوزاري رقم (49) لسنة 2021
+          </p>
+  </div>
+  <div class="my-5">
+    <h2 class="mr-50 mb-4">مع تحياتي وتقديري</h2>
+    <div class="d-flex justify-content-between">
+        <div>
+          <h3>رئيس وحدة الفحم الحجري</h3>
+          <input type="text"> 
+        </div>
+        <div>
+          <h3>المشرف علي وحدتي لافحم</h3>
+          <input type="text"> 
+        </div>
+        <div>
+          <h3>الرئيس التنفيذي</h3>
+          <input type="text">  
+        </div>
+  </div>
+  <div class="d-flex gap-2 align-items-center">
+    <p class="fw-bold">صورة مبلغة الي</p>
+    <input type="text">
+  </div>
+  <p class="fw-bold">رواجع /</p>
+  </div>
+  <button type="button" class="btn gradient px-5 mt-5" (click)="done()">
+   ارسال
+  </button>

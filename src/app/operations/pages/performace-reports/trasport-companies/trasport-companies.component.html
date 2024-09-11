@@ -1,0 +1,884 @@
+<h6 class="fw-bold text-center py-4">
+  {{ "report2.title" | translate }}
+</h6>
+
+<div class="row justify-content-end pb-3">
+  <div class="col-auto">
+    <button class="btn gradient px-5">
+      {{ "admissionForm.print" | translate }}
+    </button>
+  </div>
+</div>
+
+<div [formGroup]="form" [ngSwitch]="page">
+  <ng-container *ngSwitchCase="1">
+    <div class="card px-4 py-5">
+      <div class="d-flex gap-4">
+        <div class="d-flex gap-1">
+          <span>{{ "report1.reportYear" | translate }}</span>
+          <app-btn-dropdown
+            [btnText]="'customer.serviceName'"
+            [menuList]="dropDownList"
+            [buttonWidth]="'w-25 mb-5'"
+            (onBtnClick)="getDropDownItem($event)"
+          ></app-btn-dropdown>
+        </div>
+        <div class="d-flex gap-3">
+          <span>{{ "report1.aboutPeriod" | translate }}</span>
+          <div class="d-flex gap-2">
+            <span>{{ "report1.from" | translate }}</span>
+            <input
+              type="date"
+              class="form-control"
+              formControlName="area"
+              required
+            />
+            <span>{{ "report1.to" | translate }}</span>
+            <input
+              type="date"
+              class="form-control"
+              formControlName="area"
+              required
+            />
+          </div>
+        </div>
+      </div>
+      <div>
+        <span class="fw-bold text-decoration-underline">
+          1- {{ "report1.generalInformation" | translate }}
+        </span>
+      </div>
+      <div class="row gap-5">
+        <div class="col">
+          <label class="mt-2 control-label" for="username">{{
+            "report1.companyName" | translate
+          }}</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="area"
+            required
+          />
+        </div>
+        <div class="col">
+          <label class="mt-2 control-label" for="username">{{
+            "report1.portName" | translate
+          }}</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="area"
+            required
+          />
+        </div>
+      </div>
+      <div class="row gap-5">
+        <div class="col">
+          <label class="mt-2 control-label" for="username">{{
+            "report1.unpackingType" | translate
+          }}</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="area"
+            required
+          />
+        </div>
+        <div class="col">
+          <label class="mt-2 control-label" for="username">{{
+            "report1.environmentalStudy" | translate
+          }}</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="area"
+            required
+          />
+        </div>
+      </div>
+      <div class="row gap-5">
+        <div class="col">
+          <label class="mt-2 control-label" for="username">{{
+            "report1.unpackingWay" | translate
+          }}</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="area"
+            required
+          />
+        </div>
+        <div class="col">
+          <div class="d-flex flex-column gap-2">
+            <div class="d-flex gap-2">
+              <div>
+                <label class="mt-2 control-label" for="username">{{
+                  "report1.environmentalApprovalNumber" | translate
+                }}</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="area"
+                  required
+                />
+              </div>
+              <div>
+                <label class="mt-2 control-label" for="username">{{
+                  "report1.approvalDate" | translate
+                }}</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  formControlName="area"
+                  required
+                />
+              </div>
+              <div>
+                <label class="mt-2 control-label" for="username">{{
+                  "report1.attachFile" | translate
+                }}</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="area"
+                  required
+                />
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <div>
+                <div class="control-label mb-3">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.licenseNumber" | translate }}
+                  </label>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="area"
+                  required
+                />
+              </div>
+              <div class="col-2">
+                <label class="mt-2 control-label" for="username">{{
+                  "report1.from" | translate
+                }}</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  formControlName="area"
+                  required
+                />
+              </div>
+              <div class="col-2">
+                <label class="mt-2 control-label" for="username">{{
+                  "report1.to" | translate
+                }}</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  formControlName="area"
+                  required
+                />
+              </div>
+              <div>
+                <label class="mt-2 control-label" for="username">{{
+                  "report1.attachFile" | translate
+                }}</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="area"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <span class="fw-bold text-decoration-underline">
+          {{ "report1.contactInformation" | translate }}
+        </span>
+      </div>
+
+      <div class="row gap-5">
+        <div class="col">
+          <label class="mt-2 control-label" for="username">{{
+            "report1.establishmentPhoneNumber" | translate
+          }}</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="area"
+            required
+          />
+        </div>
+        <div class="col">
+          <label class="mt-2 control-label" for="username">{{
+            "report1.faxNumber" | translate
+          }}</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="area"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="row gap-5">
+        <div class="col">
+          <label class="mt-2 control-label" for="username">{{
+            "report1.email" | translate
+          }}</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="area"
+            required
+          />
+        </div>
+        <div class="col">
+          <label class="mt-2 control-label" for="username">{{
+            "report1.website" | translate
+          }}</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="area"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="row gap-5">
+        <div class="col">
+          <label class="mt-2 control-label" for="username">{{
+            "report1.contactPerson" | translate
+          }}</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="area"
+            required
+          />
+        </div>
+        <div class="col">
+          <label class="mt-2 control-label" for="username">{{
+            "report1.position" | translate
+          }}</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="area"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="row gap-5">
+        <div class="col">
+          <label class="mt-2 control-label" for="username">{{
+            "report1.phoneNumber" | translate
+          }}</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="area"
+            required
+          />
+        </div>
+        <div class="col">
+          <label class="mt-2 control-label" for="username">{{
+            "report1.email" | translate
+          }}</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="area"
+            required
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center pt-5">
+      <div class="col-auto">
+        <button class="btn gradient px-5" (click)="page = 2">
+          {{ "admissionForm.next" | translate }}
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="2">
+    <div class="card px-4 py-5">
+      <div class="d-flex flex-column">
+        <span class="fw-bold text-decoration-underline">
+          2- {{ "report2.subTitle" | translate }}
+        </span>
+        <span>
+          {{ "report2.subTitleText" | translate }}
+        </span>
+      </div>
+      <div class="d-flex flex-column mt-3">
+        <span class="fw-bold text-decoration-underline">
+          {{ "report2.first" | translate }}
+        </span>
+        <span>
+          {{ "report2.firstParagraph" | translate }}
+        </span>
+      </div>
+
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th>{{ "report2.item1" | translate }}</th>
+            <th>{{ "report2.item2" | translate }}</th>
+            <th>{{ "report2.item3" | translate }}</th>
+            <th>{{ "report2.item4" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ "report2.item5" | translate }}</td>
+            <td>
+              <div class="d-flex flex-column">
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.available" | translate }}
+                  </label>
+                </div>
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.notAvailable" | translate }}
+                  </label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="area"
+                required
+              />
+            </td>
+            <td>
+              <span>
+                {{ "report2.item23" | translate }}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ "report2.item6" | translate }}</td>
+            <td>
+              <div class="d-flex flex-column">
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.available" | translate }}
+                  </label>
+                </div>
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.notAvailable" | translate }}
+                  </label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="area"
+                required
+              />
+            </td>
+            <td>
+              <span>
+                {{ "report2.item23" | translate }}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ "report2.item7" | translate }}</td>
+            <td>
+              <div class="d-flex flex-column">
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.available" | translate }}
+                  </label>
+                </div>
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.notAvailable" | translate }}
+                  </label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="area"
+                required
+              />
+            </td>
+            <td>
+              <span>
+                {{ "report2.item23" | translate }}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ "report2.item8" | translate }}</td>
+            <td>
+              <div class="d-flex flex-column">
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.available" | translate }}
+                  </label>
+                </div>
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.notAvailable" | translate }}
+                  </label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="area"
+                required
+              />
+            </td>
+            <td>
+              <span>
+                {{ "report2.item23" | translate }}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ "report2.item9" | translate }}</td>
+            <td>
+              <div class="d-flex flex-column">
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.available" | translate }}
+                  </label>
+                </div>
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.notAvailable" | translate }}
+                  </label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="area"
+                required
+              />
+            </td>
+            <td>
+              <span>
+                {{ "report2.item23" | translate }}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ "report2.item10" | translate }}</td>
+            <td>
+              <div class="d-flex flex-column">
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.available" | translate }}
+                  </label>
+                </div>
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.notAvailable" | translate }}
+                  </label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="area"
+                required
+              />
+            </td>
+            <td>
+              <span>
+                {{ "report2.item23" | translate }}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ "report2.item5" | translate }}</td>
+            <td>
+              <div class="d-flex flex-column">
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.available" | translate }}
+                  </label>
+                </div>
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.notAvailable" | translate }}
+                  </label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="area"
+                required
+              />
+            </td>
+            <td>
+              <span>
+                {{ "report2.item23" | translate }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="d-flex mt-3">
+        <span class="fw-bold text-decoration-underline">
+          {{ "report2.second" | translate }}
+        </span>
+      </div>
+
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th>{{ "report2.item13" | translate }}</th>
+            <th>{{ "report2.item14" | translate }}</th>
+            <th>{{ "report2.item15" | translate }}</th>
+            <th>{{ "report2.item16" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ "report2.item17" | translate }}</td>
+            <td>
+              <div class="d-flex flex-column">
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.available" | translate }}
+                  </label>
+                </div>
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.notAvailable" | translate }}
+                  </label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="area"
+                required
+              />
+            </td>
+            <td>
+              <span>
+                {{ "report2.item23" | translate }}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ "report2.item18" | translate }}</td>
+            <td>
+              <div class="d-flex flex-column">
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.available" | translate }}
+                  </label>
+                </div>
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.notAvailable" | translate }}
+                  </label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="area"
+                required
+              />
+            </td>
+            <td>
+              <span>
+                {{ "report2.item23" | translate }}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ "report2.item19" | translate }}</td>
+            <td>
+              <div class="d-flex flex-column">
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.available" | translate }}
+                  </label>
+                </div>
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.notAvailable" | translate }}
+                  </label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="area"
+                required
+              />
+            </td>
+            <td>
+              <span>
+                {{ "report2.item23" | translate }}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>{{ "report2.item20" | translate }}</td>
+            <td>
+              <div class="d-flex flex-column">
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.available" | translate }}
+                  </label>
+                </div>
+                <div>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="licenseNumber"
+                  />
+                  <label class="form-check-label" for="licenseNumber">
+                    {{ "report1.notAvailable" | translate }}
+                  </label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="area"
+                required
+              />
+            </td>
+            <td>
+              <span>
+                {{ "report2.item23" | translate }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="d-flex mt-3">
+        <span class="fw-bold text-decoration-underline">
+          {{ "report2.third" | translate }}
+        </span>
+      </div>
+
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th>{{ "report2.item21" | translate }}</th>
+            <th>{{ "report2.item22" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="area"
+                required
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="area"
+                required
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row justify-content-between pt-5">
+      <div class="col-auto">
+        <button class="btn gradient px-5">
+          {{ "report1.send" | translate }}
+        </button>
+      </div>
+
+      <div class="col-auto">
+        <button class="btn gradient px-5" (click)="page = 1">
+          {{ "report1.previous" | translate }}
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>

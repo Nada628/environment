@@ -1,0 +1,18 @@
+<form [formGroup]="formName">
+  <h3>{{ field.label | translate }}</h3>
+  <div class="row">
+    <label
+      class="form-label dynamicFormLabel"
+      [ngClass]="option.class"
+      *ngFor="let option of field.options"
+    >
+      <input
+        type="radio"
+        [name]="field.fieldName"
+        [formControlName]="field.fieldName"
+        [value]="option.value"
+      />
+      {{ option.label | translate }}
+    </label>
+  </div>
+</form>

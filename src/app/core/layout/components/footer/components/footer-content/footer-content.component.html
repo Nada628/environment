@@ -1,0 +1,16 @@
+<div class="flex-container">
+  <div class="flex-item" *ngFor="let item of footerItems">
+    <h3>{{ item.title | translate }}</h3>
+    <div *ngFor="let subItem of item.listOfItems">
+      @if (subItem.icon) {
+      <app-txt-icon
+        [icon]="subItem.icon"
+        [text]="subItem.title"
+        [url]="subItem.route"
+      ></app-txt-icon>
+      } @else {
+      <a [routerLink]="subItem.route">{{ subItem.title | translate }}</a>
+      }
+    </div>
+  </div>
+</div>

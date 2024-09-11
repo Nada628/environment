@@ -1,0 +1,26 @@
+<app-subtitle>{{ "routingHeader.serviceEvaluation" | translate }}</app-subtitle>
+<!-- DropDown Menu -->
+<app-btn-dropdown
+  [btnText]="'customer.serviceName'"
+  [menuList]="dropDownList"
+  [buttonWidth]="'w-50 mb-5'"
+  (onBtnClick)="getDropDownItem($event)"
+></app-btn-dropdown>
+<!-- Stars Rating -->
+<div class="d-flex flex-column align-items-center">
+  <h6 class="mb-4">
+    {{ "customer.yourRatingHelpsUsImproveTheLevelOfService" | translate }}
+  </h6>
+  <app-star-rating
+    [rate]="rate"
+    (selectingRate)="getRate($event)"
+  ></app-star-rating>
+</div>
+<!-- Suggestions TextArea -->
+<app-dynamic-form #form [model]="formModel"></app-dynamic-form>
+<!-- Submit Button -->
+<div class="text-center">
+  <button class="col-2 btn gradient" (click)="onSubmit()">
+    {{ "customer.submit" | translate }}
+  </button>
+</div>

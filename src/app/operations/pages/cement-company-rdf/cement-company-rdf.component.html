@@ -1,0 +1,455 @@
+<app-subtitle>{{
+  "routingHeader.cementCompanyPositionOnUse" | translate
+}}</app-subtitle>
+<div class="container">
+  <!-- Print Button -->
+  <div *ngIf="role == 'customer'" class="row justify-content-end pb-3">
+    <div class="col-auto">
+      <button class="btn gradient px-5">
+        {{ "admissionForm.print" | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- <app-rdf-form #rdfForm></app-rdf-form> -->
+  <!--<app-reviewer-form
+    *ngIf="auth.user.sub['administrativeId'] == 11"
+    #reviewerForm
+    [statusNote]="statusNote"
+    [statusNoteLabel]="'customer.addNotesForCoalUnit'"
+    [mainNote]="mainNote"
+    [reviewer]="reviewer"
+    [reviewersList]="reviewersList"
+    [statusArr]="statusArr"
+  ></app-reviewer-form> -->
+
+  <nz-form [formGroup]="rdfForm" (ngSubmit)="onSubmit()">
+    <div class="row align-items-start p-3 border border-1 rounded-2 mt-3">
+      <div class="col-12">
+        <input
+        (change)="checkAll($event)"
+          id="weight_in_ton_checker"
+          class="form-check-input"
+          type="checkbox"
+        />
+        <h5>{{ "customer.invoiceData" | translate }}</h5>
+      </div>
+
+      <div class="col-12">
+        <div
+          formArrayName="rdf_data"
+          class="d-flex align-items-end flex-wrap col-12 px-0"
+        >
+          <div
+            *ngFor="let approval of invoiceData.controls; let i = index"
+            [formGroupName]="i"
+            class="d-flex align-items-end col-10 px-0"
+          >
+            <div class="col-md-3">
+              <nz-form-item class="mb-0">
+                <nz-form-control [nzErrorTip]="'كمية RDF مطلوبة'">
+                  <div class="d-flex">
+                    <div *ngIf="role != 'customer'">
+                      <input
+                        
+                        formControlName="weight_in_ton_checker"
+                        id="weight_in_ton_checker"
+                        class="form-check-input"
+                        type="checkbox"
+                      />
+                    </div>
+                    <nz-form-label
+                      [nzRequired]="
+                        rdfForm.controls.rdf_data[i]
+                          | isRequired : 'weight_in_ton'
+                      "
+                      for="weight_in_ton"
+                    >
+                      {{ "customer.quantityRdfTons" | translate }}
+                    </nz-form-label>
+                  </div>
+                  <input
+                    nz-input
+                    type="number"
+                    nzSize="large"
+                    formControlName="weight_in_ton"
+                    placeholder="{{ 'customer.quantityRdfTons' | translate }}"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="col-md-3">
+              <nz-form-item class="mb-0">
+                <nz-form-control [nzErrorTip]="'الفاتورة مطلوبة'">
+                  <div class="d-flex">
+                    <div *ngIf="role != 'customer'">
+                      <input
+                        formControlName="invoice_checker"
+                        id="invoice_checker"
+                        class="form-check-input"
+                        type="checkbox"
+                      />
+                    </div>
+                    <nz-form-label
+                      [nzRequired]="
+                        rdfForm.controls.rdf_data[i]
+                          | isRequired : 'invoice'
+                      "
+                      for="invoice"
+                      >{{
+                        "admissionForm.attachInvoice" | translate
+                      }}</nz-form-label
+                    >
+                  </div>
+                  @if(!approval?.value?.invoice){
+                  <label
+                    class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                    tabindex="0"
+                    [for]="'invoice' + i"
+                  >
+                    <div class="row">
+                      <i class="bi bi-paperclip col-2"></i>
+                      <div class="col-8">
+                        <span>{{
+                          approval?.value?.invoice?.name
+                            ? "..." +
+                              approval?.value?.invoice?.name.substring(0, 10)
+                            : ("admissionForm.attachInvoice" | translate)
+                        }}</span>
+                      </div>
+                    </div>
+                  </label>
+                  <input
+                    type="file"
+                    [id]="'invoice' + i"
+                    class="d-none"
+                    placeholder="{{ 'admissionForm.attach' | translate }}"
+                    (change)="
+                      onSelectInvoiceFile(
+                        $event.target['files'],
+                        approval.controls.invoice
+                      )
+                    "
+                  />
+                  } @else {
+                  <div class="w-100">
+                    <a
+                      *ngIf="approval?.value?.invoice"
+                      [href]="url + approval?.value?.invoice"
+                      target="_blank"
+                      download
+                      class="btn btn-primary w-100"
+                    >
+                      <i class="bi bi-download ms-2"></i>
+                      {{ "admissionForm.downloadInvoice" | translate }}
+                    </a>
+                    <span *ngIf="!approval?.value?.invoice">
+                      {{ "admissionForm.noInvoiceAvailable" | translate }}
+                    </span>
+                  </div>
+                  }
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="col-md-3">
+              <nz-form-item class="mb-0">
+                <nz-form-control [nzErrorTip]="'التاريخ مطلوب'">
+                  <div class="d-flex">
+                    <div *ngIf="role != 'customer'">
+                      <input
+                        formControlName="date_checker"
+                        id="date_checker"
+                        class="form-check-input"
+                        type="checkbox"
+                      />
+                    </div>
+                    <nz-form-label
+                      [nzRequired]="
+                        rdfForm.controls.rdf_data[i] | isRequired : 'date'
+                      "
+                      for="date"
+                      >{{ "report1.item23" | translate }}</nz-form-label
+                    >
+                  </div>
+                  <input
+                    nz-input
+                    nzSize="large"
+                    type="date"
+                    formControlName="date"
+                    placeholder="{{ 'report1.item23' | translate }}"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="col-md-2">
+              <nz-form-item class="mb-0">
+                <nz-form-control [nzErrorTip]="'اسم المورد مطلوب'">
+                  <div class="d-flex">
+                    <div *ngIf="role != 'customer'">
+                      <input
+                        formControlName="provider_name_checker"
+                        id="provider_name_checker"
+                        class="form-check-input"
+                        type="checkbox"
+                      />
+                    </div>
+                    <nz-form-label
+                      [nzRequired]="
+                        rdfForm.controls.rdf_data[i]
+                          | isRequired : 'provider_name'
+                      "
+                      for="provider_name"
+                    >
+                      {{ "customer.supplierName" | translate }}
+                    </nz-form-label>
+                  </div>
+                  <input
+                    nz-input
+                    type="text"
+                    nzSize="large"
+                    formControlName="provider_name"
+                    placeholder="{{ 'customer.supplierName' | translate }}"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="col-md-1" [ngClass]="{ 'd-none': role != 'customer' }">
+              <button
+                (click)="removeInvoiceFile(i)"
+                class="btn btn-outline-danger"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="col-md-2 text-start"
+            [ngClass]="{ 'd-none': role != 'customer' }"
+          >
+            <button class="btn btn-outline-primary" (click)="addInvoiceFile()">
+              {{ "customer.addInvoice" | translate }}
+              <i class="bi bi-plus"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="col-md-4 mt-3">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'إجمالي كميات RDF مطلوب'">
+              <div class="d-flex">
+                <div *ngIf="role != 'customer'">
+                  <input
+                    formControlName="total_weight_ton_checker"
+                    id="total_weight_ton_checker"
+                    class="form-check-input"
+                    type="checkbox"
+                  />
+                </div>
+                <nz-form-label
+                  [nzRequired]="rdfForm | isRequired : 'total_weight_ton'"
+                  for="total_weight_ton"
+                  >{{ "customer.totalRDF" | translate }}</nz-form-label
+                >
+              </div>
+              <input
+                nz-input
+                nzSize="large"
+                type="number"
+                formControlName="total_weight_ton"
+                placeholder="{{ 'customer.totalRDF' | translate }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div class="col-12 mt-4">
+        <input
+        
+        id="weight_in_ton_checker"
+        class="form-check-input"
+        type="checkbox"
+        (change)="checkAll2($event)"
+        />
+        <h5>{{ "customer.wastePercentage" | translate }}</h5>
+
+        <div
+          class="col-12 d-flex align-items-center justify-content-between g-4"
+        >
+          <div class="col-md-4">
+            <div class="d-flex">
+              <div *ngIf="role != 'customer'">
+                <input
+                  formControlName="moreOrEqualPercent_checker"
+                  id="moreOrEqualPercent_checker"
+                  class="form-check-input"
+                  type="checkbox"
+                />
+              </div>
+              <p>
+                {{ "customer.wastePercentageText" | translate }}
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <!-- <nz-radio-group
+              class="d-flex flex-column"
+              formControlName="moreOrEqualPercent"
+              [(ngModel)]="radioValue"
+            >
+              <label nz-radio nzValue="1">{{
+                "customer.greaterThanOrEqual" | translate
+              }}</label>
+              <label nz-radio nzValue="0">{{
+                "customer.lessThan" | translate
+              }}</label>
+            </nz-radio-group> -->
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="moreOrEqualPercent"
+                id="greaterThanOrEqual"
+                value="1"
+              />
+              <label class="form-check-label text-[black]" for="greaterThanOrEqual">
+                {{ "customer.greaterThanOrEqual" | translate }}
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="moreOrEqualPercent"
+                id="lessThan"
+                value="0"
+              />
+              <label class="form-check-label" for="lessThan">
+                {{ "customer.lessThan" | translate }}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4" *ngIf="role == 'customer'">
+
+      <h6
+        class="col-auto fw-bold mb-3 px-0 py-2 fw-bold"
+        style="
+          color: var(--light-blue-50);
+          border-bottom: 1px solid var(--light-blue-50);
+        "
+      >
+        {{ "customer.pleaseEnterElectronicStamp" | translate }}
+      </h6>
+      <div>
+        <div class="form-check">
+          <input
+            formControlName="company_confirm"
+            id="company_confirm"
+            class="form-check-input"
+            type="checkbox"
+          />
+          <label class="form-check-label text-dark" for="company_confirm">
+            {{
+              "customer.percentageUsedOfFuelExtractedFromRDFWaste" | translate
+            }}
+          </label>
+        </div>
+      </div>
+    </div>
+  </nz-form>
+
+  @if(role == 'customer'){
+  <div class="row mt-5">
+    <div class="col-auto">
+      <button (click)="onSubmit()" class="btn gradient px-5">
+        {{ "customer.submit" | translate }}
+      </button>
+    </div>
+  </div>
+  } @else if(role == 'investors'){
+  <div class="row row-cols-2 mt-5">
+    <div class="col">
+      <button
+        nz-button
+        [nzLoading]="loading"
+        nzType="primary"
+        class="btn gradient px-5"
+        nzSize="large"
+        [routerLink]="'/operations/feesAndExpenses/' + requestId"
+      >
+        {{ "admissionForm.next" | translate }}
+      </button>
+    </div>
+
+    <div class="col text-start">
+      <button
+        [routerLink]="'/operations/requestForm/undefined/' + requestId"
+        class="btn gradient px-5"
+      >
+        {{ "report1.previous" | translate }}
+      </button>
+    </div>
+  </div>
+}@else if(role == 'environmental.found'){
+    <button
+      nz-button
+      [nzLoading]="loading"
+      nzType="primary"
+      class="btn gradient col-md-2"
+      nzSize="large"
+      [routerLink]="
+           '/operations/feesAndExpenses/' + requestId
+      "
+    >
+    {{ "admissionForm.next" | translate }}
+  </button>
+  } @else {
+  <div class="row mt-2">
+    <!-- <button
+      nz-button
+      [nzLoading]="loading"
+      nzType="primary"
+      class="btn gradient w-100"
+      nzSize="large"
+      (click)="onSubmit()"
+    >
+      {{ "common.reviewDone" | translate }}
+    </button> -->
+
+    <app-reviewer-form
+      #reviewerForm
+      [statusNote]="statusNote"
+      [statusNoteLabel]="'customer.addNotesForCoalUnit'"
+      [mainNote]="mainNote"
+      [reviewersList]="reviewersList"
+      [statusArr]="statusArr"
+      [requestId]="requestId"
+      [customerRequest]="customerRequestData"
+      (formCommentEmitter)="addComment($event)"
+    ></app-reviewer-form>
+  </div>
+  }
+
+  <div class="row row-cols-12 mt-5">
+    <div class="col text-start">
+      <button
+       (click)="previous()"
+        class="btn gradient px-5"
+      >
+        {{ "report1.previous" | translate }}
+      </button>
+    </div>
+  </div>
+   
+    
+</div>

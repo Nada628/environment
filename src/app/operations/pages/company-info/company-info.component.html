@@ -1,0 +1,762 @@
+<section>
+  <app-subtitle>{{ "routingHeader.companyInfo" | translate }}</app-subtitle>
+  <div class="container">
+    <!-- Edit -->
+    <div class="text-start">
+      <button class="btn px-5 gradient" (click)="onSubmit()">
+        {{ "tableHeader.edit" | translate }}
+      </button>
+    </div>
+
+    <div class="row my-4 justify-content-center">
+      <span class="col-auto">{{ "tableHeader.company" | translate }}</span>
+      <div class="col-auto">
+        <nz-select
+          class="w-100"
+          nzShowSearch
+          nzAllowClear
+          nzSize="large"
+          [(ngModel)]="compValue"
+          [nzPlaceHolder]="'tableHeader.company' | translate"
+          (ngModelChange)="onSelectCompany($event)"
+        >
+          <nz-option
+            *ngFor="let company of ownerCompanies"
+            [nzValue]="company.id"
+            [nzLabel]="company.name"
+          ></nz-option>
+        </nz-select>
+      </div>
+    </div>
+
+    <!--Add Form Here -->
+    <nz-form class="row g-3" [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+      <div class="col-md-6">
+        <nz-form-item class="mb-0">
+          <nz-form-control [nzErrorTip]="'اسم المنشأة مطلوب'">
+            <nz-form-label
+              [nzRequired]="companyForm | isRequired : 'name'"
+              for="name"
+            >
+              {{ "companyRegistrationForm.companyName" | translate }}
+            </nz-form-label>
+            <input
+              nz-input
+              nzSize="large"
+              formControlName="name"
+              placeholder="{{
+                'companyRegistrationForm.companyName' | translate
+              }}"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="col-md-6">
+        <nz-form-item class="mb-0">
+          <nz-form-control [nzErrorTip]="'اسم المدير مطلوب'">
+            <nz-form-label
+              [nzRequired]="companyForm | isRequired : 'manager_name'"
+              for="manager_name"
+              >{{
+                "companyRegistrationForm.managerName" | translate
+              }}</nz-form-label
+            >
+            <input
+              nz-input
+              nzSize="large"
+              formControlName="manager_name"
+              placeholder="{{
+                'companyRegistrationForm.managerName' | translate
+              }}"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- ==================== -->
+
+      <div class="col-md-6">
+        <nz-form-item class="mb-0">
+          <nz-form-control [nzErrorTip]="'نوع المنشأة مطلوب'">
+            <nz-form-label
+              [nzRequired]="companyForm | isRequired : 'company_type_id'"
+              for="company_type_id"
+              >{{
+                "companyRegistrationForm.companyType" | translate
+              }}</nz-form-label
+            >
+            <nz-select
+              nzSize="default"
+              formControlName="company_type_id"
+              nzAllowClear
+              nzShowSearch
+              (ngModelChange)="getActivityTypes($event)"
+              nzPlaceHolder="{{
+                'companyRegistrationForm.companyType' | translate
+              }}"
+              [nzLoading]="gettingCompanyTypes"
+            >
+              <nz-option
+                *ngFor="let option of companyTypesList"
+                [nzLabel]="option.name"
+                [nzValue]="option.id"
+              ></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="col-md-6">
+        <nz-form-item class="mb-0">
+          <nz-form-control [nzErrorTip]="'نوع النشاط مطلوب'">
+            <nz-form-label
+              [nzRequired]="companyForm | isRequired : 'activity_id'"
+              for="activity_id"
+              >{{
+                "companyRegistrationForm.companyActivityType" | translate
+              }}</nz-form-label
+            >
+            <nz-select
+              nzSize="default"
+              formControlName="activity_id"
+              nzAllowClear
+              nzShowSearch
+              nzPlaceHolder="{{
+                'companyRegistrationForm.companyActivityType' | translate
+              }}"
+              [nzLoading]="gettingActivityTypes"
+            >
+              <nz-option
+                *ngFor="let option of activityTypesList"
+                [nzLabel]="option.name"
+                [nzValue]="option.id"
+              ></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- =================== -->
+
+      <div class="col-md-6">
+        <nz-form-item class="mb-0">
+          <nz-form-control [nzErrorTip]="'الغرض من الاستخدام مطلوب'">
+            <nz-form-label
+              [nzRequired]="companyForm | isRequired : 'purpose_of_use'"
+              for="purpose_of_use"
+            >
+              {{ "companyRegistrationForm.reasonOfUsage" | translate }}
+            </nz-form-label>
+            <input
+              nz-input
+              nzSize="large"
+              formControlName="purpose_of_use"
+              placeholder="{{
+                'companyRegistrationForm.reasonOfUsage' | translate
+              }}"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="d-flex col-md-6 p-0">
+        <div class="col-md-3">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'رقم السجل الصناعي مطلوب'">
+              <nz-form-label
+                [nzRequired]="
+                  companyForm | isRequired : 'industrial_registration_number'
+                "
+                for="industrial_registration_number"
+                >{{
+                  "companyRegistrationForm.industrialRegisterNum" | translate
+                }}</nz-form-label
+              >
+              <input
+                nz-input
+                nzSize="large"
+                formControlName="industrial_registration_number"
+                placeholder="{{
+                  'companyRegistrationForm.industrialRegisterNum' | translate
+                }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-3">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'السجل الصناعي مطلوب'">
+              <nz-form-label
+                [nzRequired]="
+                  companyForm | isRequired : 'industrial_registration_file'
+                "
+                for="industrial_registration_file"
+                >{{
+                  "companyRegistrationForm.attach" | translate
+                }}</nz-form-label
+              >
+              <label
+                class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                tabindex="0"
+                for="industrial_registration_file"
+              >
+                <div class="row">
+                  <i class="bi bi-paperclip col-2"></i>
+                  <div class="col-8">
+                    <span>{{
+                      industrialFileName
+                        ? "..." + industrialFileName.substring(0, 10)
+                        : ("companyRegistrationForm.attach" | translate)
+                    }}</span>
+                  </div>
+                </div>
+              </label>
+              <input
+                type="file"
+                id="industrial_registration_file"
+                class="d-none"
+                placeholder="{{ 'companyRegistrationForm.attach' | translate }}"
+                (change)="onSelectIndustrialFile($event.target['files'])"
+                multiple
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-3">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'إلي مطلوب'">
+              <nz-form-label
+                [nzRequired]="
+                  companyForm | isRequired : 'industrial_registration_from'
+                "
+                for="industrial_registration_from"
+                >{{ "common.from" | translate }}</nz-form-label
+              >
+              <input
+                nz-input
+                nzSize="large"
+                type="date"
+                formControlName="industrial_registration_from"
+                placeholder="{{ 'common.from' | translate }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-3">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'من مطلوب'">
+              <nz-form-label
+                [nzRequired]="
+                  companyForm | isRequired : 'industrial_registration_to'
+                "
+                for="industrial_registration_to"
+                >{{ "common.to" | translate }}</nz-form-label
+              >
+              <input
+                nz-input
+                type="date"
+                nzSize="large"
+                formControlName="industrial_registration_to"
+                placeholder="{{ 'common.to' | translate }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <!-- =================== -->
+      <div class="d-flex col-md-6 p-0">
+        <div class="col-md-9">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'العنوان مطلوب'">
+              <nz-form-label
+                [nzRequired]="companyForm | isRequired : 'address'"
+                for="address"
+              >
+                {{ "companyRegistrationForm.companyAddress" | translate }}
+              </nz-form-label>
+              <input
+                nz-input
+                nzSize="large"
+                formControlName="address"
+                placeholder="{{
+                  'companyRegistrationForm.companyAddress' | translate
+                }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-3">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'نوع النشاط مطلوب'">
+              <nz-form-label
+                [nzRequired]="companyForm | isRequired : 'city_id'"
+                for="city_id"
+                >{{ "companyRegistrationForm.gov" | translate }}</nz-form-label
+              >
+              <nz-select
+                nzSize="default"
+                formControlName="city_id"
+                nzAllowClear
+                nzShowSearch
+                nzPlaceHolder="{{ 'companyRegistrationForm.gov' | translate }}"
+                [nzLoading]="gettingActivityTypes"
+              >
+                <nz-option
+                  *ngFor="let option of govList"
+                  [nzLabel]="option.name"
+                  [nzValue]="option.id"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <!-- environmental FormArray -->
+      <div class="d-flex col-md-6 p-0">
+        <div formArrayName="environmental_approval_data">
+          <div
+            *ngFor="
+              let approval of environmentalApprovalData.controls;
+              let i = index
+            "
+            [formGroupName]="i"
+            class="d-flex align-items-end col-md-12 p-0"
+          >
+            <div class="col-md-3">
+              <nz-form-item class="mb-0">
+                <nz-form-control [nzErrorTip]="'رقم الموافقة البيئية مطلوب'">
+                  <nz-form-label
+                    [nzRequired]="
+                      companyForm | isRequired : 'environmental_approval_num'
+                    "
+                    for="environmental_approval_num"
+                    >{{
+                      "companyRegistrationForm.envApprovalNum" | translate
+                    }}</nz-form-label
+                  >
+                  <input
+                    nz-input
+                    nzSize="large"
+                    formControlName="environmental_approval_num"
+                    placeholder="{{
+                      'companyRegistrationForm.envApprovalNum' | translate
+                    }}"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="col-md-3">
+              <nz-form-item class="mb-0">
+                <nz-form-control [nzErrorTip]="'الموافقة البيئية مطلوبة'">
+                  <nz-form-label
+                    [nzRequired]="companyForm | isRequired : 'file'"
+                    for="file"
+                    >{{
+                      "companyRegistrationForm.attach" | translate
+                    }}</nz-form-label
+                  >
+                  <label
+                    class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                    tabindex="0"
+                    [for]="'file' + i"
+                  >
+                    <div class="row">
+                      <i class="bi bi-paperclip col-2"></i>
+                      <div class="col-8">
+                        <span>{{
+                          approval?.value?.file?.name
+                            ? "..." +
+                              approval?.value?.file?.name.substring(0, 10)
+                            : ("companyRegistrationForm.attach" | translate)
+                        }}</span>
+                      </div>
+                    </div>
+                  </label>
+                  <input
+                    type="file"
+                    [id]="'file' + i"
+                    class="d-none"
+                    placeholder="{{
+                      'companyRegistrationForm.attach' | translate
+                    }}"
+                    (change)="
+                      onSelectEnvironmentalApprovalDataFile(
+                        $event.target['files'],
+                        approval.controls.file
+                      )
+                    "
+                    multiple
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="col-md-3">
+              <nz-form-item class="mb-0">
+                <nz-form-control [nzErrorTip]="'تاريخ الإصدار مطلوب'">
+                  <nz-form-label
+                    [nzRequired]="companyForm | isRequired : 'date'"
+                    for="date"
+                    >{{ "common.release" | translate }}</nz-form-label
+                  >
+                  <input
+                    nz-input
+                    nzSize="large"
+                    type="date"
+                    formControlName="date"
+                    placeholder="{{ 'common.release' | translate }}"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="d-flex col-md-3 p-0">
+              <div class="col-md-6 ps-0">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'محور X مطلوب'">
+                    <nz-form-label
+                      [nzRequired]="companyForm | isRequired : 'lat'"
+                      for="lat"
+                      >X</nz-form-label
+                    >
+                    <input nz-input nzSize="large" formControlName="lat" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="col-md-6 pe-0">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'محور y مطلوب'">
+                    <nz-form-label
+                      [nzRequired]="companyForm | isRequired : 'lan'"
+                      for="lan"
+                      >Y</nz-form-label
+                    >
+                    <input nz-input nzSize="large" formControlName="lan" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div class="col-md-1">
+              <button
+                class="btn btn-outline-danger btn-sm"
+                (click)="removeEnvironmentalApproval(i)"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+          <div class="w-100 d-flex justify-content-end mt-2">
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm"
+              (click)="addEnvironmentalApproval()"
+            >
+              {{ "common.add" | translate }}
+              <i class="bi bi-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- environmental FormArray -->
+      <!-- ======================= -->
+
+      <div class="d-flex col-md-6 p-0">
+        <div class="col-md-9">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="phoneErrorTpl">
+              <nz-form-label
+                [nzRequired]="companyForm | isRequired : 'phone'"
+                for="phone"
+              >
+                {{ "companyRegistrationForm.companyPhone" | translate }}
+              </nz-form-label>
+              <input
+                nz-input
+                nzSize="large"
+                formControlName="phone"
+                placeholder="{{
+                  'companyRegistrationForm.companyPhone' | translate
+                }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+
+          <ng-template #phoneErrorTpl>
+            <ng-container *ngIf="companyForm.get('phone').hasError('required')">
+              هاتف المنشأة مطلوب
+            </ng-container>
+            <ng-container *ngIf="companyForm.get('phone').hasError('pattern')">
+              رقم الهاتف غير صالح
+            </ng-container>
+          </ng-template>
+        </div>
+
+        <div class="col-md-3">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'رمز الدولة مطلوب'">
+              <nz-form-label
+                [nzRequired]="companyForm | isRequired : 'code'"
+                for="code"
+                >{{ "tableHeader.code" | translate }}</nz-form-label
+              >
+              <nz-select
+                nzSize="default"
+                formControlName="code"
+                nzAllowClear
+                nzShowSearch
+                nzPlaceHolder="+20"
+                [nzLoading]="gettingActivityTypes"
+              >
+                <nz-option
+                  *ngFor="let option of govList"
+                  [nzLabel]="'+20'"
+                  [nzValue]="'+20'"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <!-- status FormArray -->
+      <div class="d-flex col-md-6 p-0">
+        <div formArrayName="status_file" class="col-md-12 p-0">
+          <div
+            *ngFor="let approval of statusFileData.controls; let i = index"
+            [formGroupName]="i"
+            class="d-flex align-items-end col-md-12 p-0"
+          >
+            <div class="col-md-3">
+              <nz-form-item class="mb-0">
+                <nz-form-control [nzErrorTip]="'رقم الترخيص مطلوب'">
+                  <nz-form-label
+                    [nzRequired]="companyForm | isRequired : 'approve_number'"
+                    for="approve_number"
+                    >{{
+                      "companyRegistrationForm.permitRenewalPosition"
+                        | translate
+                    }}</nz-form-label
+                  >
+                  <input
+                    nz-input
+                    nzSize="large"
+                    formControlName="approve_number"
+                    placeholder="{{
+                      'companyRegistrationForm.permitRenewalPosition'
+                        | translate
+                    }}"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="col-md-3">
+              <nz-form-item class="mb-0">
+                <nz-form-control [nzErrorTip]="'موقف التصريح مطلوب'">
+                  <nz-form-label
+                    [nzRequired]="companyForm | isRequired : 'status_file'"
+                    for="status_file"
+                    >{{
+                      "companyRegistrationForm.attach" | translate
+                    }}</nz-form-label
+                  >
+                  <label
+                    class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                    tabindex="0"
+                    [for]="'status_file' + i"
+                  >
+                    <div class="row">
+                      <i class="bi bi-paperclip col-2"></i>
+                      <div class="col-8">
+                        <span>{{
+                          approval?.value?.status_file?.name
+                            ? "..." +
+                              approval?.value?.status_file?.name.substring(
+                                0,
+                                10
+                              )
+                            : ("companyRegistrationForm.attach" | translate)
+                        }}</span>
+                      </div>
+                    </div>
+                  </label>
+                  <input
+                    type="file"
+                    [id]="'status_file' + i"
+                    class="d-none"
+                    placeholder="{{
+                      'companyRegistrationForm.attach' | translate
+                    }}"
+                    (change)="
+                      onSelectStatusFile(
+                        $event.target['files'],
+                        approval.controls.status_file
+                      )
+                    "
+                    multiple
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="col-md-3">
+              <nz-form-item class="mb-0">
+                <nz-form-control [nzErrorTip]="'تاريخ اليدء مطلوب'">
+                  <nz-form-label
+                    [nzRequired]="companyForm | isRequired : 'from'"
+                    for="from"
+                    >{{ "common.from" | translate }}</nz-form-label
+                  >
+                  <input
+                    nz-input
+                    nzSize="large"
+                    type="date"
+                    formControlName="from"
+                    placeholder="{{ 'common.from' | translate }}"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="col-md-3">
+              <nz-form-item class="mb-0">
+                <nz-form-control [nzErrorTip]="'تاريخ الانتهاء مطلوب'">
+                  <nz-form-label
+                    [nzRequired]="companyForm | isRequired : 'to'"
+                    for="to"
+                    >{{ "common.to" | translate }}</nz-form-label
+                  >
+                  <input
+                    nz-input
+                    nzSize="large"
+                    type="date"
+                    formControlName="to"
+                    placeholder="{{ 'common.to' | translate }}"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div class="col-md-1">
+              <button
+                class="btn btn-outline-danger btn-sm"
+                type="button"
+                (click)="removeStatusFile(i)"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="w-100 d-flex justify-content-end mt-2">
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm"
+              (click)="addStatusFile()"
+            >
+              {{ "common.add" | translate }}
+              <i class="bi bi-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- status FormArray -->
+
+      <!-- ================== -->
+
+      <div class="col-md-6">
+        <nz-form-item class="mb-0">
+          <nz-form-control [nzErrorTip]="'البريد الالكتروني مطلوب'">
+            <nz-form-label
+              [nzRequired]="companyForm | isRequired : 'email'"
+              for="email"
+            >
+              {{ "companyRegistrationForm.companyEmail" | translate }}
+            </nz-form-label>
+            <input
+              nz-input
+              type="email"
+              nzSize="large"
+              formControlName="email"
+              placeholder="{{
+                'companyRegistrationForm.companyEmail' | translate
+              }}"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="d-flex col-md-6 p-0">
+        <div class="col-md-4">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'الكوتة'">
+              <nz-form-label
+                [nzRequired]="companyForm | isRequired : 'quota'"
+                for="quota"
+                >{{
+                  "companyRegistrationForm.companyQuota" | translate
+                }}</nz-form-label
+              >
+              <input
+                nz-input
+                nzSize="large"
+                formControlName="quota"
+                placeholder="{{
+                  'companyRegistrationForm.companyQuota' | translate
+                }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-4">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'تاريخ البدء مطلوب'">
+              <nz-form-label
+                [nzRequired]="companyForm | isRequired : 'quota_from'"
+                for="quota_from"
+                >{{ "common.from" | translate }}</nz-form-label
+              >
+              <input
+                nz-input
+                nzSize="large"
+                type="date"
+                formControlName="quota_from"
+                placeholder="{{ 'common.from' | translate }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-4">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'تاريخ الانتهاء مطلوب'">
+              <nz-form-label
+                [nzRequired]="companyForm | isRequired : 'quota_to'"
+                for="quota_to"
+                >{{ "common.to" | translate }}</nz-form-label
+              >
+              <input
+                nz-input
+                type="date"
+                nzSize="large"
+                formControlName="quota_to"
+                placeholder="{{ 'common.to' | translate }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </nz-form>
+  </div>
+</section>

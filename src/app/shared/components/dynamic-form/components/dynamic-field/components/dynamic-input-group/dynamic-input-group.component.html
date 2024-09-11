@@ -1,0 +1,72 @@
+<form [formGroup]="formName">
+  <div [ngClass]="'row ' + field.border">
+    <div
+      *ngFor="let subField of field.subFields; let i = index"
+      [ngClass]="subField.col"
+    >
+      <div [ngClass]="isInlineInput ? 'row' : ''">
+        <div [ngClass]="isInlineInput ? subField.labelCol : ''">
+          <app-dynamic-label
+            [index]="i"
+            [mainField]="field"
+            [field]="subField"
+            [formName]="formName"
+            [checkerForm]="checkerForm"
+            [isSubModel]="true"
+            [ngStyle]="
+              subField.type === 'file' && isReviewing
+                ? { visibility: 'hidden' }
+                : { visibility: 'visible' }
+            "
+          ></app-dynamic-label>
+        </div>
+        <div [ngClass]="isInlineInput ? 'col-auto' : ''">
+          <ng-container [ngSwitch]="subField.type">
+            <app-dynamic-select
+              *ngSwitchCase="'select'"
+              [field]="subField"
+              [formName]="nestedForm"
+            ></app-dynamic-select>
+            <app-dynamic-radio
+              *ngSwitchCase="'radio'"
+              [field]="subField"
+              [formName]="nestedForm"
+            ></app-dynamic-radio>
+            <app-dynamic-checkbox
+              *ngSwitchCase="'checkbox'"
+              [field]="subField"
+              [formName]="nestedForm"
+            ></app-dynamic-checkbox>
+            <app-dynamic-download
+              *ngSwitchCase="'download'"
+              [field]="subField"
+              [formName]="nestedForm"
+            ></app-dynamic-download>
+            <div *ngIf="isReviewing">
+              <app-dynamic-show-attachment
+                *ngSwitchCase="'file'"
+              ></app-dynamic-show-attachment>
+            </div>
+            <div *ngIf="!isReviewing">
+              <app-dynamic-attachment
+                *ngSwitchCase="'file'"
+                [field]="subField"
+                [formName]="nestedForm"
+              ></app-dynamic-attachment>
+            </div>
+            <app-dynamic-input
+              *ngSwitchDefault
+              [field]="subField"
+              [formName]="nestedForm"
+            ></app-dynamic-input>
+          </ng-container>
+        </div>
+      </div>
+      <app-dynamic-error
+        [formName]="nestedForm"
+        [fieldName]="subField['fieldName']"
+        [fieldLabel]="subField['label']"
+      ></app-dynamic-error>
+    </div>
+  </div>
+</form>

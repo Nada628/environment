@@ -1,0 +1,463 @@
+<app-subtitle>{{ "routingHeader.feesAndExpenses" | translate }}</app-subtitle>
+<!-- Payment form -->
+<!-- <ng-container>
+  <app-dynamic-form
+    #paymentForm
+    [model]="feesForm"
+    [isInlineInput]="true"
+  ></app-dynamic-form>
+  <div class="row my-6 align-items-center">
+    <div class="col-4">
+      <app-submit-button
+        *ngIf="
+          !isCustomer &&
+          requestStatus != 'CustomerPAID' &&
+          requestStatus != 'ConfirmPaymentEEA' &&
+          requestStatus != 'AcceptForm' &&
+          requestStatus != 'AcceptFormT' &&
+          requestStatus != 'AcceptFormI'
+        "
+        (click)="calculateTotalFees(paymentForm.dynamicFormGroup.value)"
+        [buttonName]="'customer.calculateTotalFees'"
+        [class]="'filterButton'"
+      ></app-submit-button>
+    </div>
+    <div class="col-8">
+      <app-dynamic-form
+        [model]="totalForm"
+        [isInlineInput]="true"
+      ></app-dynamic-form>
+    </div>
+  </div>
+
+  <app-reviewer-form
+    #reviewerForm
+    [requestId]="requestId"
+    [statusNote]="statusNote"
+    [statusNoteLabel]="'customer.NoteEnvironmentalProtectionFund'"
+    [reviewersList]="reviewersList"
+    [statusArr]="statusArr"
+    [reviewer]="reviewer"
+  ></app-reviewer-form>
+  <app-dynamic-form
+    [model]="manualOrAutomatic"
+    (formValuesEmitter)="changeRadio($event)"
+  >
+  </app-dynamic-form>
+
+  <app-submit-button
+    *ngIf="requestStatus == 'CustomerPAID' && !isCustomer"
+    (click)="submitConfirmExpenses(paymentForm.dynamicFormGroup.value)"
+    [buttonName]="'customer.confirmPayment'"
+    [class]="'filterButton'"
+  ></app-submit-button>
+  <app-submit-button
+    *ngIf="
+      requestStatus != 'CustomerPAID' &&
+      requestStatus != 'ConfirmPaymentEEA' &&
+      requestStatus != 'AcceptForm' &&
+      requestStatus != 'AcceptFormT' &&
+      requestStatus != 'AcceptFormI'
+    "
+    (click)="submitExpenses(paymentForm.dynamicFormGroup.value)"
+    [buttonName]="
+      isCustomer == true ? 'customer.payExpense' : 'customer.sendExpenses'
+    "
+    [class]="'filterButton'"
+  ></app-submit-button>
+  <app-submit-button
+    *ngIf="
+      requestStatus == 'ConfirmPaymentEEA' ||
+      requestStatus == 'AcceptForm' ||
+      requestStatus == 'AcceptFormT' ||
+      requestStatus == 'AcceptFormI'
+    "
+    (click)="NavigateToTemplate()"
+    [buttonName]="'admissionForm.form33'"
+    [class]="'filterButton'"
+  ></app-submit-button>
+</ng-container> -->
+
+<div class="container">
+  <nz-form [formGroup]="feesForm" (ngSubmit)="onSubmit()">
+    <div class="col-md-6 row g-3">
+      <nz-form-item *ngIf="checkRDFValue" class="mb-0">
+        <nz-form-control>
+          <div class="row">
+            <div class="col-md-7">
+              <nz-form-label for="price">
+                {{ "customer.purchaseInvoice" | translate }}
+              </nz-form-label>
+            </div>
+            <div class="col text-center">
+              <a
+                class="text-decoration-underline"
+                [href]="url + feesData?.invoice"
+                target="_blank"
+                >{{ "customer.openFile" | translate }}</a
+              >
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="mb-0">
+        <nz-form-control>
+          <div class="row">
+            <div class="col-md-7">
+              <nz-form-label for="price">
+                {{
+                  "customer.administrativeExpensesInEgyptianPounds" | translate
+                }}
+              </nz-form-label>
+            </div>
+            <div class="col">
+              <input
+                nz-input
+                type="number"
+                [disabled]="true"
+                nzSize="large"
+                [value]="price"
+                placeholder="{{
+                  'customer.administrativeExpensesInEgyptianPounds' | translate
+                }}"
+              />
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <h5
+        class="my-1 border-bottom border-dark pb-2"
+        style="width: fit-content"
+      >
+        {{ "customer.administrativeFees" | translate }}
+      </h5>
+
+      <nz-form-item class="mb-0">
+        <nz-form-control>
+          <div class="row">
+            <div class="col-md-7">
+              <nz-form-label for="total_weight_ton">
+                {{ "customer.TotalShipmentWeightInTons" | translate }}
+              </nz-form-label>
+            </div>
+            <div class="col">
+              <input
+                nz-input
+                type="number"
+                nzSize="large"
+                [disabled]="true"
+                [value]="total_weight_ton"
+                placeholder="{{
+                  'customer.TotalShipmentWeightInTons' | translate
+                }}"
+              />
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="mb-0">
+        <nz-form-control>
+          <div class="row">
+            <div class="col-md-7">
+              <nz-form-label for="ton_price_num">
+                {{ "customer.pricePerTon" | translate }}
+              </nz-form-label>
+            </div>
+            <div class="col">
+              <input
+                nz-input
+                type="number"
+                nzSize="large"
+                [disabled]="true"
+                [value]="ton_price_num"
+                placeholder="{{ 'customer.pricePerTon' | translate }}"
+              />
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="mb-0">
+        <nz-form-control>
+          <div class="row">
+            <div class="col-md-7">
+              <nz-form-label for="currency">
+                {{ "admissionForm.currency" | translate }}
+              </nz-form-label>
+            </div>
+            <div class="col">
+              <input
+                nz-input
+                type="text"
+                nzSize="large"
+                [disabled]="true"
+                [value]="currency"
+              />
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="mb-0">
+        <nz-form-control>
+          <div class="row">
+            <div class="col-md-7">
+              <nz-form-label for="hander_percent">
+                {{ "customer.administrativeFeePercentage" | translate }}
+              </nz-form-label>
+            </div>
+            <div class="col">
+              <input
+                nz-input
+                type="number"
+                nzSize="large"
+                [disabled]="true"
+                [value]="hander_percent"
+                placeholder="{{
+                  'customer.administrativeFeePercentage' | translate
+                }}"
+              />
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div class="col-12 mt-5 px-0 row align-items-start g-3">
+      <div class="col-6">
+        <nz-form-item class="mb-0">
+          <nz-form-control
+            [nzErrorTip]="('customer.todayCurrencyValue' | translate) + ' *'"
+          >
+            <div class="row">
+              <div class="col-md-7">
+                <nz-form-label
+                  [nzRequired]="feesForm | isRequired : 'currency_value'"
+                  for="currency_value"
+                >
+                  {{ "customer.todayCurrencyValue" | translate }}
+                </nz-form-label>
+              </div>
+              <div class="col">
+                <input
+                  nz-input
+                  type="number"
+                  nzSize="large"
+                  formControlName="currency_value"
+                  placeholder="{{ 'customer.todayCurrencyValue' | translate }}"
+                />
+              </div>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="col-3">
+        <nz-form-item class="mb-0">
+          <nz-form-control [nzErrorTip]="('customer.date' | translate) + ' *'">
+            <div class="row">
+              <div class="col-4">
+                <nz-form-label
+                  [nzRequired]="feesForm | isRequired : 'date'"
+                  for="date"
+                >
+                  {{ "customer.date" | translate }}
+                </nz-form-label>
+              </div>
+              <div class="col-8">
+                <input
+                  nz-input
+                  type="date"
+                  nzSize="large"
+                  formControlName="date"
+                  placeholder="{{ 'customer.date' | translate }}"
+                />
+              </div>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-3">
+        <div class="d-flex flex-column">
+          <button (click)="getTotalExpenses()" class="btn gradient w-100">
+            {{ "customer.calculateTotalFees" | translate }}
+          </button>
+
+          <input
+            nz-input
+            class="my-3"
+            type="number"
+            nzSize="large"
+            [value]="totalExpenses"
+            disabled
+            [placeholder]="'customer.calculateTotalFees' | translate"
+          />
+
+          <!-- <p class="text-center text-muted">
+            اثنين مليون ومئتان وثلاثة ألفاً واثنان
+          </p> -->
+        </div>
+      </div>
+    </div>
+
+    <h5 class="mt-5 border-bottom border-dark pb-2" style="width: fit-content">
+      {{ "customer.administrativeFeess" | translate }}
+    </h5>
+
+    <div class="col-12 mt-4 px-0 row align-items-start g-3">
+      <div class="col-8">
+        <nz-form-item class="mb-0">
+          <nz-form-control
+            [nzErrorTip]="
+              ('customer.administrativeFeePercentage' | translate) + ' *'
+            "
+          >
+            <div class="row">
+              <div class="col-md-5">
+                <nz-form-label
+                  [nzRequired]="feesForm | isRequired : 'rdf_handred_percent'"
+                  for="rdf_handred_percent"
+                >
+                  {{ "customer.administrativeFeePercentage" | translate }}
+                </nz-form-label>
+              </div>
+              <div class="col-md-4">
+                <input
+                  
+                  nz-input
+                  type="number"
+                  nzSize="large"
+                  formControlName="rdf_handred_percent"
+                  placeholder="{{
+                    'customer.administrativeFeePercentage' | translate
+                  }}"
+                />
+              </div>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="col-4">
+        <div class="d-flex flex-column">
+          <button (click)="getTotalRDF()" class="btn gradient w-100">
+            {{ "customer.rdfFees" | translate }}
+          </button>
+
+          <input
+            nz-input
+            class="my-3"
+            type="number"
+            nzSize="large"
+            [value]="totalRDF"
+            disabled
+            [placeholder]="'customer.rdfFees' | translate"
+          />
+
+          <!-- <p class="text-center text-muted">
+            اثنين مليون ومئتان وثلاثة ألفاً واثنان
+          </p> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="row col-md-8   g-3 mt-5">
+      <h6>الملاحظات الخاصة بإدارة الفحم الحجري</h6>
+
+      @if(gettingComments){
+        <div class="text-center my-5">
+          <nz-spin nzSimple></nz-spin>
+        </div>
+        } @else{ @if(comments?.length == 0){
+        <div class="col-6 mx-auto">
+          <nz-alert
+            nzType="error"
+            [nzMessage]="'customer.noComments' | translate"
+            nzShowIcon
+          ></nz-alert>
+        </div>
+        } @else {
+        <nz-collapse nzAccordion>
+          @for (comment of comments; let i = $index; track comment) {
+          <nz-collapse-panel [nzHeader]="comment?.timeline_desc" [nzActive]="i == 0">
+            <p>{{ comment?.comment }}</p>
+          </nz-collapse-panel>
+          }
+        </nz-collapse>
+        } }
+      <!-- <div class="border rounded-4 p-4">
+        <p class="text-muted">
+          {{ comment || "لا يوجد ملاحظات" }}
+        </p>
+      </div> -->
+    </div>
+
+    <!-- <div class="row mt-4 col-md-8">
+      <p class="text-muted mb-2">
+        تمت مراجعه الطلب بواسطة : مصطفي محمد on saturday, 17/9/2022 at 2pm
+      </p>
+      <p class="text-muted">المشرف : احمد محمد on saturday, 17/9/2022 at 2pm</p>
+    </div> -->
+
+    <!-- <nz-divider class="my-3 ps-md-5" nzText="الملاحظات السابقة"></nz-divider> -->
+
+    <div class="row col-md-8 g-3 mx-auto mt-5">
+      <h6>الملاحظات الخاصة بصندوف حماية البيئة</h6>
+
+      <div class="pe-md-5">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="confirm"
+            id="greaterThanOrEqual"
+            value="true"
+          />
+          <label class="form-check-label" for="greaterThanOrEqual">
+            نأكيد قيمة المصروفات
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="confirm"
+            id="lessThan"
+            value="false"
+          />
+          <label class="form-check-label" for="lessThan"> رفض </label>
+        </div>
+      </div>
+
+      <textarea
+        nz-input
+        rows="4"
+        formControlName="notes"
+        placeholder="الملاحظات الخاصة بصندوف حماية البيئة"
+      ></textarea>
+    </div>
+  </nz-form>
+
+  <div class="row row-cols-2 mt-5">
+    <div class="col">
+      <button (click)="onSubmit()" class="btn gradient px-5">
+        {{ "customer.submit" | translate }}
+      </button>
+    </div>
+    <div class="col text-start">
+      <button
+        [routerLink]="
+          checkRDFValue
+            ? '/operations/rdf/' + requestId
+            : '/operations/requestForm/undefined/' + requestId
+        "
+        class="btn gradient px-5"
+      >
+        {{ "report1.previous" | translate }}
+      </button>
+    </div>
+  </div>
+</div>

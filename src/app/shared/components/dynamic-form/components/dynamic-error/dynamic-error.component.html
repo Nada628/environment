@@ -1,0 +1,35 @@
+<div
+  *ngIf="
+    formName.controls[fieldName]?.invalid &&
+    (formName.controls[fieldName]?.dirty ||
+      formName.controls[fieldName]?.touched)
+  "
+  class="alert position-absolute"
+>
+  <span *ngIf="formName.controls[fieldName]?.errors['required']">
+    {{ fieldLabel | translate }} {{ "admissionForm.isRequired" | translate }}
+  </span>
+  <span
+    *ngIf="
+      formName.controls[fieldName]?.errors['notAlphabet'] ||
+      formName.controls[fieldName]?.errors['notEmail']
+    "
+  >
+    {{ fieldLabel | translate }} {{ "validation.isNotValid" | translate }}
+  </span>
+  <span
+    *ngIf="
+      fieldName == 'password' && formName.controls[fieldName]?.errors['pattern']
+    "
+  >
+    {{ "validation.passwordValidation" | translate }}
+  </span>
+  <span
+    *ngIf="
+      fieldName == 'confirmPassword' &&
+      formName.controls[fieldName]?.errors['confirmedPassword']
+    "
+  >
+    {{ "toastr.passwordMismatch" | translate }}
+  </span>
+</div>

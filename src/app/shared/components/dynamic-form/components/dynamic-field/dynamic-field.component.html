@@ -1,0 +1,60 @@
+<div [ngClass]="isInlineInput ? 'row' : ''">
+  <div [ngClass]="isInlineInput ? field.labelCol : ''">
+    <app-dynamic-label
+      [field]="field"
+      [formName]="formName"
+      [checkerForm]="checkerForm"
+      [ngStyle]="
+        field.type === 'file' && isReviewing
+          ? { visibility: 'hidden' }
+          : { visibility: 'visible' }
+      "
+    ></app-dynamic-label>
+  </div>
+  <div [ngClass]="isInlineInput ? 'col' : ''">
+    <ng-container [ngSwitch]="field?.type">
+      <app-dynamic-select
+        *ngSwitchCase="'select'"
+        [field]="field"
+        [formName]="formName"
+      ></app-dynamic-select>
+      <app-dynamic-radio
+        *ngSwitchCase="'radio'"
+        [field]="field"
+        [formName]="formName"
+      ></app-dynamic-radio>
+      <app-dynamic-checkbox
+        *ngSwitchCase="'checkbox'"
+        [field]="field"
+        [formName]="formName"
+      ></app-dynamic-checkbox>
+      <div *ngIf="isReviewing">
+        <app-dynamic-show-attachment
+          *ngSwitchCase="'file'"
+        ></app-dynamic-show-attachment>
+      </div>
+      <div *ngIf="!isReviewing">
+        <app-dynamic-attachment
+          *ngSwitchCase="'file'"
+          [field]="field"
+          [formName]="formName"
+        ></app-dynamic-attachment>
+      </div>
+      <app-dynamic-textarea
+        *ngSwitchCase="'textArea'"
+        [field]="field"
+        [formName]="formName"
+      ></app-dynamic-textarea>
+      <app-dynamic-download
+        *ngSwitchCase="'download'"
+        [field]="field"
+        [formName]="formName"
+      ></app-dynamic-download>
+      <app-dynamic-input
+        *ngSwitchDefault
+        [field]="field"
+        [formName]="formName"
+      ></app-dynamic-input>
+    </ng-container>
+  </div>
+</div>

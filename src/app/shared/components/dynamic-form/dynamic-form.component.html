@@ -1,0 +1,58 @@
+<form name="dynamicFormGroup" [formGroup]="dynamicFormGroup">
+  <div [ngClass]="isDisabled ? 'disabled ' + class : class">
+    <div class="row">
+      <div
+        *ngFor="let field of fields"
+        [ngClass]="field.col"
+        class="position-relative pb-3"
+      >
+        <div *ngIf="field.type !== 'input-group'">
+          <app-dynamic-field
+            [field]="field"
+            [formName]="dynamicFormGroup"
+            [checkerForm]="checkerForm"
+            [isReviewing]="isReviewing"
+            [isInlineInput]="isInlineInput"
+          ></app-dynamic-field>
+          <app-dynamic-error
+            *ngIf="field.type !== 'input-group'"
+            [fieldName]="field['fieldName']"
+            [fieldLabel]="field['label']"
+            [formName]="dynamicFormGroup"
+          ></app-dynamic-error>
+        </div>
+        <div class="row" *ngIf="submitCommentName">
+          <div class="col-sm">
+            <app-submit-button
+              (submitFormData)="addCommentForm($event)"
+              [buttonName]="submitCommentName"
+            ></app-submit-button>
+          </div>
+          <div class="col-sm">
+            <input
+              #file
+              type="file"
+              *ngIf="submitCommentName"
+              class="col-6"
+              (change)="UploadFile($event)"
+            />
+          </div>
+        </div>
+        <app-dynamic-input-group
+          *ngIf="field.type == 'input-group'"
+          [field]="field"
+          [formName]="dynamicFormGroup"
+          [checkerForm]="checkerForm"
+          [isReviewing]="isReviewing"
+          [isInlineInput]="isInlineInput"
+        ></app-dynamic-input-group>
+      </div>
+    </div>
+  </div>
+  <div class="text-center my-5" *ngIf="submitButtonName">
+    <app-submit-button
+      (submitData)="onSubmitForm()"
+      [buttonName]="submitButtonName"
+    ></app-submit-button>
+  </div>
+</form>

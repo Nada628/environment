@@ -1,0 +1,13 @@
+<form [formGroup]="formGroup" class="my-5">
+  <div class="row">
+    <h6 class="col-auto fw-bold mb-3 px-0 py-2 fw-bold">
+      {{ header | translate }}
+    </h6>
+  </div>
+  <div *ngFor="let field of fields">
+    <app-dynamic-checkbox
+      [formName]="formGroup"
+      [field]="field"
+    ></app-dynamic-checkbox>
+  </div>
+</form>

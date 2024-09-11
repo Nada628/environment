@@ -1,0 +1,27 @@
+<section class="section">
+  <app-subtitle *ngIf="authSerivce.loginSignal(); else loginIn">{{
+    "header.validate" | translate
+  }}</app-subtitle>
+
+  <ng-template #loginIn>
+    <app-subtitle>{{ "header.login" | translate }}</app-subtitle>
+  </ng-template>
+
+  <div class="container">
+    <div class="d-flex flex-column flex-md-row flex-lg-row gap-1">
+      @if (authSerivce.loginSignal()) {
+        <div class="col">
+          <app-register-section></app-register-section>
+        </div>
+       } @else {
+        <div class="col">
+          <app-login-section></app-login-section>
+        </div>
+        <div class="divider"></div>
+        <div class="col">
+          <app-register-section></app-register-section>
+        </div>
+       }
+    </div>
+  </div>
+</section>

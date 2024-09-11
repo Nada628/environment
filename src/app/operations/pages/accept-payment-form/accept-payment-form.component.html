@@ -1,0 +1,144 @@
+<div class="row justify-content-end pb-3">
+  <div class="col-auto">
+    <button class="btn gradient px-5" (click)="print()">
+      {{ "admissionForm.print" | translate }}
+    </button>
+  </div>
+</div>
+<div class="card px-4 py-5 logo-card">
+  <img class="bg-card" src="assets/images/ministry-finance.png" />
+  <span class="row justify-content-end mx-4">{{
+    "importBoxReceipt.receiptNumber" | translate
+    }}</span>
+
+  <div style="line-height: 2rem">
+    <div class="row mx-1">
+      <div class="col-8">
+        <span>{{ "importBoxReceipt.name" | translate }}</span>
+        : صندوق حماية البيئة
+      </div>
+
+      <div class="col-4" formControlName>
+        <span>{{ "importBoxReceipt.date" | translate }}</span>
+        :
+        {{ invoiceOfRequest?.date }}
+      </div>
+    </div>
+
+    <div class="col-12">
+      <span>{{ "importBoxReceipt.code" | translate }}</span>
+      :
+      {{ invoiceOfRequest?.establishCode || '123456' }}
+    </div>
+
+    <div class="row mx-1 align-items-start">
+      <span class="col-auto">{{
+        "importBoxReceipt.requestName" | translate
+        }}</span>
+      :
+      <span class="col-auto">
+        <span>
+          {{ invoiceOfRequest?.customer_name || '-' }}
+        </span>
+        <br />
+        <span> {{ invoiceOfRequest?.companyName || 'كينج استون للفحم' }} - {{ requestId }} </span>
+      </span>
+    </div>
+    <div class="col-12">
+      <span>{{ "importBoxReceipt.payWay" | translate }}</span>
+      :
+      {{ invoiceOfRequest?.paymentType || 'نقدى' }}
+    </div>
+  </div>
+
+  <span class="row justify-content-center mx-5">
+    {{ "importBoxReceipt.receipt" | translate }}
+    {{ invoiceOfRequest?.recet_num || '-' }}
+  </span>
+
+  <table class="table table-bordered my-2">
+    <tbody>
+      <tr>
+        <td class="p-1">
+          <span>{{ "importBoxReceipt.no" | translate }}</span>
+        </td>
+        <td class="p-1">
+          <span>{{ "importBoxReceipt.ServicesProvided" | translate }}</span>
+        </td>
+        <td class="p-1">
+          <span>{{ "importBoxReceipt.amount" | translate }}</span>
+        </td>
+      </tr>
+
+      <!-- *ngFor="
+          let detail of invoiceOfRequest?.requestFeesInvoiceDetailDtoList;
+          index as i
+        " -->
+      <tr>
+        <td class="p-1">
+          <!-- <span>{{ i + 1 }}</span> -->
+          <span>1</span>
+        </td>
+        <td class="p-1">
+          <span>
+            {{ invoiceOfRequest?.service || 'اصدار خطاب عدم ممانعه شحنات الفحم (حجري - بترولي)' }}
+            <br />
+            من {{ invoiceOfRequest?.from }} الي {{ invoiceOfRequest?.to }}
+            <br />
+            رقم : {{ invoiceOfRequest?.number }}
+          </span>
+        </td>
+        <td class="p-1">
+          <span>{{ invoiceOfRequest?.total_expenses }} {{ "importBoxReceipt.eg" | translate }}
+          </span>
+          <span *ngIf="invoiceOfRequest?.rdf_total">
+          + {{ invoiceOfRequest?.rdf_total }} {{ "importBoxReceipt.eg" | translate }}
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td class="p-1"></td>
+        <td class="p-1">
+          <span>{{ "importBoxReceipt.total" | translate }}</span>
+        </td>
+        <td class="p-1">
+          <span>{{ invoiceOfRequest?.total }} {{ "importBoxReceipt.eg" | translate }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="text-center mt-5">
+    فقط
+    {{ invoiceOfRequest?.feesInArabic || 'ستة الالاف ومئتان وسبعون جنية مصري لا غير.' }}
+  </span>
+
+  <hr style="background-color: black" />
+
+  <span>ماقبله 0 {{ "importBoxReceipt.eg" | translate }}</span>
+  <span>{{ "importBoxReceipt.total" | translate }} {{ invoiceOfRequest?.total }}
+    {{ "importBoxReceipt.eg" | translate }}
+  </span>
+</div>
+
+<div class="row justify-content-center pb-3">
+  <div class="col-auto">
+    <button *ngIf="role != 'environmental.found'" class="btn gradient px-5 mt-4" >
+      {{ "admissionForm.back" | translate }}
+    </button>
+  </div>
+  <div class="col-auto">
+    <button class="btn gradient px-5 mt-4" (click)="sendToCoalAdministration()"
+    *ngIf="role == 'environmental.found'">
+      {{ "importBoxReceipt.send" | translate }}
+    </button>
+  </div>
+
+  <div class="col-auto">
+    <button class="btn gradient px-5 mt-4" (click)="NavigateToAcceptTemplateForm()"
+      *ngIf="requestStatus == 'AcceptForm' || requestStatus == 'AcceptFormT'">
+      {{ "importBoxTemp1.consentform" | translate }}
+    </button>
+  </div>
+</div>

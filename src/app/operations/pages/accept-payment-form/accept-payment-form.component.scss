@@ -1,0 +1,46 @@
+.logo-card{
+    position: relative;
+    .bg-card{
+      opacity: 0.2;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      width: 600px;
+      height: 550px;
+      position: absolute;
+    }
+  }
+
+  @media print {
+    @page {
+       margin-left: 0.5in;
+       margin-right: 0.5in;
+       margin-top: 0;
+       margin-bottom: 0;
+     }
+   
+   .logo-card{
+    position: relative;
+    .bg-card{
+      opacity: 0.2;
+      top: 50%;
+      left: 65%;
+      transform: translate(-50%,-50%);
+      width: 600px;
+      height: 550px;
+      position: absolute;
+    }
+  }
+
+  .custom-footer {
+   display: none !important;
+  }
+  .custom-footer,
+    #non-printable {
+        display: none !important;
+    }
+    #printable {
+        display: block;
+    }
+  
+}

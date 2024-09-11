@@ -1,0 +1,19 @@
+<div class="row">
+  <span class="search__container">
+    <!-- Search Icon -->
+    <i
+      class="bi bi-search"
+      [ngClass]="currentLang == 'ar' ? 'ps-2' : 'pe-2'"
+    ></i>
+    <!-- Search Input -->
+    <input
+      type="text"
+      class="search__input"
+      aria-label="Sizing example input"
+      aria-describedby="inputGroup-sizing-sm"
+      #search
+      (keyup.enter)="getSearchValue($any($event.target).value)"
+      [placeholder]="placeHolder | translate"
+    />
+  </span>
+</div>

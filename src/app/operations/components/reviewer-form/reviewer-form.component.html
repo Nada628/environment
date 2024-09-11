@@ -1,0 +1,132 @@
+<nz-divider class="my-5" nzText="إضافة ملاحظة"></nz-divider>
+
+<!-- Main Note -->
+<div *ngIf="mainNote" class="flex-row">
+  <!-- <app-dynamic-form
+    [model]="mainNote"
+    [submitCommentName]="'common.add' | translate"
+  ></app-dynamic-form> -->
+  <div>
+    <nz-comment > 
+      <nz-avatar
+        nz-comment-avatar
+        nzIcon="user"
+        [nzSrc]="user.avatar"
+      ></nz-avatar>
+      <nz-comment-content>
+        <nz-form-item>
+          <textarea [(ngModel)]="inputValue" nz-input rows="4"></textarea>
+        </nz-form-item>
+        <nz-form-item>
+          <!-- <button
+            nz-button
+            class="px-4"
+            nzType="primary"
+            [nzLoading]="addingComment"
+            [disabled]="!inputValue"
+            >
+            (click)="addComment()"
+            <i class="bi bi-plus ms-2"></i>
+            {{ "common.addComment" | translate }}
+          </button> -->
+        </nz-form-item>
+      </nz-comment-content>
+    </nz-comment>
+
+    <nz-divider class="my-3 ps-md-5" nzText="الملاحظات السابقة"></nz-divider>
+
+    @if(gettingComments){
+    <div class="text-center my-5">
+      <nz-spin nzSimple></nz-spin>
+    </div>
+    } @else{ @if(comments.length == 0){
+    <div class="col-6 mx-auto">
+      <nz-alert
+        nzType="error"
+        [nzMessage]="'customer.noComments' | translate"
+        nzShowIcon
+      ></nz-alert>
+    </div>
+    } @else {
+    <nz-collapse nzAccordion>
+      @for (comment of comments; let i = $index; track comment) {
+      <nz-collapse-panel [nzHeader]="comment.timeline_desc" [nzActive]="i == 0">
+        <p>{{ comment.comment }}</p>
+      </nz-collapse-panel>
+      }
+    </nz-collapse>
+    } }
+  </div>
+
+  <!-- <div *ngIf="loggerList">
+    <span *ngFor="let log of loggerList; let i = index">
+      {{ i + 1 }} - قام الموظف {{ log?.employeeName }} في ادراة
+      {{ log?.administrativeName }}
+      {{ "logStatus." + log?.action | translate }} بتاريخ {{ log.createdDate }}
+      <br />
+    </span>
+  </div> -->
+
+  <!-- Reviewer -->
+  <!-- <h6 *ngIf="reviewer">
+    {{ "customer.applicationWasReviewedBy" | translate }}
+    <span class="fw-bold">{{ reviewer }}</span>
+  </h6> -->
+
+  <div
+    class="row my-5"
+    *ngIf="
+      role == 'department_supervisor' ||
+      role == 'rdf' ||
+      role == 'environmental.found' ||
+      role == 'manager' ||
+      role == 'investors'
+    "
+  >
+    <nz-divider
+      class="col-12 mb-4 ps-md-5"
+      nzText="{{ 'common.assignRequest' | translate }}"
+    ></nz-divider>
+
+    <div class="col-md-4 mx-auto">
+      <nz-select
+        class="w-100"
+        nzSize="large"
+        nzShowSearch
+        (ngModelChange)="selectReviewer($event)"
+        [(ngModel)]="selectedReviewerId"
+        nzPlaceHolder="{{ 'common.assignUser' | translate }}"
+        [nzLoading]="gettingUsersList"
+      >
+        <nz-option
+          *ngFor="let user of usersList"
+          [nzLabel]="user.name"
+          [nzValue]="user.id"
+        ></nz-option>
+      </nz-select>
+    </div>
+  </div>
+
+  <!-- Review -->
+  <nz-divider
+    class="my-5 ps-md-5"
+    nzText="{{ 'common.reviewRequest' | translate }}"
+  ></nz-divider>
+
+  <div class="mx-auto col-md-8 row row-cols-md-3 g-3">
+    <div *ngFor="let status of statusArr" class="col">
+      <button
+        (click)="onSelectingStatus(status)"
+        [ngClass]="{
+          'btn-outline-success border-success': status.value == 'approve',
+          'btn-outline-danger border-danger': status.value == 'reject',
+          'btn-outline-primary border-primary': status.value == 'complete'
+        }"
+        class="btn border border-1 px-4"
+      >
+        <i [class]="'bi ' + status.icon + ' align-middle ms-1'"></i>
+        {{ status.name | translate }}
+      </button>
+    </div>
+  </div>
+</div>

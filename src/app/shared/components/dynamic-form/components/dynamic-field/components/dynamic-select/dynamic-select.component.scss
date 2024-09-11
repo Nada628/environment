@@ -1,0 +1,19 @@
+select.ar{
+    background-position: left 0.75rem center;
+    padding: 0.375rem 0.75rem 0.375rem 2.25rem;
+}
+
+select option {
+    margin: 40px;
+    background: var(--white-400);
+  }
+
+  h6{
+    color:var(--light-blue-50);
+    font-size: 14px;
+}
+
+.addCompany{
+  color:var(--light-blue-50);
+  font-weight: 900;
+}

@@ -1,0 +1,13 @@
+<app-subtitle>{{ "routingHeader.statistics" | translate }}</app-subtitle>
+<app-notifications-section
+  [notificationCards]="TotalRequestsCard"
+></app-notifications-section>
+<app-total-orders-section
+  *ngIf="TotalRequestsCard"
+  [totalRequestsCards]="TotalRequestsCard"
+  [totals]="totals"
+></app-total-orders-section>
+<app-statistics-chart-section
+  *ngIf="chartCardsArr"
+  [chartCardsArr]="chartCardsArr"
+></app-statistics-chart-section>

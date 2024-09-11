@@ -1,0 +1,27 @@
+<div class="card p-3" [ngStyle]="{ 'background-color': card.background }">
+  <div class="row justify-content-between pb-3">
+    <div class="col-auto">
+      <h6 class="fw-bold">
+        {{ card.status | translate }}
+      </h6>
+    </div>
+    <div class="col-auto" [ngStyle]="{ color: card.color }">
+      {{ card.percentage }}
+    </div>
+  </div>
+
+  <div
+    class="progress"
+    role="progressbar"
+    aria-label="Basic example"
+    aria-valuenow="25"
+    aria-valuemin="0"
+    aria-valuemax="100"
+  >
+    <div
+      class="progress-bar"
+      [ngClass]="card.progressBarClass"
+      [style]="'width : ' + card.percentage + '%'"
+    ></div>
+  </div>
+</div>

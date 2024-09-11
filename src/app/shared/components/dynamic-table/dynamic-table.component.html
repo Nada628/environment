@@ -1,0 +1,115 @@
+<table class="table table-bordered table-responsive-md">
+  <thead class="thead-light">
+    <tr>
+      <th class="text-center" *ngFor="let header of tableData.headers">
+        {{ header.translatedKey | translate }}
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let row of tableData.data">
+      <ng-container *ngFor="let h of tableData.headers">
+        <td class="text-center align-middle">
+          <ng-container [ngSwitch]="h.key">
+            <ng-container *ngSwitchCase="'edit'">
+              <button class="btn" (click)="handleButtonClick(h.key, row)">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+            </ng-container>
+            <ng-container *ngSwitchCase="'delete'">
+              <button class="btn" (click)="handleButtonClick(h.key, row)">
+                <i class="bi bi-trash3-fill red"></i>
+              </button>
+            </ng-container>
+            <ng-container *ngSwitchCase="'description'">
+              <app-btn
+                btnRadius="10"
+                [btnText]="'admin.description'"
+                (onBtnClick)="handleButtonClick(h.key, row)"
+                color="var(--white-100)"
+              ></app-btn>
+            </ng-container>
+            <ng-container *ngSwitchCase="'details'">
+              <app-btn
+                btnRadius="10"
+                [btnText]="'tableHeader.details'"
+                (onBtnClick)="handleButtonClick(h.key, row)"
+                color="var(--white-100)"
+              ></app-btn>
+            </ng-container>
+            <ng-container *ngSwitchCase="'orderTracking'">
+              <a [routerLink]="'/operations/orderTracking/' + row.orderNumber">
+                {{ "tableHeader.orderTracking" | translate }}
+              </a>
+            </ng-container>
+            <ng-container *ngSwitchCase="'copyOfApproval'">
+              <a 
+                *ngIf="row.isApprovalForm"
+                class="link"
+                [routerLink]="'/operations/approval/'+row.orderNumber + '/approve'"
+              >
+                {{ "tableHeader.viewFile" | translate }}
+              </a>
+              <p
+                *ngIf="!row.isApprovalForm"
+              >
+                {{ 'لا يوجد' }}
+             </p>
+            </ng-container>
+            <ng-container *ngSwitchCase="'modelAutomated'">
+              <!-- form 33 -->
+              <a  *ngIf="row.is_33form" class="link"  [routerLink]="'/operations/acceptInvoiceForm/'+row.orderNumber+'/AppNum'">
+                {{ "tableHeader.viewFile" | translate }}
+              </a>
+              <p
+              *ngIf="!row.is_33form"
+            >
+              {{ 'لا يوجد' }}
+           </p>
+            </ng-container>
+            <ng-container *ngSwitchCase="'status'">
+              <span
+                *ngIf="row[h.key] !== status.AcceptProtectEEA"
+                [ngStyle]="
+                  row[h.key] == 'مقبول من رئيس الجهاز' ||
+                  row[h.key]?.includes('Accept') ||
+                  row[h.key] == status.AcceptRDF ||
+                  row[h.key] == 'CustomerPAID'
+                    ? { color: 'var(--light-blue-50)' }
+                    : row[h.key] == status.underReview ||
+                      row[h.key] == status.Created
+                    ? { color: 'var(--yellow-50)' }
+                    : { color: 'var(--red-100)' }
+                "
+                >{{ row[h.key]}}</span
+              >
+              <span *ngIf="row[h.key] === status.AcceptProtectEEA">
+                <a
+                  [routerLink]="[
+                    '/operations/paymentDetails/' + row.orderNumber
+                  ]"
+                  class="link"
+                >
+                  {{ "status." + row[h.key] | translate }}
+                </a>
+              </span>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              <p
+                nz-popover
+                [nzPopoverContent]="row[h.key].length > 10 ? row[h.key] : ''"
+              >
+                {{
+                  row[h.key].length > 10
+                    ? row[h.key].substring(0, 10) + "..."
+                    : row[h.key]
+                }}
+              </p>
+            </ng-container>
+          </ng-container>
+        </td>
+      </ng-container>
+    </tr>
+  </tbody>
+</table>

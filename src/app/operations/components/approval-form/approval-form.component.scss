@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #00000029;
+  border-radius: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.card {
+  padding: 10px 25px 10px 25px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #f6f6f6;
+  width: calc(100% - 50px);
+  margin-left: 25px;
+  margin-right: 25px;
+}
+
+.section {
+  padding: 20px 0px 10px 0px;
+}
+
+h5 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+h6 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+
+
+.credit {
+  display: flex ;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .credits-info {
+    flex-direction: row;
+    height: 200px
+  }
+
+  @media only screen and (max-width: 500px) {
+    .credits-info {
+      flex-direction: column;
+    }
+  }
+}

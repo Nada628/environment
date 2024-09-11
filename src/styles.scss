@@ -1,0 +1,244 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./assets/colors.scss";
+@import "./assets/fonts.scss";
+
+/* Importing Bootstrap SCSS file. */
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+@import "../node_modules/boxicons/css/boxicons.min.css";
+
+// boostrap 5
+// @import 'ngx-toastr/toastr-bs5-alert';
+
+body {
+  font-family: Tajawal-Medium;
+}
+
+.mat-body p,
+.mat-body-2 p,
+.mat-typography .mat-body p,
+.mat-typography .mat-body-2 p,
+.mat-typography p {
+  margin: 0;
+}
+
+.mat-h5,
+.mat-typography .mat-h5,
+.mat-typography h5 {
+  font: 600 20px Tajawal-Medium;
+  margin: 0 0 12px;
+}
+
+.mat-h6,
+.mat-typography .mat-h6,
+.mat-typography h6 {
+  font: 400 18px Tajawal-Medium;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+.section {
+  padding: 80px 0px 90px 0px;
+}
+
+.link {
+  border-bottom: 1px solid var(--light-blue-400);
+  color: var(--light-blue-400);
+}
+p {
+  margin: 0px;
+  font-size: 14px;
+}
+.row {
+  align-items: center;
+}
+.btn {
+  border: 0px;
+}
+a:hover {
+  cursor: pointer;
+  text-decoration: none;
+}
+.gradient {
+  background: transparent linear-gradient(90deg, #0070c4 0%, #00b8c4 100%) 0% 0%
+    no-repeat padding-box;
+  color: var(--white-100);
+}
+
+.gradient-2 {
+  background: transparent linear-gradient(90deg, #0070c4 0%, #007bff 100%) 0% 0%
+    no-repeat padding-box;
+  color: var(--white-100);
+}
+
+.primary {
+  background: #f7fafd;
+  border-radius: 10px;
+  color: #222222;
+  font-size: 16px;
+}
+
+a.blue {
+  background: #045fa4;
+  border-radius: 10px;
+  color: var(--white-100);
+  font-size: 16px;
+}
+
+.gradient:hover {
+  background: transparent linear-gradient(90deg, #0070c4 0%, #00b8c4 100%) 0% 0%
+    no-repeat padding-box;
+  color: var(--white-100);
+}
+.btn:focus {
+  box-shadow: none;
+}
+input[type="checkbox"] {
+  cursor: pointer;
+}
+.subtitle {
+  color: var(--grey-100);
+}
+.error {
+  border-color: var(--red-100);
+}
+.form-control::placeholder,
+.placeHolder,
+.form-select {
+  font-size: 13px;
+  color: var(--dark-blue-100);
+  opacity: 50%;
+}
+
+.boldFormLabel {
+  font-weight: bold;
+  font-size: 0.813rem;
+  color: var(--dark-blue-100);
+}
+.normalFormLabel {
+  font-size: 0.813rem;
+  color: var(--dark-blue-100);
+}
+.form-control,
+.form-select {
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  height: 27px !important;
+  box-shadow: 10px 8px 25px -10px rgba(0, 0, 0, 0.33);
+}
+.form-select:focus,
+.form-control:focus {
+  border-color: var(--grey-300);
+  outline: 0.813rem;
+  box-shadow: none;
+}
+.card {
+  border-radius: 20px;
+}
+//To Remove arrows from input type number
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@media only screen and (max-width: 1000px) {
+  .normalFormLabel,
+  .boldFormLabel .form-control::placeholder,
+  .placeHolder {
+    font-size: 0.7rem;
+  }
+}
+@media only screen and (max-width: 800px) {
+  p {
+    font-size: 11px;
+  }
+}
+
+.red {
+  color: var(--red-100);
+}
+
+.grey {
+  color: var(--grey-100);
+}
+@media only screen and (max-width: 500px) {
+  .normalFormLabel,
+  .boldFormLabel,
+  .form-control::placeholder,
+  .placeHolder {
+    font-size: 0.5rem;
+  }
+}
+
+.custom-container {
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+    padding: 0;
+    border-radius: 20px;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector,
+.ant-input {
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  // height: 27px !important;
+  box-shadow: 10px 8px 25px -10px rgba(0, 0, 0, 0.33);
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+  &:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: var(--grey-300) !important;
+    outline: 0.813rem;
+    box-shadow: none;
+  }
+}
+
+.ant-form-item-label
+  > label.ant-form-item-required:not(
+    .ant-form-item-required-mark-optional
+  )::before {
+  display: inline-block;
+  margin: 0 0 0 5px;
+  color: #ff4d4f;
+  font-size: 14px;
+  font-family: SimSun, sans-serif;
+  line-height: 1;
+  content: "*";
+}
+.ant-form-item-label > label::after {
+  content: "";
+}
+
+.ant-collapse
+  > .ant-collapse-item
+  > .ant-collapse-header
+  .ant-collapse-header-text {
+  flex: auto;
+  margin: 3px 10px 0 0;
+}
+
+.ant-alert-error .ant-alert-icon {
+  margin-left: 14px !important;
+}

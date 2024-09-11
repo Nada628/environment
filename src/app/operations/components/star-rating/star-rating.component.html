@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-auto" *ngFor="let star of [0, 1, 2, 3, 4]; let i = index">
+    <i
+      (mouseover)="onHovering(i)"
+      (mouseleave)="outOfHovering(i)"
+      (click)="onSubmit(i)"
+      class="bi bi-star-fill"
+      [ngStyle]="{ color: color[i] }"
+    ></i>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+.stepper {
+  font-size: 20px;
+  i{
+
+    color: var(--grey-500);
+  }
+  .vl {
+    border-right: 6px solid var(--grey-500);
+    height: 75px;
+  }
+}
+.stepper{
+  i.active{
+    color: var(--light-blue-50);
+  }
+  .vl.active  {
+    border-right: 6px solid var(--light-blue-50);
+  }
+}
+  
+
+button {
+  background-color: var(--grey-500);
+  border:none;
+  border-radius: 30px;
+  color:var(--white-100);
+  font-size: 13px;
+}
+.active button{
+  background-color: var(--light-blue-50);
+}
+button:focus {
+  background-color: var(--light-blue-50);
+}
+
+p{
+    color:var(--dark-blue-100);
+}

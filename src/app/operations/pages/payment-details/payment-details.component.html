@@ -1,0 +1,362 @@
+@if(role == 'customer'){
+  <app-subtitle>{{ "routingHeader.paymentDetails?" | translate }}</app-subtitle>
+}
+@else {
+  <app-subtitle>{{ "routingHeader.importBox" | translate }}</app-subtitle>
+}
+
+<div class="row" >
+  <div class="col-12">
+
+
+  
+    @if(role == 'customer'){
+    <div class="card shadow p-5">
+      <h6 class="fw-bold text-center pb-4">
+        {{ "customer.paymentOfFees" | translate }}
+      </h6>
+      <div class="d-flex p-2">
+        <div class="col-md-2 col-3">
+          <p>رفم الطلب</p>
+        </div>
+        <div class="col-1 text-center">
+          <p>:</p>
+        </div>
+        <div class="col-md-6 col-6">
+          <p>{{ paymentDetails?.request_expense.request_num }}</p>
+        </div>
+      </div>
+      <div class="d-flex p-2">
+        <div class="col-md-2 col-3">
+          <p>تاريخ الطلب</p>
+        </div>
+        <div class="col-1 text-center">
+          <p>:</p>
+        </div>
+        <div class="col-md-6 col-6">
+          <p>{{ paymentDetails?.request_expense.created_at }}</p>
+        </div>
+      </div>
+      <div class="d-flex p-2">
+        <div class="col-md-2 col-3">
+          <p>اسم الخدمة</p>
+        </div>
+        <div class="col-1 text-center">
+          <p>:</p>
+        </div>
+        <div class="col-md-6 col-6">
+          <p>{{ paymentDetails?.name }}</p>
+        </div>
+      </div>
+      <div class="d-flex p-2">
+        <div class="col-md-2 col-3">
+          <p>قيمة الرسوم</p>
+        </div>
+        <div class="col-1 text-center">
+          <p>:</p>
+        </div>
+        <div class="col-md-6 col-6">
+          <p>{{ paymentDetails?.request_expense.total_expenses }} جنيه مصري</p>
+        </div>
+      </div>
+      <div *ngIf="paymentDetails?.rdf_request_expense.rdf_total" class="d-flex p-2">
+        <div class="col-md-2 col-3">
+          <p>RDF قيمة الرسوم</p>
+        </div>
+        <div class="col-1 text-center">
+          <p>:</p>
+        </div>
+        <div class="col-md-6 col-6">
+          <p>{{ paymentDetails?.rdf_request_expense.rdf_total }} جنيه مصري</p>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between mt-5">
+      <div class="col-md-5">
+        <nz-form-item class="mb-0">
+          <nz-form-control>
+            <nz-form-label>{{
+              "customer.normalAttach" | translate
+              }}</nz-form-label>
+            <label class="input-group-text placeHolder d-flex justify-content-between mb-0" tabindex="0"
+              [for]="'invoice'">
+              <div class="row">
+                <i class="bi bi-paperclip col-2"></i>
+                <div class="col-8">
+                  <span>{{
+                    attachName
+                    ? "..." + attachName.substring(0, 10)
+                    : ("admissionForm.attachPayment" | translate)
+                    }}</span>
+                </div>
+              </div>
+            </label>
+            <input type="file" [id]="'invoice'" class="d-none" (change)="onSelectAttach($event.target['files'])" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="col-md-5" *ngIf="checkRdf">
+        <nz-form-item class="mb-0">
+          <nz-form-control>
+            <nz-form-label>{{
+              "customer.rdfAttach" | translate
+              }}</nz-form-label>
+            <label class="input-group-text placeHolder d-flex justify-content-between mb-0" tabindex="0"
+              [for]="'invoice2'">
+              <div class="row">
+                <i class="bi bi-paperclip col-2"></i>
+                <div class="col-8">
+                  <span>{{
+                    rdf_attachName
+                    ? "..." + rdf_attachName.substring(0, 10)
+                    : ("admissionForm.attachPayment" | translate)
+                    }}</span>
+                </div>
+              </div>
+            </label>
+            <input type="file" [id]="'invoice2'" class="d-none" (change)="onSelectRdfAttach($event.target['files'])" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div class="text-center">
+      <button type="button" class="btn gradient px-5 mt-5" (click)="onSubmit()">
+        @if(role == 'customer'){
+        {{ "customer.completePayment" | translate }}
+        }
+        @else {
+        موافقة وإرسال
+        }
+      </button>
+    </div>
+    } @else {
+      <!--  -->
+      <div class="card shadow p-5">
+        <h6 class="fw-bold text-center pb-4">
+          {{ "customer.paymentSuccess" | translate }}
+        </h6>
+        <div class="d-flex p-2">
+          <div class="col-md-2 col-3">
+            <p>اسم المنشأة</p>
+          </div>
+          <div class="col-1 text-center">
+            <p>:</p>
+          </div>
+          <div class="col-md-6 col-6">
+            <p>{{ paymentDetails?.company_name }}</p>
+          </div>
+        </div>
+        <div class="d-flex p-2">
+          <div class="col-md-2 col-3">
+            <p>رفم الطلب</p>
+          </div>
+          <div class="col-1 text-center">
+            <p>:</p>
+          </div>
+          <div class="col-md-6 col-6">
+            <p>{{ paymentDetails?.request_num }}</p>
+          </div>
+        </div>
+        <div class="d-flex p-2">
+          <div class="col-md-2 col-3">
+            <p>تاريخ الطلب</p>
+          </div>
+          <div class="col-1 text-center">
+            <p>:</p>
+          </div>
+          <div class="col-md-6 col-6">
+            <p>{{ paymentDetails?.request_date	 }}</p>
+          </div>
+        </div>
+        <div class="d-flex p-2">
+          <div class="col-md-2 col-3">
+            <p>تاريخ السداد</p>
+          </div>
+          <div class="col-1 text-center">
+            <p>:</p>
+          </div>
+          <div class="col-md-6 col-6">
+            <p>{{ paymentDetails?.payment_date	}}</p>
+          </div>
+        </div>
+        <div class="d-flex p-2">
+          <div class="col-md-2 col-3">
+            <p>رقم e-finance</p>
+          </div>
+          <div class="col-1 text-center">
+            <p>:</p>
+          </div>
+          <div class="col-md-6 col-6">
+            <p>{{ paymentDetails?.e_finance}}</p>
+          </div>
+        </div>
+        <div class="d-flex p-2">
+          <div class="col-md-2 col-3">
+            <p>اسم الخدمة</p>
+          </div>
+          <div class="col-1 text-center">
+            <p>:</p>
+          </div>
+          <div class="col-md-6 col-6">
+            <p>{{ paymentDetails?.name }}</p>
+          </div>
+        </div>
+        <div class="d-flex p-2">
+          <div class="col-md-2 col-3">
+            <p>قيمة الرسوم</p>
+          </div>
+          <div class="col-1 text-center">
+            <p>:</p>
+          </div>
+          <div class="col-md-6 col-6">
+            <p>{{ paymentDetails?.total_expenses }} جنيه مصري</p>
+          </div>
+        </div>
+        <div *ngIf="paymentDetails?.rdf_total" class="d-flex p-2">
+          <div class="col-md-2 col-3">
+            <p>RDF قيمة الرسوم</p>
+          </div>
+          <div class="col-1 text-center">
+            <p>:</p>
+          </div>
+          <div class="col-md-6 col-6">
+            <p>{{ paymentDetails?.rdf_total }} جنيه مصري</p>
+          </div>
+        </div>
+      </div>
+    <div class="d-flex col-12 mt-5">
+      <div class="col-md-6">
+        <nz-form [formGroup]="paymentForm">
+          <div class="d-flex flex-column gap-2">
+            <nz-form-item class="mb-0">
+              <nz-form-control [nzErrorTip]="'الميناء الوارد منها الشحنة مطلوب'">
+                <div class="d-flex justify-content-between">
+                  <div class="col-6">
+                    <nz-form-label [nzRequired]="
+                      paymentForm | isRequired : 'recet_num'
+                    " for="recet_num">رقم الإيصال</nz-form-label>
+                  </div>
+                  <div class="col-6 text-end">
+                    <input nz-input type="number" nzSize="large" formControlName="recet_num"
+                      placeholder="رقم الإيصال" />
+                  </div>
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="mb-0">
+              <nz-form-control [nzErrorTip]="'الميناء الوارد منها الشحنة مطلوب'">
+                <div class="d-flex justify-content-between">
+                  <div class="col-6">
+                    <nz-form-label [nzRequired]="
+                      paymentForm | isRequired : 'recet_date'
+                    " for="recet_date">تاريخ الإيصال</nz-form-label>
+                  </div>
+                  <div class="col-6 text-end">
+                    <input nz-input type="date" nzSize="large" formControlName="recet_date"
+                      placeholder="تاريخ الإيصال" />
+                  </div>
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+
+            <!-- <nz-form-item class="mb-0">
+              <nz-form-control [nzErrorTip]="'الموافقة مطلوبة'">
+                <div class="d-flex justify-content-between">
+                  <div class="col-6">
+                    <nz-form-label [nzRequired]="
+                      paymentForm
+                        | isRequired : 'transport_company_approval_file'
+                    " for="transport_company_approval_file">صورة الإيصال</nz-form-label>
+                  </div>
+                  <div class="col-6 text-end">
+                    <label class="input-group-text placeHolder d-flex justify-content-between mb-0" tabindex="0"
+                      [for]="'transport_company_approval_file'">
+                      <div class="row">
+                        <i class="bi bi-paperclip col-2"></i>
+                        <div class="col-8">
+                          <span>{{
+                            attachName
+                            ? "..." +
+                            attachName.substring(
+                            0,
+                            10
+                            )
+                            : 'ارفاق صورة'
+                            }}</span>
+                        </div>
+                      </div>
+                    </label>
+                    <input type="file" [id]="'transport_company_approval_file'" class="d-none" placeholder="{{
+                    'admissionForm.UNLOAD_ACCEPT_PAPER' | translate
+                  }}" (change)="
+                    onSelectAttach(
+                      $event.target['files']
+                    )
+                  " multiple />
+                  </div>
+                </div>
+              </nz-form-control>
+            </nz-form-item> -->
+
+            <div class="text-center px-3 mt-3">
+              <button class="btn gradient w-100" (click)="print()">
+                طباعة التفاصيل
+              </button>
+            </div>
+          </div>
+        </nz-form>
+      </div>
+
+      <div class="col-md-6">
+        <nz-form-item *ngIf="paymentDetails?.attach" class="mb-0">
+          <nz-form-control>
+            <div class="row">
+              <div class="col-md-7">
+                <nz-form-label for="price">
+                  الفاتورة
+                </nz-form-label>
+              </div>
+              <div class="col text-center">
+                <a class="text-decoration-underline" [href]="url + paymentDetails?.attach" target="_blank">{{
+                  "customer.openFile" | translate }}</a>
+              </div>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="paymentDetails?.rdf_attach" class="mb-0">
+          <nz-form-control>
+            <div class="row">
+              <div class="col-md-7">
+                <nz-form-label for="price">
+                  فاتورة RDF
+                </nz-form-label>
+              </div>
+              <div class="col text-center">
+                <a class="text-decoration-underline" [href]="url + paymentDetails?.rdf_attach" target="_blank">{{
+                  "customer.openFile" | translate }}</a>
+              </div>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div class="text-center">
+      <button type="button" class="btn gradient px-5 mt-5" (click)="onSubmit()">
+        @if(role == 'customer'){
+        {{ "customer.completePayment" | translate }}
+        }
+        @else {
+        موافقة وإرسال
+        }
+      </button>
+    </div>
+    }
+  
+ 
+
+   
+  </div>
+</div>

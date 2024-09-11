@@ -1,0 +1,21 @@
+<div class="input-group">
+  <span
+    class="input-group-text border-0"
+    [ngClass]="
+      currentLang === 'ar'
+        ? ' rounded-end-4 rounded-start-0'
+        : ' rounded-start-4 rounded-end-0'
+    "
+    id="basic-addon1"
+    ><i class="bi bi-search"></i
+  ></span>
+  <input
+    type="search"
+    [ngClass]="currentLang === 'ar' ? ' rounded-start-4' : ' rounded-end-4'"
+    class="form-control"
+    [placeholder]="placeHolder | translate"
+    aria-label="Search"
+    aria-describedby="basic-addon1"
+    (keyup.enter)="getSearchValue($event.target['value'])"
+  />
+</div>

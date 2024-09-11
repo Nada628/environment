@@ -1,0 +1,85 @@
+<nav class="d-flex align-items-center">
+  <div class="container">
+    <div class="row align-items-center justify-content-center">
+      <!-- LOGO -->
+      <div class="logo col-md-6 col-7">
+        <app-logo position="left"></app-logo>
+      </div>
+
+      <div
+        class="col-md-6 col-4 p-0"
+        [class]="currentLang == 'ar' ? 'text-start' : 'text-end'"
+      >
+        @if ((authService.loginSignal()) &&
+        authService.userRole?.includes('customer')) {
+        <ng-container>
+          <app-btn
+            [displayNone]="true"
+            [class]="currentLang == 'ar' ? 'ms-2' : 'me-2'"
+            btnRadius="20"
+            [btnText]="'header.logout'"
+            (onBtnClick)="logout()"
+            btnIcon="bi-box-arrow-left"
+            color="var(--light-blue-100)"
+            hoverColor="var(--yellow-50)"
+            background="var(--white-100)"
+            hoverBackground="var(--white-100)"
+          ></app-btn>
+        </ng-container>
+
+        <ng-container>
+          <app-btn-dropdown
+            btnRadius="20"
+            [isRouting]="false"
+            [class]="currentLang == 'ar' ? 'ms-2' : 'me-2'"
+            [btnText]="user"
+            [menuList]="menuItems"
+            (onBtnClick)="excuteAction($event)"
+            btnIcon="bi-person"
+            color="var(--light-blue-100)"
+            background="var(--white-100)"
+          ></app-btn-dropdown>
+        </ng-container>
+        } @else if ((authService.loginSignal())) {
+        <ng-container>
+          <app-btn
+            [displayNone]="true"
+            [class]="currentLang == 'ar' ? 'ms-2' : 'me-2'"
+            btnRadius="20"
+            [btnText]="'header.logout'"
+            (onBtnClick)="logout()"
+            btnIcon="bi-box-arrow-left"
+            color="var(--light-blue-100)"
+            hoverColor="var(--yellow-50)"
+            background="var(--white-100)"
+            hoverBackground="var(--white-100)"
+          ></app-btn>
+        </ng-container>
+        } @else {
+        <ng-container>
+          <app-btn
+            [displayNone]="true"
+            [class]="currentLang == 'ar' ? 'ms-2' : 'me-2'"
+            btnRadius="20"
+            [btnText]="'header.login'"
+            (onBtnClick)="login()"
+            btnIcon="bi-person"
+            color="var(--light-blue-100)"
+            hoverColor="var(--yellow-50)"
+            background="var(--white-100)"
+            hoverBackground="var(--white-100)"
+          ></app-btn>
+        </ng-container>
+        }
+        <!-- LANGUAGE BUTTON -->
+        <app-btn
+          [displayNone]="true"
+          btnRadius="20"
+          (onBtnClick)="changeLanguage()"
+          [btnText]="lang"
+          btnIcon="bi-globe-europe-africa"
+        ></app-btn>
+      </div>
+    </div>
+  </div>
+</nav>

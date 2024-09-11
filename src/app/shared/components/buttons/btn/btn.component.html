@@ -1,0 +1,29 @@
+<button
+  (mouseover)="hover = true"
+  (mouseleave)="hover = false"
+  [class]="'btn ' + additionalCss"
+  [style.border-radius.px]="btnRadius"
+  [ngStyle]="
+    hover
+      ? { color: hoverColor, 'background-color': hoverBackground }
+      : { color: color, 'background-color': background }
+  "
+  [ngClass]="displayNone ? 'displayNone' : ''"
+  [dir]="currentLang == 'ar' ? 'rtl' : 'ltr'"
+  (click)="onBtnClickEmitt()"
+>
+  <div class="row align-items-center justify-content-center">
+    @if (btnIcon) {
+    <div class="icon col-auto">
+      <i [class]="'bi ' + btnIcon"></i>
+    </div>
+    <p class="text col-auto" [dir]="currentLang == 'ar' ? 'pe-0' : 'ps-0'">
+      {{ btnText | translate }}
+    </p>
+    } @else {
+    <p class="text col-auto" [dir]="currentLang == 'ar' ? 'pe-0' : 'ps-0'">
+      {{ btnText | translate }}
+    </p>
+    }
+  </div>
+</button>

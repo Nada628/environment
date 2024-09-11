@@ -1,0 +1,6 @@
+<select class="form-select" (change)="onChange($event)">
+  <option disabled selected>{{ "placeholder." + type | translate }}</option>
+  <option *ngFor="let item of items" [value]="item.id">
+    {{ item.name | translate }}
+  </option>
+</select>

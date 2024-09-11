@@ -1,0 +1,17 @@
+<a
+  class="service-card"
+  (mouseover)="hover = true"
+  (mouseleave)="hover = false"
+  [routerLink]="cardData.path"
+>
+  <div class="card shadow justify-content-center" hover-class="gradient">
+    <div class="mb-3">
+      <img *ngIf="!hover" class="text-right" [src]="cardData.url" />
+      <img *ngIf="hover" class="text-right" [src]="cardData.urlHover" />
+    </div>
+    <div>
+      <h6 class="fw-bold mb-2">{{ cardData.title | translate }}</h6>
+      <p class="mb-2">{{ cardData.description | translate }}</p>
+    </div>
+  </div>
+</a>

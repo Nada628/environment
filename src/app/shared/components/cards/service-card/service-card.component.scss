@@ -1,0 +1,25 @@
+a {
+  img {
+    padding: 10px;
+    border-radius: 8px;
+    background: var(--white-200);
+    // transition: all 500ms ease;
+  }
+  .card {
+    padding: 16px 25px 8px 25px;
+    border-radius: 8px;
+    height: 215px;
+  }
+  p {
+    color: var(--grey-100);
+  }
+}
+
+a:hover {
+  img {
+    background-color: var(--light-blue-300);
+  }
+  p {
+    color: var(--white-200);
+  }
+}

@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <div class="row">
+    <main class="col-12 px-0">
+      <!-- thumbnails -->
+      <swiper-container
+        appSwiper
+        #swiperThumbs
+        [config]="swiperThumbsConfig"
+        class="mySwiper2"
+        *ngIf="content.length > 1"
+      >
+        <swiper-slide *ngFor="let item of content" data-swiper-autoplay="2000">
+          <div
+            class="position-relative"
+            [ngClass]="currentLang === 'ar' ? 'ar' : 'en'"
+          >
+            <img [src]="item.url" />
+            <div class="img-text position-absolute">
+              <h5 class="fw-bolder">{{ item.title | translate }}</h5>
+              <p>{{ item.description | translate }}</p>
+            </div>
+          </div>
+        </swiper-slide>
+      </swiper-container>
+      <!-- /thumbnails -->
+    </main>
+  </div>
+</div>

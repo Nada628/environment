@@ -1,0 +1,15 @@
+<form [formGroup]="formName">
+  <textarea
+    [ngClass]="
+      formName.controls[field.fieldName].invalid &&
+      (formName.controls[field.fieldName].dirty ||
+        formName.controls[field.fieldName].touched)
+        ? 'error'
+        : ''
+    "
+    class="form-control form-control-lg"
+    [id]="field.fieldName"
+    rows="3"
+    [formControlName]="field.fieldName"
+  ></textarea>
+</form>

@@ -1,0 +1,34 @@
+<section class="section">
+  <div class="container">
+    <div class="mb-5">
+      <h5 class="fw-bolder">{{ "swiper.swiperHeader" | translate }}</h5>
+      <p class="subtitle">{{ "services.subtitle" | translate }}</p>
+    </div>
+    <div class="row">
+      <div
+        class="col-md-6 col-sm-12 h-auto d-flex flex-column justify-content-between align-items-md-start align-items-sm-center"
+      >
+        <img
+          class="w-100 pb-2"
+          src="../../../../../assets/images/landing page – 1/services-3-1.png"
+        />
+        <h6 class="fw-bolder">{{ "admissionSteps.mainText" | translate }}</h6>
+        <div class="w-100 text-right">
+          <button class="btn userGuide mb-4 mt-3">
+            <img src="../../../../assets/images/Group 602/Group 602.png" />
+            {{ "admissionSteps.userGuide" | translate }}
+          </button>
+        </div>
+      </div>
+      <div class="col-md-6 col-12">
+        <div class="row justify-content-center h-auto">
+          <div class="col-5 mb-4" *ngFor="let card of admissionStepsCards">
+            <app-admission-step-unit
+              [cardData]="card"
+            ></app-admission-step-unit>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

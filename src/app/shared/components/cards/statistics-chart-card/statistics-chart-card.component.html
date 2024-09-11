@@ -1,0 +1,50 @@
+<div>
+  <h6 class="fw-bold text-center pt-5 pb-2">
+    {{ cardData.header | translate }}
+  </h6>
+  <div class="row justify-content-around py-3">
+    <div class="col-auto">
+      <p class="fw-bold">{{ "common.from" | translate }}</p>
+      <p class="fw-bold">{{ cardData.from }}</p>
+    </div>
+    <div class="col-auto">
+      <p class="fw-bold">{{ "common.to" | translate }}</p>
+      <p class="fw-bold">{{ cardData.to }}</p>
+    </div>
+  </div>
+  <div class="card shadow p-3">
+    <div class="row m-3">
+      <app-dynamic-pie-chart
+        [data]="cardData.chardData"
+      ></app-dynamic-pie-chart>
+    </div>
+    <div class="row py-2" *ngFor="let status of cardData.dataStatus">
+      <div class="col-6 d-flex flex-row">
+        <span
+          class="dot"
+          [ngStyle]="{ 'background-color': status.bgColor }"
+        ></span>
+        <h6 [ngClass]="currentLang == 'ar' ? 'pe-2' : 'ps-2'">
+          {{ status.name | translate }}
+        </h6>
+      </div>
+
+      <div class="col-5 d-flex flex-row">
+        <h6
+          [ngStyle]="{ color: status.bgColor }"
+          [ngClass]="currentLang == 'ar' ? 'ps-2' : 'pe-2'"
+        >
+          {{ status.value }}
+        </h6>
+        <h6>{{ "customer.request" | translate }}</h6>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column align-items-center">
+      <h6 class="fw-bold py-2">
+        {{ "customer.TotalExpensesPaid" | translate }}
+      </h6>
+      <div class="card shadow p-2 w-50">{{ cardData.TotalExpensesPaid }}</div>
+    </div>
+  </div>
+</div>

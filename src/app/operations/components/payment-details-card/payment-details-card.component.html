@@ -1,0 +1,12 @@
+<div class="card shadow p-4 m-2">
+  <h6 class="fw-bold text-center py-3">{{ title | translate }}</h6>
+  <div class="row py-3" *ngFor="let detail of paymentDetails">
+    <div class="col-md-2 col-3">
+      <p>{{ detail.name | translate }}</p>
+    </div>
+    <div class="col-1 text-center"><p>:</p></div>
+    <div class="col-md-6 col-6">
+      <p>{{ detail.value }}</p>
+    </div>
+  </div>
+</div>

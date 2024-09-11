@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="mb-5">
+    <div class="row justify-content-between">
+      <h5 class="col-auto fw-bolder">
+        {{ "swiper.swiperHeader" | translate }}
+      </h5>
+      <a
+        class="col-auto link p-0"
+        *ngIf="seeMore"
+        [routerLink]="'/main/services'"
+        ><p class="fw-bold">{{ "main.seeMore" | translate }}</p></a
+      >
+    </div>
+    <div>
+      <p class="subtitle">{{ "services.subtitle" | translate }}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 col-sm-6 col-12 mb-4" *ngFor="let item of cardData">
+      <app-service-card [cardData]="item"></app-service-card>
+    </div>
+  </div>
+</div>

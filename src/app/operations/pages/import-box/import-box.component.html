@@ -1,0 +1,89 @@
+
+@if (role == 'investors') {
+  <app-requests-submitted></app-requests-submitted>
+}
+@else{
+<app-subtitle>{{ "routingHeader.importBox" | translate }}</app-subtitle>
+
+<div class="row row-cols-md-3 mb-4">
+  <div class="col">
+    <nz-select
+      class="w-100"
+      nzShowSearch 
+      nzAllowClear
+      [nzPlaceHolder]="'customer.orderNumber' | translate"
+      (ngModelChange)="getPaymentDetails($event)"
+      [(ngModel)]="selectedRequest"
+    >
+      <nz-option
+        *ngFor="let item of dropDownList"
+        [nzLabel]="item + ''"
+        [nzValue]="item"
+      ></nz-option>
+    </nz-select>
+  </div>
+</div>
+
+<!-- @if(paymentArray?.length > 0){ -->
+  <div *ngFor="let card of paymentArray">
+    <!-- <app-notifications-card [card]="card"></app-notifications-card> -->
+    <div class="card shadow p-4 mb-3">
+      <div class="row justify-content-between align-items-start">
+        <div class="col-auto">
+          <div
+            *ngIf="card.request_expense"
+            class="d-flex flex-column align-items-center"
+          >
+            <!-- title -->
+            <h6 class="fw-bold">
+              {{ card.name || "-" }}
+            </h6>
+            <p class="grey mt-2">
+              <span>{{ "customer.orderNumber" | translate }}</span>
+              <span> {{ card.request_expense.request_num || "-" }}</span>
+            </p>
+            <button
+              class="btn gradient mx-auto px-4 my-3"
+              (click)="orderTracking()"
+            >
+              {{ "customer.orderTracking" | translate }}
+            </button>
+            <p class="mb-3 grey">{{ card.request_expense.created_at || "-" }}</p>
+          </div>
+        </div>
+        <div class="col-auto">
+          <a
+            class="link"
+            [routerLink]="
+              '/operations/approval/' + card.request_expense.request_num + '/request'
+            "
+            ><p class="fw-bold details">
+              {{ "customer.orderDetails" | translate }}
+            </p></a
+          >
+        </div>
+      </div>
+      <div *ngIf="card.request_expense && card.rdf_request_expense">
+        <h6 class="fw-bold">
+          تم دفع الرسوم / المصروفات والتي قيمتها(
+          {{ card.request_expense.total_expenses || 0 }} جنيه مصري ) مع رسوم
+          اضافية للمخلفات Rdf ({{ card.rdf_request_expense.rdf_total || 0 }} جنيه
+          مصري) لاكمال الإجراءات والحصول على الموافقة
+        </h6>
+        <p class="grey">
+          تم دفع الرسوم / المصروفات والتي قيمتها(
+          {{ card.request_expense.total_expenses || 0 }} جنيه مصري ) مع رسوم
+          اضافية للمخلفات Rdf ({{ card.rdf_request_expense.rdf_total || 0 }} جنيه
+          مصري) لاكمال الإجراءات والحصول على الموافقة
+        </p>
+      </div>
+    </div>
+  </div>
+<!-- } -->
+<!-- } @else {
+  <div class="text-center w-100 mt-5">
+    <i class="bi bi-exclamation-circle text-danger" style="font-size: 122px;" aria-hidden="true"></i>
+    <h6 class="fw-bold pt-4">{{ "customer.noData" | translate }}</h6>
+  </div>
+} -->
+}

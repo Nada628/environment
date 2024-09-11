@@ -1,0 +1,23 @@
+<div class="card shadow p-4">
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <h5 class="fw-bold">{{ "customer.notifications" | translate }}</h5>
+    </div>
+    <div class="col-auto link p-0">
+      <a
+        ><p class="fw-bold">{{ "customer.viewAll" | translate }}</p></a
+      >
+    </div>
+  </div>
+  <div>
+    <div class="text-start mb-3 mt-4">
+      <button class="new">{{ "customer.new" | translate }}</button>
+    </div>
+    <div *ngFor="let card of notificationCards">
+      <app-notifications-card
+        [requestId]="card.applicationNumber"
+        [card]="card"
+      ></app-notifications-card>
+    </div>
+  </div>
+</div>

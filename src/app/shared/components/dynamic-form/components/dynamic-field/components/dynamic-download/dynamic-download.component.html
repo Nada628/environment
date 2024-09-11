@@ -1,0 +1,22 @@
+<form [formGroup]="formName">
+  <input
+    [ngClass]="
+      formName.controls[field.fieldName].invalid &&
+      (formName.controls[field.fieldName].dirty ||
+        formName.controls[field.fieldName].touched)
+        ? 'error'
+        : ''
+    "
+    type="text"
+    [id]="field.id"
+    class="invisible"
+    [value]="field.label"
+    required
+  />
+  <input
+    class="btn btn-light w-100"
+    type="submit"
+    [value]="'admissionForm.download' | translate"
+    (click)="downloadURI()"
+  />
+</form>

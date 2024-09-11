@@ -1,0 +1,19 @@
+<div class="container">
+  <div [class]="currentLang == 'ar' ? 'text-start mb-2' : 'text-end mb-2'">
+    <app-btn
+      [displayNone]="true"
+      btnRadius="10"
+      additionalCss="gradient"
+      [btnText]="'admin.add'"
+      (onBtnClick)="addNewData()"
+      btnIcon="bi-plus"
+      color="var(--white-100)"
+      hoverColor="var(--white-100)"
+      background="var(--light-blue-100)"
+      hoverBackground="var(--white-100)"
+    ></app-btn>
+  </div>
+  <div>
+    <app-dynamic-table-wrapper></app-dynamic-table-wrapper>
+  </div>
+</div>

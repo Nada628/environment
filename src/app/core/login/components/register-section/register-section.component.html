@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="column text-center justify-content-center">
+    <div *ngIf="authService.loginSignal()">
+      <label class="col mt-2 control-label">{{
+        "login.companyListLabel" | translate
+      }}</label>
+      <div class="row justify-content-center">
+        <div class="col-auto mb-3 mt-3">
+          <app-select-dropdown
+            type="coal"
+            [items]="companiesList"
+            (selectedItem)="onSelectItem($event)"
+          ></app-select-dropdown>
+        </div>
+      </div>
+      <button
+        class="btn gradient-2 px-4 mt-2"
+        (click)="routeTo('/main/login/validateCompany')"
+      >
+        {{ "login.activateAccount" | translate }}
+      </button>
+      <div class="divider"></div>
+    </div>
+
+    @if (authService.loginSignal()) {
+    <!-- <label class="col mt-2 control-label">{{
+      "login.registerCompanyLabel" | translate
+    }}</label>
+    <button
+      class="btn gradient-2 px-5"
+      (click)="routeTo('/main/login/registerCompany')"
+    >
+      {{ "login.registerCompany" | translate }}
+    </button> -->
+    } @else {
+    <label class="col mt-2 control-label">{{
+      "login.registerCustomerLabel" | translate
+    }}</label>
+    <button
+      class="btn gradient-2 px-5"
+      (click)="routeTo('/main/login/registerCustomer')"
+    >
+      {{ "login.registerCustomer" | translate }}
+    </button>
+    }
+  </div>
+</div>

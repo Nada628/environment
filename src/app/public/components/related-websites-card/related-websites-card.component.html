@@ -1,0 +1,11 @@
+<div class="card p-3">
+  <h6 class="fw-bold">{{ card.title | translate }}</h6>
+  <p class="subtitle pt-1">
+    {{ card.description | translate }}
+  </p>
+  <a [href]="card.url"
+    ><p class="text-info pt-3">
+      {{ "relatedWebsites.goToWebsite" | translate }}
+    </p></a
+  >
+</div>

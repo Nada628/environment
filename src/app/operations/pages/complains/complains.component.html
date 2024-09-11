@@ -1,0 +1,63 @@
+<div class="container">
+  <app-subtitle>{{ "routingHeader.complains" | translate }}</app-subtitle>
+
+  <div class="row row-cols-md-3">
+    <div class="col">
+      <nz-select
+        class="w-100"
+        nzShowSearch
+        nzAllowClear
+        [nzPlaceHolder]="'customer.orderNumber' | translate"
+        [(ngModel)]="selectedRequest"
+      >
+        <nz-option
+          *ngFor="let item of dropDownList"
+          [nzLabel]="item + ''"
+          [nzValue]="item"
+        ></nz-option>
+      </nz-select>
+    </div>
+  </div>
+
+  <div class="row mt-4 g-4">
+    <div class="col-md-8">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-form-label>{{
+            "customer.AddYourComplaintAndItWillBeAnswered" | translate
+          }}</nz-form-label>
+          <textarea
+            nz-input
+            [(ngModel)]="complainText"
+            nzSize="large"
+            placeholder="{{
+              'customer.AddYourComplaintAndItWillBeAnswered' | translate
+            }}"
+          ></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div class="col-md-12 text-center">
+      <button class="btn gradient px-5" (click)="submitComplain()">
+        {{ "customer.submit" | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- responsesToPreviousInquiries -->
+  <div class="row g-3 mt-4 card">
+    <div class="col-md-12" *ngFor="let item of complainsAndReplies">
+      <h6>
+        <i class="bi bi-person-circle ms-1 align-middle"></i>
+        {{ item.complain }}
+      </h6>
+
+      <ul class="mt-3">
+        <li class="h6" *ngFor="let reply of item.reply">
+          {{ reply.reply }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

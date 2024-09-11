@@ -1,0 +1,23 @@
+<div *ngFor="let item of orderTrackingList; let i = index">
+  <div class="row align-items-start">
+    <div class="col-1 mt-1">
+      <div class="stepper d-flex flex-column align-items-center">
+        <i
+          [ngClass]="item.status ? 'active' : ''"
+          class="bi bi-check-circle-fill"
+        ></i>
+        <div
+          [ngClass]="item.status && i + 1 != activeItemsTotal ? 'active' : ''"
+          *ngIf="i !== orderTrackingList.length - 1"
+          class="vl"
+        ></div>
+      </div>
+    </div>
+    <div class="col-4 mt-1" [ngClass]="item.status ? 'active' : ''">
+      <div class="d-flex flex-column">
+        <button class="px-5">{{ item.name | translate }}</button>
+        <p class="mt-2 text-center">{{ item.date }}</p>
+      </div>
+    </div>
+  </div>
+</div>

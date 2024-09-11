@@ -1,0 +1,28 @@
+<form [formGroup]="formName">
+  <!-- <div [ngClass]="field.addButton ? 'row' : ''"> -->
+  <div class="row align-items-center">
+    <label
+      class="dynamicFormLabel d-flex justify-content-between mb-0 col-12"
+      tabindex="0"
+      [for]="field.id"
+    >
+      <div class="row">
+        <div [ngClass]="fileName ? 'col-10' : 'col-auto'">
+          {{ fileName || field.label | translate }}
+        </div>
+        <i
+          class="bi bi-paperclip"
+          [ngClass]="fileName ? 'col-1' : 'col-auto'"
+        ></i>
+      </div>
+    </label>
+    <input
+      type="file"
+      [id]="field.id"
+      class="invisible"
+      [placeholder]="field.label | translate"
+      (change)="onFileChange($event.target['files'], field.fieldName)"
+      multiple
+    />
+  </div>
+</form>

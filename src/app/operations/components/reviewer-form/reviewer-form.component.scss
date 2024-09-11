@@ -1,0 +1,12 @@
+.status {
+  border: 1px solid var(--grey-300);
+  color: var(--grey-300);
+  border-radius: 13px;
+}
+.active {
+  .status {
+    border: 1px solid var(--light-blue-50);
+    color: var(--light-blue-50);
+    border-radius: 13px;
+  }
+}

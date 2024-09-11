@@ -1,0 +1,22 @@
+<div class="card px-2 pb-1 mb-3">
+  <div class="row justify-content-between align-items-end">
+    <div class="col-4 pb-3">
+      <app-search-bar
+        class="w-100"
+        (sendingDataSource)="search($event)"
+        [placeHolder]="'customer.orderNumber'"
+      ></app-search-bar>
+    </div>
+    <div class="col-5">
+      <app-dynamic-form #date [model]="formModel"></app-dynamic-form>
+    </div>
+    <div class="col-2 pb-3">
+      <app-submit-button
+        [buttonName]="'common.filter'"
+        [class]="'filterButton'"
+        (submitData)="filter(date['dynamicFormGroup'].value)"
+        [i]="'bi-funnel'"
+      ></app-submit-button>
+    </div>
+  </div>
+</div>

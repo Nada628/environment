@@ -1,0 +1,13 @@
+.divider {
+  border-style: solid;
+  border-width: 0.01em;
+  border-color: #707070;
+  opacity: 0.3;
+}
+
+@media (max-width: 767px) {
+  .divider {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}

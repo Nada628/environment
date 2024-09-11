@@ -1,0 +1,41 @@
+<!-- <app-subtitle>{{ "routingHeader.form" | translate }}</app-subtitle> -->
+<div [ngClass]="hasCard ? 'card p-4' : ''">
+  <div class="row justify-content-between">
+    <!-- Invoice Data -->
+    <div class="col-auto">
+      <h6 class="fw-bold">{{ "customer.invoiceData" | translate }}</h6>
+    </div>
+    <div class="col-auto">
+      <app-add-button
+        [btnText]="'customer.addInvoice'"
+        (executeMethod)="onAddingInvoice()"
+      ></app-add-button>
+    </div>
+  </div>
+  <app-dynamic-form
+    [checkerForm]="isCheckerForm"
+    #invoiceDetails
+    [isReviewing]="isReviewing"
+    [model]="formModel"
+  ></app-dynamic-form> 
+  <!-- Total purchases -->
+  <app-dynamic-form
+    [checkerForm]="isCheckerForm"
+    #totalRdfForm
+    [model]="totalRdf"
+  ></app-dynamic-form>
+  <!-- Waste Percentage -->
+  <app-dynamic-form
+    [isInlineInput]="true"
+    #wastePercentage
+    [model]="wastePercentageFormModel"
+    [checkerForm]="isCheckerForm"
+  ></app-dynamic-form>
+</div>
+<!-- Digital sealing form -->
+<app-digital-sealing-form
+  *ngIf="!isCheckerForm && !isEditForm"
+  #digitalSealForm
+  [header]="'admissionForm.insertTheElectronicSeal' | translate"
+  [model]="digitalSealingModel"
+></app-digital-sealing-form>

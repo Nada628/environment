@@ -1,0 +1,32 @@
+<form [formGroup]="formGroup">
+  <h6 class="fw-bold my-4">{{ header | translate }}</h6>
+  <ul *ngFor="let field of fields" class="position-relative pb-3">
+    <div class="row">
+      <div class="col-8">
+        <li>
+          <p>{{ field.requiredDocument | translate }}</p>
+        </li>
+      </div>
+      <div class="col-4">
+        <div *ngIf="field.type === 'file'">
+          <app-document-attachement
+            [formName]="formGroup"
+            [field]="field"
+          ></app-document-attachement>
+
+          <app-dynamic-error
+            [formName]="formGroup"
+            [fieldName]="field['fieldName']"
+            [fieldLabel]="field['label']"
+          ></app-dynamic-error>
+        </div>
+        <div *ngIf="field.type === 'download'">
+          <app-dynamic-download
+            [formName]="formGroup"
+            [field]="field"
+          ></app-dynamic-download>
+        </div>
+      </div>
+    </div>
+  </ul>
+</form>

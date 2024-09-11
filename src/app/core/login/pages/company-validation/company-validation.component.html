@@ -1,0 +1,26 @@
+<section class="section">
+  <div class="container">
+    <app-subtitle>{{
+      "routingHeader.companyValidation" | translate
+    }}</app-subtitle>
+
+    <mat-horizontal-stepper>
+      <mat-step>
+        <div class="container">
+          <app-dynamic-form
+            #companyValidationForm
+            [model]="model"
+          ></app-dynamic-form>
+        </div>
+        <div class="custom-btn">
+          <button
+            class="col-2 btn gradient"
+            (click)="onSubmit(companyValidationForm['dynamicFormGroup'])"
+          >
+            {{ "admissionForm.next" | translate }}
+          </button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
+</section>

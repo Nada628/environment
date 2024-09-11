@@ -1,0 +1,7 @@
+@media print {
+    #sideMenu{display: none !important;}
+    nav{display:none !important;}
+    .site-header { 
+        display: none!important;
+       } 
+}

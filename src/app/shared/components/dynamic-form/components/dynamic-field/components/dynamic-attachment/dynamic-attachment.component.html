@@ -1,0 +1,27 @@
+<form [formGroup]="formName">
+  <label
+    class="input-group-text placeHolder d-flex justify-content-between mb-0"
+    tabindex="0"
+    [for]="field.id"
+  >
+    <div class="row">
+      <i class="bi bi-paperclip col-2"></i>
+      <div class="col-8">
+        <span>{{
+          fileName
+            ? "..." + fileName.substring(0, 10)
+            : (field.label | translate)
+        }}</span>
+      </div>
+    </div>
+  </label>
+  <input
+    type="file"
+    [id]="field.id"
+    class="invisible"
+    [ngClass]="field.border"
+    [placeholder]="field.label | translate"
+    (change)="onFileChange($event.target['files'], field.fieldName)"
+    multiple
+  />
+</form>

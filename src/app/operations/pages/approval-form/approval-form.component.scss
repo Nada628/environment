@@ -1,0 +1,32 @@
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    height: 25px;
+    margin: 5px;
+    &:focus {
+      outline: none;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+    }
+  }
+.mr-50{
+    margin-right: 40% !important;
+}
+
+h1,p,h2,h3,h4,span,label{
+    font-family: Tajawal-Medium
+}
+
+.data input{
+    margin: 0 !important;
+}
+.data div div{
+    margin-block: 10px;
+}
+
+h3{
+    margin-bottom: 2px;
+    font-weight: 600;
+}
+

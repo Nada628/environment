@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-md" id="sideMenu">
+  <div class="container" [dir]="currentLang === 'ar' ? 'rtl' : 'ltr'">
+    <!-- Navbar toggle button in small screens -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#navbarOffcanvasLg"
+      aria-controls="navbarOffcanvasLg"
+    >
+      <i class="bi bi-list"></i>
+    </button>
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="navbarOffcanvasLg"
+      aria-labelledby="navbarOffcanvasLgLabel"
+    >
+      <!-- Offcanvas Header -->
+      <div class="offcanvas-header row">
+        <div class="col-12 px-5 py-2 text-end">
+          <i
+            class="bi bi-x-lg"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></i>
+        </div>
+        <div class="col-12 px-2 py-5">
+          <app-logo></app-logo>
+        </div>
+      </div>
+      <!-- Navbar List -->
+      <div class="offcanvas-body">
+        <ul class="navbar-nav p-0">
+          <li class="nav-item position-relative" *ngFor="let item of menuItems.menuItems">
+            <!-- <div *ngIf="item.name == 'routingHeader.importBox'" class="position-absolute supp p-2 bg-red">
+              <sub >55</sub>
+            </div> -->
+            <a
+              class="nav-link"
+              [routerLink]="item.path"
+              [ngClass]="{ active: currentUrl === item.path }"
+              >{{ item.name | translate }}</a
+            >
+          </li>
+          <!-- <div *ngIf="item.name == 'routingHeader.importBox'" class="position-absolute supp p-2 bg-red">
+            <sub >55</sub>
+          </div> -->
+          <li class="nav-item position-relative" *ngIf="role == 'customer' && !activate && ifCompany">
+          <a
+              class="nav-link"
+              routerLink="/main/login/validateCompany"
+              [ngClass]="{ active: currentUrl === '/main/login/validateCompany'}"
+              >التفعيل</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- Search bar -->
+    <app-search-bar></app-search-bar>
+  </div>
+</nav>

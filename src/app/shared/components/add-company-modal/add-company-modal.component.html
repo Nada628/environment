@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>{{"common.add" | translate}} {{ data.field.label | translate }}</h1>
+<div mat-dialog-content>
+    <form class="w-100">
+        <mat-form-field class="w-100">
+          <mat-label>{{'common.name' | translate}} {{ data.field.label | translate }}</mat-label>
+          <input type="text" matInput [formControl]="companyNameControl" [errorStateMatcher]="matcher"
+                 placeholder="{{'common.name' | translate}} {{ data.field.label | translate }}">
+        </mat-form-field>
+      </form>
+      <div mat-dialog-actions class="justify-content-end gap-2">
+        <button mat-fab extended class="btn-danger" (click)="onCancel()">
+          <mat-icon>close</mat-icon>
+          {{ "common.cancel" | translate }}
+        </button>
+        <button mat-fab extended class="btn-success" (click)="onAddCompany()" cdkFocusInitial>
+          <mat-icon>add</mat-icon>
+          {{ "common.add" | translate }}
+        </button>
+      </div>
+</div>

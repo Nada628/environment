@@ -1,0 +1,28 @@
+<div class="d-flex flex-row">
+  <div *ngIf="isSubModel && checkerForm && index === 0" class="p-1 mt-1">
+    <app-dynamic-checker
+      [formName]="formName"
+      [fieldChecker]="mainField.checker"
+    ></app-dynamic-checker>
+  </div>
+  <div *ngIf="!isSubModel && checkerForm" class="p-1 mt-1">
+    <app-dynamic-checker
+      [formName]="formName"
+      [fieldChecker]="field.checker"
+    ></app-dynamic-checker>
+  </div>
+  <div class="p-1" *ngIf="mainField?.label">
+    <label
+      class="form-label"
+      [ngClass]="mainField.labelStyle ? mainField.labelStyle : 'boldFormLabel'"
+      >{{ mainField.label | translate }}</label
+    >
+  </div>
+  <div class="p-1" *ngIf="field.label">
+    <label
+      class="form-label"
+      [ngClass]="field.labelStyle ? field.labelStyle : 'boldFormLabel'"
+      >{{ field.label | translate }}</label
+    >
+  </div>
+</div>

@@ -1,0 +1,75 @@
+<section *ngIf="mainModel != undefined">
+  <app-subtitle>{{ "routingHeader.form" | translate }}</app-subtitle>
+  <div class="container">
+    <!-- Title -->
+    <div class="title">
+      <h5 class="text-center py-5">{{ "admissionForm.title" | translate }}</h5>
+    </div>
+    <!-- Print Button -->
+    <div class="row justify-content-end pb-3">
+      <div class="col-auto">
+        <button class="btn gradient px-5">
+          {{ "admissionForm.print" | translate }}
+        </button>
+      </div>
+    </div>
+    <!-- Form -->
+    <app-dynamic-form
+      #cardForm
+      [model]="mainModel"
+      [checkerForm]="formType == 'view-only' && userRole != 'customer'"
+      [class]="'card p-3'"
+      [isDisabled]="false"
+    ></app-dynamic-form>
+    <!-- Documents -->
+    <app-attached-documents
+      *ngIf="auth.appUser.sub.administrativeId != 11"
+      #documentForm
+      [header]="'admissionForm.provideUsWithTheFollowingDocuments'"
+      [checkerForm]="formType == 'view-only' && userRole != 'customer'"
+      [model]="documentModel"
+    ></app-attached-documents>
+    <!-- Case Document -->
+    <app-attached-documents
+      #caseForm
+      [case]="case"
+      [header]="'admissionForm.unloadingOnTheHook'"
+      [checkerForm]="formType == 'view-only' && userRole != 'customer'"
+      [model]="caseModel"
+    ></app-attached-documents>
+    <!-- Digital Seal -->
+
+    <app-digital-sealing-form
+      *ngIf="formType != 'check' || 'view-only'"
+      #digitalSealingForm
+      [header]="'admissionForm.insertTheElectronicSeal' | translate"
+      [model]="digitalSealingModel"
+    ></app-digital-sealing-form>
+
+    <!-- Form Submition -->
+    <div class="text-center mt-5"></div>
+    <!-- If reviweing rdf form with customer request form -->
+    <!-- <app-rdf-form
+      #rdfForm
+      [isReviewing]="true"
+      [isEditForm]="formType == 'edit' && formType != 'check'"
+      [isCheckerForm]="true"
+      *ngIf="pendingRdf"
+      ></app-rdf-form> -->
+
+    <!-- If reviweing rdf form with customer request form -->
+    <app-reviewer-form
+      *ngIf="formType == 'view-only'"
+      #reviewerForm
+      [statusNote]="statusNote"
+      [statusNoteLabel]="'customer.addNotesForCoalUnit'"
+      [mainNote]="mainNote"
+      [reviewer]="auth.user.sub['name']"
+      [reviewersList]="reviewersList"
+      [statusArr]="statusArr"
+      [requestId]="requestId"
+      [customerRequest]="customerRequestData"
+      (formCommentEmitter)="addcomment($event)"
+    ></app-reviewer-form>
+  </div>
+</section>

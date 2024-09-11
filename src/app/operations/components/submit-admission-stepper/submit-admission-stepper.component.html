@@ -1,0 +1,2792 @@
+<div *ngIf="!isCompanyActivated && role == 'customer'" class="overlay">
+  <div class="overlay-content">
+    @if(!companyStatus?.if_company){
+    <h6 class="mb-4">
+      {{ "customer.cannotRequestWithoutBuilding" | translate }}
+    </h6>
+    <button
+      routerLink="/main/login/registerCompany"
+      class="btn btn-danger btn-sm px-5"
+    >
+      {{ "customer.registerCompany" | translate }}
+    </button>
+    }@else {
+    <h6 class="mb-4">
+      {{ "customer.cannotRequestWithoutActivation" | translate }}
+    </h6>
+    <button
+      routerLink="/main/login/validateCompany"
+      class="btn btn-danger btn-sm px-5"
+    >
+      {{ "customer.activate" | translate }}
+    </button>
+    }
+  </div>
+</div>
+
+<section >
+  <app-subtitle>{{ "routingHeader.form" | translate }}</app-subtitle>
+
+  <div class="container">
+    <div class="title">
+      <h5 class="text-center py-5">{{ "admissionForm.title" | translate }}</h5>
+    </div>
+
+    <!-- Print Button -->
+    <div class="row justify-content-end">
+      <div class="col-auto p-0">
+        <button class="btn gradient px-5">
+          {{ "admissionForm.print" | translate }}
+        </button>
+      </div>
+    </div>
+
+    <nz-form [formGroup]="CustomerRequestForm" (ngSubmit)="onSubmit()">
+      <div class="row g-3 p-3 border border-1 rounded-2 mt-3">
+        <div class="col-md-6">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="' المنشأة مطلوب'">
+              <div class="d-flex">
+                <div *ngIf="role != 'customer'">
+                  <input
+                    formControlName="company_id_checker"
+                    id="company_id_checker"
+                    class="form-check-input"
+                    type="checkbox"
+                  />
+                </div>
+                <nz-form-label
+                  [nzRequired]="CustomerRequestForm | isRequired : 'company_id'"
+                  for="company_id"
+                >
+                  {{ "admissionForm.company" | translate }}
+                </nz-form-label>
+              </div>
+              <nz-select
+              [nzDisabled]="true"
+                nzSize="default"
+                formControlName="company_id"
+                nzAllowClear
+                nzShowSearch
+                nzPlaceHolder="{{ 'admissionForm.company' | translate }}"
+                [nzLoading]="gettingCompanies"
+                >
+                <nz-option
+                  [nzLabel]="ownerCompanies"
+                  [nzValue]="'1'"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-6">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'جهه المنشأة مطلوبة'">
+              <div class="d-flex">
+                <div *ngIf="role != 'customer'">
+                  <input
+                    formControlName="country_id_checker"
+                    id="country_id_checker"
+                    class="form-check-input"
+                    type="checkbox"
+                  />
+                </div>
+                <nz-form-label
+                  [nzRequired]="CustomerRequestForm | isRequired : 'country_id'"
+                  for="country_id"
+                >
+                  {{ "admissionForm.DestinationOfOrigin" | translate }}
+                </nz-form-label>
+              </div>
+              <nz-select
+                [nzDisabled]="role != 'customer'"
+                nzSize="default"
+                formControlName="country_id"
+                nzAllowClear
+                nzShowSearch
+                nzPlaceHolder="{{
+                  'admissionForm.DestinationOfOrigin' | translate
+                }}"
+                [nzLoading]="gettingCountry"
+              >
+                <nz-option
+                  *ngFor="let option of countries"
+                  [nzLabel]="option.name"
+                  [nzValue]="option.id"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!-- ==================== -->
+
+        <div class="col-md-6">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'الميناء الوارد منها الشحنة مطلوب'">
+              <div class="d-flex">
+                <div *ngIf="role != 'customer'">
+                  <input
+                    formControlName="incoming_harbor_id_checker"
+                    id="incoming_harbor_id_checker"
+                    class="form-check-input"
+                    type="checkbox"
+                  />
+                </div>
+                <nz-form-label
+                  [nzRequired]="
+                    CustomerRequestForm | isRequired : 'incoming_harbor_id'
+                  "
+                  for="incoming_harbor_id"
+                  >{{
+                    "admissionForm.portShipmentReceived" | translate
+                  }}</nz-form-label
+                >
+              </div>
+              <input
+                nz-input
+                nzSize="large"
+                formControlName="incoming_harbor_id"
+                placeholder="{{
+                  'admissionForm.portShipmentReceived' | translate
+                }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-6">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'تاريخ الشحنة مطلوب'">
+              <div class="d-flex">
+                <div *ngIf="role != 'customer'">
+                  <input
+                    formControlName="Shipment_date_checker"
+                    id="Shipment_date_checker"
+                    class="form-check-input"
+                    type="checkbox"
+                  />
+                </div>
+                <nz-form-label
+                  [nzRequired]="
+                    CustomerRequestForm | isRequired : 'Shipment_date'
+                  "
+                  for="Shipment_date"
+                  >{{
+                    "admissionForm.dateOfShipment" | translate
+                  }}</nz-form-label
+                >
+              </div>
+              <input
+                nz-input
+                nzSize="large"
+                type="date"
+                formControlName="Shipment_date"
+                placeholder="{{ 'admissionForm.dateOfShipment' | translate }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- ==================== -->
+
+        <div class="col-md-4">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'ميناء الوصول مطلوب'">
+              <div class="d-flex">
+                <div *ngIf="role != 'customer'">
+                  <input
+                    formControlName="arrival_harbor_id_checker"
+                    id="arrival_harbor_id_checker"
+                    class="form-check-input"
+                    type="checkbox"
+                  />
+                </div>
+                <nz-form-label
+                  [nzRequired]="
+                    CustomerRequestForm | isRequired : 'arrival_harbor_id'
+                  "
+                  for="arrival_harbor_id"
+                  >{{ "admissionForm.portAccess" | translate }}</nz-form-label
+                >
+              </div>
+              <nz-select
+                [nzDisabled]="role != 'customer'"
+                nzSize="default"
+                formControlName="arrival_harbor_id"
+                nzAllowClear
+                nzShowSearch
+                nzPlaceHolder="{{ 'admissionForm.portAccess' | translate }}"
+                [nzLoading]="gettingHarbor"
+              >
+                <nz-option
+                  *ngFor="let option of harborArr"
+                  [nzLabel]="option.name"
+                  [nzValue]="option.id"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-4">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'اسم الباخرة مطلوب'">
+              <div class="d-flex">
+                <div *ngIf="role != 'customer'">
+                  <input
+                    formControlName="ship_name_checker"
+                    id="ship_name_checker"
+                    class="form-check-input"
+                    type="checkbox"
+                  />
+                </div>
+                <nz-form-label
+                  [nzRequired]="CustomerRequestForm | isRequired : 'ship_name'"
+                  for="ship_name"
+                  >{{ "admissionForm.shipName" | translate }}</nz-form-label
+                >
+              </div>
+              <input
+                nz-input
+                nzSize="large"
+                formControlName="ship_name"
+                placeholder="{{ 'admissionForm.shipName' | translate }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-4">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'تاريخ الوصول للميناء مطلوب'">
+              <div class="d-flex">
+                <div *ngIf="role != 'customer'">
+                  <input
+                    formControlName="arrival_date_checker"
+                    id="arrival_date_checker"
+                    class="form-check-input"
+                    type="checkbox"
+                  />
+                </div>
+                <nz-form-label
+                  [nzRequired]="
+                    CustomerRequestForm | isRequired : 'arrival_date'
+                  "
+                  for="arrival_date"
+                  >{{
+                    "admissionForm.dateOfArrivalAtPort" | translate
+                  }}</nz-form-label
+                >
+              </div>
+              <input
+                nz-input
+                nzSize="large"
+                type="date"
+                formControlName="arrival_date"
+                placeholder="{{
+                  'admissionForm.dateOfArrivalAtPort' | translate
+                }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- =================== -->
+
+        <div class="col-md-4">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'اجمالي وزن الشحنة مطلوب'">
+              <div class="d-flex">
+                <div *ngIf="role != 'customer'">
+                  <input
+                    formControlName="total_weight_ton_checker"
+                    id="total_weight_ton_checker"
+                    class="form-check-input"
+                    type="checkbox"
+                  />
+                </div>
+                <nz-form-label
+                  [nzRequired]="
+                    CustomerRequestForm | isRequired : 'total_weight_ton'
+                  "
+                  for="total_weight_ton"
+                >
+                  {{ "admissionForm.totalShipmentWeight" | translate }}
+                </nz-form-label>
+              </div>
+              <input
+                nz-input
+                type="number"
+                nzSize="large"
+                formControlName="total_weight_ton"
+                placeholder="{{
+                  'admissionForm.totalShipmentWeight' | translate
+                }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="d-flex col-md-8 p-0">
+          <div class="col-md-3">
+            <nz-form-item class="mb-0">
+              <nz-form-control [nzErrorTip]="'سعر الطن مطلوب'">
+                <div class="d-flex">
+                  <div *ngIf="role != 'customer'">
+                    <input
+                      formControlName="ton_price_num_checker"
+                      id="ton_price_num_checker"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                  </div>
+                  <nz-form-label
+                    [nzRequired]="
+                      CustomerRequestForm | isRequired : 'ton_price_num'
+                    "
+                    for="ton_price_num"
+                    >{{
+                      "admissionForm.tonPriceByNumbers" | translate
+                    }}</nz-form-label
+                  >
+                </div>
+                <input
+                  nz-input
+                  type="number"
+                  nzSize="large"
+                  formControlName="ton_price_num"
+                  placeholder="{{
+                    'admissionForm.tonPriceByNumbers' | translate
+                  }}"
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="col-md-3">
+            <nz-form-item class="mb-0">
+              <nz-form-control [nzErrorTip]="'سعر الطن مطلوب'">
+                <div class="d-flex">
+                  <div *ngIf="role != 'customer'">
+                    <input
+                      formControlName="ton_price_char_checker"
+                      id="ton_price_char_checker"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                  </div>
+                  <nz-form-label
+                    [nzRequired]="
+                      CustomerRequestForm | isRequired : 'ton_price_char'
+                    "
+                    for="ton_price_char"
+                    >{{
+                      "admissionForm.tonPriceByWords" | translate
+                    }}</nz-form-label
+                  >
+                </div>
+                <input
+                  nz-input
+                  nzSize="large"
+                  formControlName="ton_price_char"
+                  placeholder="{{
+                    'admissionForm.tonPriceByWords' | translate
+                  }}"
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="col-md-3">
+            <nz-form-item class="mb-0">
+              <nz-form-control [nzErrorTip]="' العملة مطلوب'">
+                <div class="d-flex">
+                  <div *ngIf="role != 'customer'">
+                    <input
+                      formControlName="currency_id_checker"
+                      id="currency_id_checker"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                  </div>
+                  <nz-form-label
+                    [nzRequired]="
+                      CustomerRequestForm | isRequired : 'currency_id'
+                    "
+                    for="currency_id"
+                  >
+                    {{ "admissionForm.currency" | translate }}
+                  </nz-form-label>
+                </div>
+                <nz-select
+                  [nzDisabled]="role != 'customer'"
+                  nzSize="default"
+                  formControlName="currency_id"
+                  nzAllowClear
+                  nzShowSearch
+                  nzPlaceHolder="{{ 'admissionForm.currency' | translate }}"
+                  [nzLoading]="gettingCurrency"
+                >
+                  <nz-option
+                    *ngFor="let option of currency"
+                    [nzLabel]="option.name"
+                    [nzValue]="option.id"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="col-md-3">
+            <nz-form-item class="mb-0">
+              <nz-form-control [nzErrorTip]="'فاتورة الشراء مطلوبة'">
+                <div class="d-flex">
+                  <div *ngIf="role != 'customer'">
+                    <input
+                      formControlName="invoice_file_checker"
+                      id="invoice_file_checker"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                  </div>
+                  <nz-form-label
+                    [nzRequired]="
+                      CustomerRequestForm | isRequired : 'invoice_file'
+                    "
+                    for="invoice_file"
+                    >{{
+                      "admissionForm.attachInvoice" | translate
+                    }}</nz-form-label
+                  >
+                </div>
+                @if(!requestId){
+                <label
+                  class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                  tabindex="0"
+                  for="invoice_file"
+                >
+                  <div class="row">
+                    <i class="bi bi-paperclip col-2"></i>
+                    <div class="col-8">
+                      <span>{{
+                        invoiceFileName
+                          ? "..." + invoiceFileName.substring(0, 10)
+                          : ("admissionForm.attachInvoice" | translate)
+                      }}</span>
+                    </div>
+                  </div>
+                </label>
+                <input
+                  type="file"
+                  id="invoice_file"
+                  class="d-none"
+                  placeholder="{{ 'admissionForm.attach' | translate }}"
+                  (change)="onSelectInvoiceFile($event.target['files'])"
+                  multiple
+                />
+                } @else {
+                <div class="w-100">
+                  <a
+                    *ngIf="customerRequestData?.invoice_file"
+                    [href]="url + customerRequestData?.invoice_file"
+                    target="_blank"
+                    download
+                    class="btn btn-primary w-100"
+                  >
+                    <i class="bi bi-download ms-2"></i>
+                    {{ "admissionForm.downloadInvoice" | translate }}
+                  </a>
+                  <span *ngIf="!customerRequestData?.invoice_file">
+                    {{ "admissionForm.noInvoiceAvailable" | translate }}
+                  </span>
+                </div>
+                }
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <!-- =================== -->
+        <div class="col-md-4">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'نوع الفحم مطلوب'">
+              <div class="d-flex">
+                <div *ngIf="role != 'customer'">
+                  <input
+                    formControlName="coal_id_checker"
+                    id="coal_id_checker"
+                    class="form-check-input"
+                    type="checkbox"
+                  />
+                </div>
+                <nz-form-label
+                  [nzRequired]="CustomerRequestForm | isRequired : 'coal_id'"
+                  for="coal_id"
+                  >{{ "admissionForm.coalType" | translate }}</nz-form-label
+                >
+              </div>
+              <nz-select
+                [nzDisabled]="role != 'customer'"
+                nzSize="default"
+                formControlName="coal_id"
+                nzAllowClear
+                nzShowSearch
+                nzPlaceHolder="{{ 'admissionForm.coalType' | translate }}"
+                [nzLoading]="gettingCoal"
+              >
+                <nz-option
+                  *ngFor="let option of coalArr"
+                  [nzLabel]="option.name"
+                  [nzValue]="option.id"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="d-flex col-md-8 p-0">
+          <div class="col-md-4">
+            <nz-form-item class="mb-0">
+              <nz-form-control [nzErrorTip]="'إجمالي السعر مطلوب'">
+                <div class="d-flex">
+                  <div *ngIf="role != 'customer'">
+                    <input
+                      formControlName="coal_price_num_checker"
+                      id="coal_price_num_checker"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                  </div>
+                  <nz-form-label
+                    [nzRequired]="
+                      CustomerRequestForm | isRequired : 'coal_price_num'
+                    "
+                    for="coal_price_num"
+                    >{{
+                      "admissionForm.TotalPriceNumber" | translate
+                    }}</nz-form-label
+                  >
+                </div>
+                <input
+                  nz-input
+                  type="number"
+                  nzSize="large"
+                  formControlName="coal_price_num"
+                  placeholder="{{
+                    'admissionForm.TotalPriceNumber' | translate
+                  }}"
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="col-md-4">
+            <nz-form-item class="mb-0">
+              <nz-form-control [nzErrorTip]="'اجمالى السعر مطلوب'">
+                <div class="d-flex">
+                  <div *ngIf="role != 'customer'">
+                    <input
+                      formControlName="coal_price_char_checker"
+                      id="coal_price_char_checker"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                  </div>
+                  <nz-form-label
+                    [nzRequired]="
+                      CustomerRequestForm | isRequired : 'coal_price_char'
+                    "
+                    for="coal_price_char"
+                    >{{
+                      "admissionForm.TotalPriceWords" | translate
+                    }}</nz-form-label
+                  >
+                </div>
+                <input
+                  nz-input
+                  nzSize="large"
+                  formControlName="coal_price_char"
+                  placeholder="{{
+                    'admissionForm.TotalPriceWords' | translate
+                  }}"
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="col-md-4">
+            <nz-form-item class="mb-0">
+              <nz-form-control [nzErrorTip]="' العملة مطلوب'">
+                <div class="d-flex">
+                  <div *ngIf="role != 'customer'">
+                    <input
+                      formControlName="ton_currency_id_checker"
+                      id="ton_currency_id_checker"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                  </div>
+                  <nz-form-label
+                    [nzRequired]="
+                      CustomerRequestForm | isRequired : 'ton_currency_id'
+                    "
+                    for="ton_currency_id"
+                  >
+                    {{ "admissionForm.currency" | translate }}
+                  </nz-form-label>
+                </div>
+                <nz-select
+                  [nzDisabled]="role != 'customer'"
+                  nzSize="default"
+                  formControlName="ton_currency_id"
+                  nzAllowClear
+                  nzShowSearch
+                  nzPlaceHolder="{{ 'admissionForm.currency' | translate }}"
+                  [nzLoading]="gettingCurrency"
+                >
+                  <nz-option
+                    *ngFor="let option of currency"
+                    [nzLabel]="option.name"
+                    [nzValue]="option.id"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <!-- ======================= -->
+
+        <div class="col-md-6">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="' المنشأة الموردة للفحم مطلوب'">
+              <div class="d-flex">
+                <div *ngIf="role != 'customer'">
+                  <input
+                    formControlName="import_coal_company_id_checker"
+                    id="import_coal_company_id_checker"
+                    class="form-check-input"
+                    type="checkbox"
+                  />
+                </div>
+                <nz-form-label
+                  [nzRequired]="
+                    CustomerRequestForm | isRequired : 'import_coal_company_id'
+                  "
+                  for="import_coal_company_id"
+                >
+                  {{ "admissionForm.coalSupplyingCompany" | translate }}
+                </nz-form-label>
+              </div>
+              <input
+                nz-input
+                type="text"
+                nzSize="large"
+                formControlName="import_coal_company_id"
+                placeholder="{{
+                  'admissionForm.coalSupplyingCompany' | translate
+                }}"
+              />
+              <!-- <nz-select
+                [nzDisabled]="role != 'customer'"
+                nzSize="default"
+                formControlName="import_coal_company_id"
+                nzAllowClear
+                nzShowSearch
+                nzPlaceHolder="{{
+                  'admissionForm.coalSupplyingCompany' | translate
+                }}"
+                [nzLoading]="gettingImportCoal"
+              >
+                <nz-option
+                  *ngFor="let option of importCoalCompanies"
+                  [nzLabel]="option.name"
+                  [nzValue]="option.id"
+                ></nz-option>
+              </nz-select> -->
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-6">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="' طريقة التفريغ مطلوبة'">
+              <div class="d-flex">
+                <div *ngIf="role != 'customer'">
+                  <input
+                    formControlName="unload_type_id_checker"
+                    id="unload_type_id_checker"
+                    class="form-check-input"
+                    type="checkbox"
+                  />
+                </div>
+                <nz-form-label
+                  [nzRequired]="
+                    CustomerRequestForm | isRequired : 'unload_type_id'
+                  "
+                  for="unload_type_id"
+                >
+                  {{ "admissionForm.unloadingMethod" | translate }}
+                </nz-form-label>
+              </div>
+              <nz-select
+                [nzDisabled]="role != 'customer'"
+                nzSize="default"
+                formControlName="unload_type_id"
+                nzAllowClear
+                nzShowSearch
+                (ngModelChange)="onUnloadTypeChange($event)"
+                nzPlaceHolder="{{
+                  'admissionForm.unloadingMethod' | translate
+                }}"
+                [nzLoading]="gettingUnloadType"
+              >
+                <nz-option
+                  *ngFor="let option of unloadType"
+                  [nzLabel]="option.name"
+                  [nzValue]="option.id"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- ================== -->
+
+        <div class="col-md-12">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'مراحل تداول الشحنة مطلوب'">
+              <div class="d-flex">
+                <div *ngIf="role != 'customer'">
+                  <input
+                    formControlName="transfer_steps_checker"
+                    id="transfer_steps_checker"
+                    class="form-check-input"
+                    type="checkbox"
+                  />
+                </div>
+                <nz-form-label
+                  [nzRequired]="
+                    CustomerRequestForm | isRequired : 'transfer_steps'
+                  "
+                  for="transfer_steps"
+                >
+                  {{ "admissionForm.shipmentHandlingStages" | translate }}
+                </nz-form-label>
+              </div>
+              <input
+                nz-input
+                nzSize="large"
+                formControlName="transfer_steps"
+                placeholder="{{
+                  'admissionForm.shipmentHandlingStages' | translate
+                }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <!-- ================== -->
+
+        <!-- iunload_company_data FormArray -->
+        <div class="d-flex col-12 p-0">
+          <div
+            class="d-flex align-items-end flex-wrap col-12 p-0"
+            formArrayName="iunload_company_data"
+          >
+            <div
+              *ngFor="
+                let approval of iunloadCompaniesData.controls;
+                let i = index
+              "
+              [formGroupName]="i"
+              class="d-flex align-items-end col-10 p-0"
+            >
+              <div class="col-md-7">
+                <nz-form-item class="mb-0">
+                  <nz-form-control
+                    [nzErrorTip]="'المنشأة القائمة بأعمال التفريغ مطلوبة'"
+                  >
+                    <div class="d-flex">
+                      <div *ngIf="role != 'customer'">
+                        <input
+                          formControlName="iunload_company_id_checker"
+                          id="iunload_company_id_checker"
+                          class="form-check-input"
+                          type="checkbox"
+                        />
+                      </div>
+                      <nz-form-label
+                        [nzRequired]="
+                          CustomerRequestForm
+                            | isRequired : 'iunload_company_id'
+                        "
+                        for="iunload_company_id"
+                        >{{
+                          "admissionForm.UNLOAD_ACCEPT_PAPER" | translate
+                        }}</nz-form-label
+                      >
+                    </div>
+                    <nz-select
+                      [nzDisabled]="edit"
+                      nzSize="default"
+                      formControlName="iunload_company_id"
+                      nzAllowClear
+                      nzShowSearch
+                      nzPlaceHolder="{{
+                        'admissionForm.UNLOAD_ACCEPT_PAPER' | translate
+                      }}"
+                      [nzLoading]="gettingUnload"
+                      (ngModelChange)="
+                        onCompanyChange($event, 'iunload_company_id')
+                      "
+                    >
+                      <nz-option
+                        *ngFor="let option of unloadCompanies"
+                        [nzLabel]="option.name"
+                        [nzValue]="option.id"
+                      ></nz-option>
+                      <nz-option
+                        nzLabel="إضافة +"
+                        nzValue="addCompany"
+                      ></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="col-md-4">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'الموافقة مطلوبة'">
+                    <div class="d-flex">
+                      <div *ngIf="role != 'customer'">
+                        <input
+                          formControlName="unload_company_approval_file_checker"
+                          id="unload_company_approval_file_checker"
+                          class="form-check-input"
+                          type="checkbox"
+                        />
+                      </div>
+                      <nz-form-label
+                        [nzRequired]="
+                          CustomerRequestForm
+                            | isRequired : 'unload_company_approval_file'
+                        "
+                        for="unload_company_approval_file"
+                        >{{
+                          "admissionForm.companyAcceptance" | translate
+                        }}</nz-form-label
+                      >
+                    </div>
+                    @if(!requestId){
+                    <label
+                      class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                      tabindex="0"
+                      [for]="'unload_company_approval_file' + i"
+                    >
+                      <div class="row">
+                        <i class="bi bi-paperclip col-2"></i>
+                        <div class="col-8">
+                          <span>{{
+                            approval?.value?.unload_company_approval_file?.name
+                              ? "..." +
+                                approval?.value?.unload_company_approval_file?.name.substring(
+                                  0,
+                                  10
+                                )
+                              : ("admissionForm.companyAcceptance" | translate)
+                          }}</span>
+                        </div>
+                      </div>
+                    </label>
+                    <input
+                      type="file"
+                      [id]="'unload_company_approval_file' + i"
+                      class="d-none"
+                      placeholder="{{
+                        'admissionForm.UNLOAD_ACCEPT_PAPER' | translate
+                      }}"
+                      (change)="
+                        onSelectIunloadCompaniesFile(
+                          $event.target['files'],
+                          approval.controls.unload_company_approval_file
+                        )
+                      "
+                    />
+                    } @else {
+                    <div class="w-100">
+                      <a
+                        *ngIf="approval?.value?.unload_company_approval_file"
+                        [href]="
+                          url + approval?.value?.unload_company_approval_file
+                        "
+                        target="_blank"
+                        download
+                        class="btn btn-primary w-100"
+                      >
+                        <i class="bi bi-download ms-2"></i>
+                        {{ "admissionForm.downloadInvoice" | translate }}
+                      </a>
+                      <span
+                        *ngIf="!approval?.value?.unload_company_approval_file"
+                      >
+                        {{ "admissionForm.noInvoiceAvailable" | translate }}
+                      </span>
+                    </div>
+                    }
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div
+                [ngClass]="{ 'd-none': role != 'customer' }"
+                class="col-md-1"
+              >
+                <button
+                  class="btn btn-outline-danger btn-sm"
+                  (click)="removeIunloadCompaniesFile(i)"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div [ngClass]="{ 'd-none': role != 'customer' }" class="col-md-2">
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                (click)="addIunloadCompaniesFile()"
+              >
+                {{ "common.add" | translate }}
+                <i class="bi bi-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- iunload_company_data FormArray -->
+        <!-- ================== -->
+
+        <!-- ================== -->
+
+        <!-- transport_company_data FormArray -->
+        <div class="d-flex col-12 p-0">
+          <div
+            class="d-flex align-items-end flex-wrap col-12 p-0"
+            formArrayName="transport_company_data"
+          >
+            <div
+              *ngFor="
+                let approval of transportCompaniesData.controls;
+                let i = index
+              "
+              [formGroupName]="i"
+              class="d-flex align-items-end col-10 p-0"
+            >
+              <div class="col-md-7">
+                <nz-form-item class="mb-0">
+                  <nz-form-control
+                    [nzErrorTip]="'المنشأة القائمة بأعمال النقل مطلوبة'"
+                  >
+                    <div class="d-flex">
+                      <div *ngIf="role != 'customer'">
+                        <input
+                          formControlName="transport_company_id_checker"
+                          id="transport_company_id_checker"
+                          class="form-check-input"
+                          type="checkbox"
+                        />
+                      </div>
+                      <nz-form-label
+                        [nzRequired]="
+                          CustomerRequestForm
+                            | isRequired : 'transport_company_id'
+                        "
+                        for="transport_company_id"
+                        >{{
+                          "admissionForm.TRANSPORT_ACCEPT_PAPER" | translate
+                        }}</nz-form-label
+                      >
+                    </div>
+                    <nz-select
+                    [nzDisabled]="edit"
+                      nzSize="default"
+                      formControlName="transport_company_id"
+                      nzAllowClear
+                      nzShowSearch
+                      nzPlaceHolder="{{
+                        'admissionForm.TRANSPORT_ACCEPT_PAPER' | translate
+                      }}"
+                      [nzLoading]="gettingTransport"
+                      (ngModelChange)="
+                        onCompanyChange($event, 'transport_company_id')
+                      "
+                    >
+                      <nz-option
+                        *ngFor="let option of transportCompanies"
+                        [nzLabel]="option.name"
+                        [nzValue]="option.id"
+                      ></nz-option>
+                      <nz-option
+                        nzLabel="إضافة+"
+                        nzValue="addCompany"
+                      ></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="col-md-4">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'الموافقة مطلوبة'">
+                    <div class="d-flex">
+                      <div *ngIf="role != 'customer'">
+                        <input
+                          formControlName="transport_company_approval_file_checker"
+                          id="transport_company_approval_file_checker"
+                          class="form-check-input"
+                          type="checkbox"
+                        />
+                      </div>
+                      <nz-form-label
+                        [nzRequired]="
+                          CustomerRequestForm
+                            | isRequired : 'transport_company_approval_file'
+                        "
+                        for="transport_company_approval_file"
+                        >{{
+                          "admissionForm.companyAcceptance" | translate
+                        }}</nz-form-label
+                      >
+                    </div>
+                    @if(!requestId){
+
+                    <label
+                      class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                      tabindex="0"
+                      [for]="'transport_company_approval_file' + i"
+                    >
+                      <div class="row">
+                        <i class="bi bi-paperclip col-2"></i>
+                        <div class="col-8">
+                          <span>{{
+                            approval?.value?.transport_company_approval_file
+                              ?.name
+                              ? "..." +
+                                approval?.value?.transport_company_approval_file?.name.substring(
+                                  0,
+                                  10
+                                )
+                              : ("admissionForm.companyAcceptance" | translate)
+                          }}</span>
+                        </div>
+                      </div>
+                    </label>
+                    <input
+                      type="file"
+                      [id]="'transport_company_approval_file' + i"
+                      class="d-none"
+                      placeholder="{{
+                        'admissionForm.UNLOAD_ACCEPT_PAPER' | translate
+                      }}"
+                      (change)="
+                        onSelectTransportCompaniesFile(
+                          $event.target['files'],
+                          approval.controls.transport_company_approval_file
+                        )
+                      "
+                      multiple
+                    />
+                    }@else{
+                    <div class="w-100">
+                      <a
+                        *ngIf="approval?.value?.transport_company_approval_file"
+                        [href]="
+                          url + approval?.value?.transport_company_approval_file
+                        "
+                        target="_blank"
+                        download
+                        class="btn btn-primary w-100"
+                      >
+                        <i class="bi bi-download ms-2"></i>
+                        {{ "admissionForm.downloadInvoice" | translate }}
+                      </a>
+                      <span
+                        *ngIf="
+                          !approval?.value?.transport_company_approval_file
+                        "
+                      >
+                        {{ "admissionForm.noInvoiceAvailable" | translate }}
+                      </span>
+                    </div>
+                    }
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <!-- <div class="col-md-3">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'رقم الموافقة البيئية مطلوب'">
+                    <nz-form-label
+                      [nzRequired]="
+                        CustomerRequestForm
+                          | isRequired : 'transport_approval_num'
+                      "
+                      for="transport_approval_num"
+                      >{{
+                        "admissionForm.companyEnvironmentalApprovalNumber"
+                          | translate
+                      }}</nz-form-label
+                    >
+                    <input
+                      nz-input
+                      type="number"
+                      nzSize="large"
+                      formControlName="transport_approval_num"
+                      placeholder="{{
+                        'admissionForm.companyEnvironmentalApprovalNumber'
+                          | translate
+                      }}"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="col-md-2">
+                <nz-form-item class="mb-0">
+                  <nz-form-control
+                    [nzErrorTip]="'تاريخ الموافقة البيئية مطلوب'"
+                  >
+                    <nz-form-label
+                      [nzRequired]="
+                        CustomerRequestForm
+                          | isRequired : 'transport_approval_date'
+                      "
+                      for="transport_approval_date"
+                      >{{
+                        "admissionForm.acceptanceData" | translate
+                      }}</nz-form-label
+                    >
+                    <input
+                      nz-input
+                      type="date"
+                      nzSize="large"
+                      formControlName="transport_approval_date"
+                      placeholder="{{
+                        'admissionForm.acceptanceData' | translate
+                      }}"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="col-md-2">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'الملف مطلوب'">
+                    <nz-form-label
+                      [nzRequired]="
+                        CustomerRequestForm
+                          | isRequired : 'transport_approval_attach'
+                      "
+                      for="transport_approval_attach"
+                      >{{
+                        "admissionForm.fileAttachment" | translate
+                      }}</nz-form-label
+                    >
+                    <label
+                      class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                      tabindex="0"
+                      for="transport_approval_attach"
+                    >
+                      <div class="row">
+                        <i class="bi bi-paperclip col-2"></i>
+                        <div class="col-8">
+                          <span>{{
+                            transportCompaniesAttachName
+                              ? "..." +
+                                transportCompaniesAttachName.substring(0, 10)
+                              : ("admissionForm.fileAttachment" | translate)
+                          }}</span>
+                        </div>
+                      </div>
+                    </label>
+                    <input
+                      type="file"
+                      id="transport_approval_attach"
+                      class="d-none"
+                      placeholder="{{
+                        'admissionForm.fileAttachment' | translate
+                      }}"
+                      (change)="
+                        onSelectTransportCompaniesAttach(
+                          $event.target['files'],
+                          i
+                        )
+                      "
+                      multiple
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div> -->
+              <div
+                [ngClass]="{ 'd-none': role != 'customer' }"
+                class="col-md-1"
+              >
+                <button
+                  class="btn btn-outline-danger btn-sm"
+                  (click)="removeTransportCompaniesFile(i)"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div [ngClass]="{ 'd-none': role != 'customer' }" class="col-md-2">
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                (click)="addTransportCompaniesFile()"
+              >
+                {{ "common.add" | translate }}
+                <i class="bi bi-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- transport_company_data FormArray -->
+        <!-- ========================== -->
+
+        <!-- ========================== -->
+        <!-- store_company_data FormArray -->
+        <div class="d-flex col-12 p-0">
+          <div
+            class="d-flex align-items-end flex-wrap col-12 p-0"
+            formArrayName="store_company_data"
+          >
+            <div
+              *ngFor="
+                let approval of storeCompaniesData.controls;
+                let i = index
+              "
+              [formGroupName]="i"
+              class="d-flex align-items-end col-10 p-0"
+            >
+              <div class="col-md-7">
+                <nz-form-item class="mb-0">
+                  <nz-form-control
+                    [nzErrorTip]="'المنشأة القائمة بأعمال التخزين مطلوبة'"
+                  >
+                    <div class="d-flex">
+                      <div *ngIf="role != 'customer'">
+                        <input
+                          formControlName="store_company_id_checker"
+                          id="store_company_id_checker"
+                          class="form-check-input"
+                          type="checkbox"
+                        />
+                      </div>
+                      <nz-form-label
+                        [nzRequired]="
+                          CustomerRequestForm | isRequired : 'store_company_id'
+                        "
+                        for="store_company_id"
+                        >{{
+                          "admissionForm.STORE_ACCEPT_PAPER" | translate
+                        }}</nz-form-label
+                      >
+                    </div>
+                    <nz-select
+                     [nzDisabled]="edit"
+                      nzSize="default"
+                      formControlName="store_company_id"
+                      nzAllowClear
+                      nzShowSearch
+                      nzPlaceHolder="{{
+                        'admissionForm.STORE_ACCEPT_PAPER' | translate
+                      }}"
+                      [nzLoading]="gettingStore"
+                      (ngModelChange)="
+                        onCompanyChange($event, 'store_company_id')
+                      "
+                    >
+                      <nz-option
+                        *ngFor="let option of stores"
+                        [nzLabel]="option.name"
+                        [nzValue]="option.id"
+                      ></nz-option>
+                      <nz-option
+                        nzLabel="إضافة +"
+                        nzValue="addCompany"
+                      ></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="col-md-4">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'الموافقة مطلوبة'">
+                    <div class="d-flex">
+                      <div *ngIf="role != 'customer'">
+                        <input
+                          formControlName="store_company_approval_file_checker"
+                          id="store_company_approval_file_checker"
+                          class="form-check-input"
+                          type="checkbox"
+                        />
+                      </div>
+                      <nz-form-label
+                        [nzRequired]="
+                          CustomerRequestForm
+                            | isRequired : 'store_company_approval_file'
+                        "
+                        for="store_company_approval_file"
+                        >{{
+                          "admissionForm.companyAcceptance" | translate
+                        }}</nz-form-label
+                      >
+                    </div>
+                    @if(!requestId){
+
+                    <label
+                      class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                      tabindex="0"
+                      [for]="'store_company_approval_file' + i"
+                    >
+                      <div class="row">
+                        <i class="bi bi-paperclip col-2"></i>
+                        <div class="col-8">
+                          <span>{{
+                            approval?.value?.store_company_approval_file?.name
+                              ? "..." +
+                                approval?.value?.store_company_approval_file?.name.substring(
+                                  0,
+                                  10
+                                )
+                              : ("admissionForm.companyAcceptance" | translate)
+                          }}</span>
+                        </div>
+                      </div>
+                    </label>
+                    <input
+                      type="file"
+                      [id]="'store_company_approval_file' + i"
+                      class="d-none"
+                      placeholder="{{
+                        'admissionForm.UNLOAD_ACCEPT_PAPER' | translate
+                      }}"
+                      (change)="
+                        onSelectStoreCompaniesFile(
+                          $event.target['files'],
+                          approval.controls.store_company_approval_file
+                        )
+                      "
+                      multiple
+                    />
+                    } @else{
+                    <div class="w-100">
+                      <a
+                        *ngIf="approval?.value?.store_company_approval_file"
+                        [href]="
+                          url + approval?.value?.store_company_approval_file
+                        "
+                        target="_blank"
+                        download
+                        class="btn btn-primary w-100"
+                      >
+                        <i class="bi bi-download ms-2"></i>
+                        {{ "admissionForm.downloadInvoice" | translate }}
+                      </a>
+                      <span
+                        *ngIf="!approval?.value?.store_company_approval_file"
+                      >
+                        {{ "admissionForm.noInvoiceAvailable" | translate }}
+                      </span>
+                    </div>
+                    }
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <!-- 
+              <div class="col-md-3">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'رقم الموافقة البيئية مطلوب'">
+                    <nz-form-label
+                      [nzRequired]="
+                        CustomerRequestForm | isRequired : 'store_approval_num'
+                      "
+                      for="store_approval_num"
+                      >{{
+                        "admissionForm.companyEnvironmentalApprovalNumber"
+                          | translate
+                      }}</nz-form-label
+                    >
+                    <input
+                      nz-input
+                      type="number"
+                      nzSize="large"
+                      formControlName="store_approval_num"
+                      placeholder="{{
+                        'admissionForm.companyEnvironmentalApprovalNumber'
+                          | translate
+                      }}"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="col-md-2">
+                <nz-form-item class="mb-0">
+                  <nz-form-control
+                    [nzErrorTip]="'تاريخ الموافقة البيئية مطلوب'"
+                  >
+                    <nz-form-label
+                      [nzRequired]="
+                        CustomerRequestForm | isRequired : 'store_approval_date'
+                      "
+                      for="store_approval_date"
+                      >{{
+                        "admissionForm.acceptanceData" | translate
+                      }}</nz-form-label
+                    >
+                    <input
+                      nz-input
+                      type="date"
+                      nzSize="large"
+                      formControlName="store_approval_date"
+                      placeholder="{{
+                        'admissionForm.acceptanceData' | translate
+                      }}"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="col-md-2">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'الملف مطلوب'">
+                    <nz-form-label
+                      [nzRequired]="
+                        CustomerRequestForm
+                          | isRequired : 'store_approval_attach'
+                      "
+                      for="store_approval_attach"
+                      >{{
+                        "admissionForm.fileAttachment" | translate
+                      }}</nz-form-label
+                    >
+                    <label
+                      class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                      tabindex="0"
+                      for="store_approval_attach"
+                    >
+                      <div class="row">
+                        <i class="bi bi-paperclip col-2"></i>
+                        <div class="col-8">
+                          <span>{{
+                            storeCompaniesAttachName
+                              ? "..." +
+                                storeCompaniesAttachName.substring(0, 10)
+                              : ("admissionForm.fileAttachment" | translate)
+                          }}</span>
+                        </div>
+                      </div>
+                    </label>
+                    <input
+                      type="file"
+                      id="store_approval_attach"
+                      class="d-none"
+                      placeholder="{{
+                        'admissionForm.fileAttachment' | translate
+                      }}"
+                      (change)="
+                        onSelectStoreCompaniesAttach($event.target['files'], i)
+                      "
+                      multiple
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div> -->
+
+              <div
+                [ngClass]="{ 'd-none': role != 'customer' }"
+                class="col-md-1"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-danger btn-sm"
+                  (click)="removeStoreCompaniesFile(i)"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div [ngClass]="{ 'd-none': role != 'customer' }" class="col-md-2">
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                (click)="addStoreCompaniesFile()"
+              >
+                {{ "common.add" | translate }}
+                <i class="bi bi-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- store_company_data FormArray -->
+        <!-- ========================== -->
+
+        <!-- ========================== -->
+        <!-- centeral_store_company_data FormArray -->
+        <div class="d-flex col-md-12 p-0">
+          <div
+            class="d-flex align-items-end flex-wrap col-12 px-0"
+            formArrayName="centeral_store_company_data"
+          >
+            <div
+              *ngFor="
+                let approval of centeralStoreCompaniesData.controls;
+                let i = index
+              "
+              [formGroupName]="i"
+              class="d-flex align-items-end col-10 p-0"
+            >
+              <div class="col-md-7">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'المخزن الوسيط مطلوبة'">
+                    <div class="d-flex">
+                      <div *ngIf="role != 'customer'">
+                        <input
+                          formControlName="centeral_store_company_id_checker"
+                          id="centeral_store_company_id_checker"
+                          class="form-check-input"
+                          type="checkbox"
+                        />
+                      </div>
+                      <nz-form-label
+                        [nzRequired]="
+                          CustomerRequestForm
+                            | isRequired : 'centeral_store_company_id'
+                        "
+                        for="centeral_store_company_id"
+                        >{{
+                          "admissionForm.STORE_INTERMEDIATE_PAPER" | translate
+                        }}</nz-form-label
+                      >
+                    </div>
+                    <nz-select
+                      [nzDisabled]="edit"
+                      nzSize="default"
+                      formControlName="centeral_store_company_id"
+                      nzAllowClear
+                      nzShowSearch
+                      nzPlaceHolder="{{
+                        'admissionForm.STORE_INTERMEDIATE_PAPER' | translate
+                      }}"
+                      [nzLoading]="gettingCentralStore"
+                      (ngModelChange)="
+                        onCompanyChange($event, 'centeral_store_company_id')
+                      "
+                    >
+                      <nz-option
+                        *ngFor="let option of centralStores"
+                        [nzLabel]="option.name"
+                        [nzValue]="option.id"
+                      ></nz-option>
+                      <nz-option
+                        nzLabel="إضافة +"
+                        nzValue="addCompany"
+                      ></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="col-md-4">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'الموافقة مطلوبة'">
+                    <div class="d-flex">
+                      <div *ngIf="role != 'customer'">
+                        <input
+                          formControlName="centeral_store_approval_file_checker"
+                          id="centeral_store_approval_file_checker"
+                          class="form-check-input"
+                          type="checkbox"
+                        />
+                      </div>
+                      <nz-form-label
+                        [nzRequired]="
+                          CustomerRequestForm
+                            | isRequired : 'centeral_store_approval_file'
+                        "
+                        for="centeral_store_approval_file"
+                        >{{
+                          "admissionForm.companyAcceptance" | translate
+                        }}</nz-form-label
+                      >
+                    </div>
+                    @if(!requestId){
+
+                    <label
+                      class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                      tabindex="0"
+                      [for]="'centeral_store_approval_file' + i"
+                    >
+                      <div class="row">
+                        <i class="bi bi-paperclip col-2"></i>
+                        <div class="col-8">
+                          <span>{{
+                            approval?.value?.centeral_store_approval_file?.name
+                              ? "..." +
+                                approval?.value?.centeral_store_approval_file?.name.substring(
+                                  0,
+                                  10
+                                )
+                              : ("admissionForm.companyAcceptance" | translate)
+                          }}</span>
+                        </div>
+                      </div>
+                    </label>
+                    <input
+                      type="file"
+                      [id]="'centeral_store_approval_file' + i"
+                      class="d-none"
+                      placeholder="{{
+                        'admissionForm.UNLOAD_ACCEPT_PAPER' | translate
+                      }}"
+                      (change)="
+                        onSelectCenteralStoreCompaniesFile(
+                          $event.target['files'],
+                          approval.controls.centeral_store_approval_file
+                        )
+                      "
+                      multiple
+                    />
+                    } @else{
+                    <div class="w-100">
+                      <a
+                        *ngIf="approval?.value?.centeral_store_approval_file"
+                        [href]="
+                          url + approval?.value?.centeral_store_approval_file
+                        "
+                        target="_blank"
+                        download
+                        class="btn btn-primary w-100"
+                      >
+                        <i class="bi bi-download ms-2"></i>
+                        {{ "admissionForm.downloadInvoice" | translate }}
+                      </a>
+                      <span
+                        *ngIf="!approval?.value?.centeral_store_approval_file"
+                      >
+                        {{ "admissionForm.noInvoiceAvailable" | translate }}
+                      </span>
+                    </div>
+                    }
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <!-- 
+              <div class="col-md-3">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'رقم الموافقة البيئية مطلوب'">
+                    <nz-form-label
+                      [nzRequired]="
+                        CustomerRequestForm
+                          | isRequired : 'centeral_approval_num'
+                      "
+                      for="centeral_approval_num"
+                      >{{
+                        "admissionForm.companyEnvironmentalApprovalNumber"
+                          | translate
+                      }}</nz-form-label
+                    >
+                    <input
+                      nz-input
+                      type="number"
+                      nzSize="large"
+                      formControlName="centeral_approval_num"
+                      placeholder="{{
+                        'admissionForm.companyEnvironmentalApprovalNumber'
+                          | translate
+                      }}"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="col-md-2">
+                <nz-form-item class="mb-0">
+                  <nz-form-control
+                    [nzErrorTip]="'تاريخ الموافقة البيئية مطلوب'"
+                  >
+                    <nz-form-label
+                      [nzRequired]="
+                        CustomerRequestForm
+                          | isRequired : 'centeral_approval_date'
+                      "
+                      for="centeral_approval_date"
+                      >{{
+                        "admissionForm.acceptanceData" | translate
+                      }}</nz-form-label
+                    >
+                    <input
+                      nz-input
+                      type="date"
+                      nzSize="large"
+                      formControlName="centeral_approval_date"
+                      placeholder="{{
+                        'admissionForm.acceptanceData' | translate
+                      }}"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="col-md-2">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'الملف مطلوب'">
+                    <nz-form-label
+                      [nzRequired]="
+                        CustomerRequestForm
+                          | isRequired : 'centeral_approval_attach'
+                      "
+                      for="centeral_approval_attach"
+                      >{{
+                        "admissionForm.fileAttachment" | translate
+                      }}</nz-form-label
+                    >
+                    <label
+                      class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                      tabindex="0"
+                      for="centeral_approval_attach"
+                    >
+                      <div class="row">
+                        <i class="bi bi-paperclip col-2"></i>
+                        <div class="col-8">
+                          <span>{{
+                            centeralStoreCompaniesAttachName
+                              ? "..." +
+                                centeralStoreCompaniesAttachName.substring(
+                                  0,
+                                  10
+                                )
+                              : ("admissionForm.fileAttachment" | translate)
+                          }}</span>
+                        </div>
+                      </div>
+                    </label>
+                    <input
+                      type="file"
+                      id="centeral_approval_attach"
+                      class="d-none"
+                      placeholder="{{
+                        'admissionForm.fileAttachment' | translate
+                      }}"
+                      (change)="
+                        onSelectCenteralStoreCompaniesAttach(
+                          $event.target['files'],
+                          i
+                        )
+                      "
+                      multiple
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div> -->
+
+              <div
+                [ngClass]="{ 'd-none': role != 'customer' }"
+                class="col-md-1"
+              >
+                <button
+                  class="btn btn-outline-danger btn-sm"
+                  (click)="removeCenteralStoreCompaniesFile(i)"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div [ngClass]="{ 'd-none': role != 'customer' }" class="col-md-2">
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                (click)="addCenteralStoreCompaniesFile()"
+              >
+                {{ "common.add" | translate }}
+                <i class="bi bi-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- centeral_store_company_data FormArray -->
+        <!-- ========================== -->
+
+        <!-- ========================== -->
+        <!-- river_company_data FormArray -->
+        <div class="d-flex col-md-12 p-0">
+          <div
+            class="d-flex align-items-end flex-wrap col-12 p-0"
+            formArrayName="river_company_data"
+          >
+            <div
+              *ngFor="
+                let approval of riverCompaniesData.controls;
+                let i = index
+              "
+              [formGroupName]="i"
+              class="d-flex align-items-end col-10 p-0"
+            >
+              <div class="col-md-7">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'المرسى النهرى مطلوب'">
+                    <div class="d-flex">
+                      <div *ngIf="role != 'customer'">
+                        <input
+                          formControlName="river_company_id_checker"
+                          id="river_company_id_checker"
+                          class="form-check-input"
+                          type="checkbox"
+                        />
+                      </div>
+                      <nz-form-label
+                        [nzRequired]="
+                          CustomerRequestForm | isRequired : 'river_company_id'
+                        "
+                        for="river_company_id"
+                        >{{
+                          "admissionForm.HARBOR_LANDING_RIVER" | translate
+                        }}</nz-form-label
+                      >
+                    </div>
+                    <nz-select
+                      [nzDisabled]="edit"
+                      nzSize="default"
+                      formControlName="river_company_id"
+                      nzAllowClear
+                      nzShowSearch
+                      nzPlaceHolder="{{
+                        'admissionForm.HARBOR_LANDING_RIVER' | translate
+                      }}"
+                      [nzLoading]="gettingRiver"
+                      (ngModelChange)="
+                        onCompanyChange($event, 'river_company_id')
+                      "
+                    >
+                      <nz-option
+                        *ngFor="let option of riverCompanies"
+                        [nzLabel]="option.name"
+                        [nzValue]="option.id"
+                      ></nz-option>
+                      <nz-option
+                        nzLabel="إضافة +"
+                        nzValue="addCompany"
+                      ></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="col-md-4">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'الموافقة مطلوبة'">
+                    <div class="d-flex">
+                      <div *ngIf="role != 'customer'">
+                        <input
+                          formControlName="river_company_approval_file_checker"
+                          id="river_company_approval_file_checker"
+                          class="form-check-input"
+                          type="checkbox"
+                        />
+                      </div>
+                      <nz-form-label
+                        [nzRequired]="
+                          CustomerRequestForm
+                            | isRequired : 'river_company_approval_file'
+                        "
+                        for="river_company_approval_file"
+                        >{{
+                          "admissionForm.companyAcceptance" | translate
+                        }}</nz-form-label
+                      >
+                    </div>
+                    @if(!requestId){
+
+                    <label
+                      class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                      tabindex="0"
+                      [for]="'river_company_approval_file' + i"
+                    >
+                      <div class="row">
+                        <i class="bi bi-paperclip col-2"></i>
+                        <div class="col-8">
+                          <span>{{
+                            approval?.value?.river_company_approval_file?.name
+                              ? "..." +
+                                approval?.value?.river_company_approval_file?.name.substring(
+                                  0,
+                                  10
+                                )
+                              : ("admissionForm.companyAcceptance" | translate)
+                          }}</span>
+                        </div>
+                      </div>
+                    </label>
+                    <input
+                      type="file"
+                      [id]="'river_company_approval_file' + i"
+                      class="d-none"
+                      placeholder="{{
+                        'admissionForm.UNLOAD_ACCEPT_PAPER' | translate
+                      }}"
+                      (change)="
+                        onSelectRiverCompaniesFile(
+                          $event.target['files'],
+                          approval.controls.river_company_approval_file
+                        )
+                      "
+                      multiple
+                    />
+                    } @else{
+                    <div class="w-100">
+                      <a
+                        *ngIf="approval?.value?.river_company_approval_file"
+                        [href]="
+                          url + approval?.value?.river_company_approval_file
+                        "
+                        target="_blank"
+                        download
+                        class="btn btn-primary w-100"
+                      >
+                        <i class="bi bi-download ms-2"></i>
+                        {{ "admissionForm.downloadInvoice" | translate }}
+                      </a>
+                      <span
+                        *ngIf="!approval?.value?.river_company_approval_file"
+                      >
+                        {{ "admissionForm.noInvoiceAvailable" | translate }}
+                      </span>
+                    </div>
+                    }
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <!-- <div class="col-md-3">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'رقم الموافقة البيئية مطلوب'">
+                    <nz-form-label
+                      [nzRequired]="
+                        CustomerRequestForm | isRequired : 'river_approval_num'
+                      "
+                      for="river_approval_num"
+                      >{{
+                        "admissionForm.companyEnvironmentalApprovalNumber"
+                          | translate
+                      }}</nz-form-label
+                    >
+                    <input
+                      nz-input
+                      type="number"
+                      nzSize="large"
+                      formControlName="river_approval_num"
+                      placeholder="{{
+                        'admissionForm.companyEnvironmentalApprovalNumber'
+                          | translate
+                      }}"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="col-md-2">
+                <nz-form-item class="mb-0">
+                  <nz-form-control
+                    [nzErrorTip]="'تاريخ الموافقة البيئية مطلوب'"
+                  >
+                    <nz-form-label
+                      [nzRequired]="
+                        CustomerRequestForm | isRequired : 'river_approval_date'
+                      "
+                      for="river_approval_date"
+                      >{{
+                        "admissionForm.acceptanceData" | translate
+                      }}</nz-form-label
+                    >
+                    <input
+                      nz-input
+                      type="date"
+                      nzSize="large"
+                      formControlName="river_approval_date"
+                      placeholder="{{
+                        'admissionForm.acceptanceData' | translate
+                      }}"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div class="col-md-2">
+                <nz-form-item class="mb-0">
+                  <nz-form-control [nzErrorTip]="'الملف مطلوب'">
+                    <nz-form-label
+                      [nzRequired]="
+                        CustomerRequestForm
+                          | isRequired : 'river_approval_attach'
+                      "
+                      for="river_approval_attach"
+                      >{{
+                        "admissionForm.fileAttachment" | translate
+                      }}</nz-form-label
+                    >
+                    <label
+                      class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                      tabindex="0"
+                      for="river_approval_attach"
+                    >
+                      <div class="row">
+                        <i class="bi bi-paperclip col-2"></i>
+                        <div class="col-8">
+                          <span>{{
+                            riverCompaniesAttachName
+                              ? "..." +
+                                riverCompaniesAttachName.substring(0, 10)
+                              : ("admissionForm.fileAttachment" | translate)
+                          }}</span>
+                        </div>
+                      </div>
+                    </label>
+                    <input
+                      type="file"
+                      id="river_approval_attach"
+                      class="d-none"
+                      placeholder="{{
+                        'admissionForm.fileAttachment' | translate
+                      }}"
+                      (change)="
+                        onSelectRiverCompaniesAttach($event.target['files'], i)
+                      "
+                      multiple
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div> -->
+
+              <div
+                [ngClass]="{ 'd-none': role != 'customer' }"
+                class="col-md-1"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-danger btn-sm"
+                  (click)="removeRiverCompaniesFile(i)"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div [ngClass]="{ 'd-none': role != 'customer' }" class="col-md-2">
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                (click)="addRiverCompaniesFile()"
+              >
+                {{ "common.add" | translate }}
+                <i class="bi bi-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- river_company_data FormArray -->
+        <!-- ========================== -->
+      </div>
+
+      <div class="row">
+        <h6 class="fw-bold my-4">
+          {{ "admissionForm.provideUsWithTheFollowingDocuments" | translate }}
+        </h6>
+        <ul class="pb-3">
+          <li>
+            <div class="row">
+              <div class="col-8">
+                <li>
+                  <div class="d-flex">
+                    <div *ngIf="role != 'customer'">
+                      <input
+                        formControlName="noteinsurance_policy_file_checker"
+                        id="noteinsurance_policy_file_checker"
+                        class="form-check-input"
+                        type="checkbox"
+                      />
+                    </div>
+                    <p>{{ "admissionForm.billOfLading" | translate }}</p>
+                  </div>
+                </li>
+              </div>
+              <div class="col-4">
+                <nz-form-item class="mb-0">
+                  @if (!requestId) {
+                  <label
+                    class="placeHolder d-flex justify-content-center w-100 mb-0"
+                    tabindex="0"
+                    for="noteinsurance_policy_file"
+                  >
+                    <div class="row">
+                      <i class="bi bi-paperclip col-2"></i>
+                      <div class="col-8">
+                        <span>{{
+                          noteinsurancePolicyFileName
+                            ? "..." +
+                              noteinsurancePolicyFileName.substring(0, 10)
+                            : ("admissionForm.fileAttachment" | translate)
+                        }}</span>
+                      </div>
+                    </div>
+                  </label>
+                  <input
+                    type="file"
+                    id="noteinsurance_policy_file"
+                    class="d-none"
+                    placeholder="{{ 'admissionForm.attach' | translate }}"
+                    (change)="
+                      onSelectNoteinsurancePolicyFile($event.target['files'])
+                    "
+                    multiple
+                  />
+                  } @else{
+                  <div class="w-100">
+                    <a
+                      *ngIf="
+                        customerRequestData?.noteinsurance_policy_file
+                      "
+                      [href]="
+                        url +
+                        customerRequestData?.noteinsurance_policy_file
+                      "
+                      target="_blank"
+                      download
+                      class="btn btn-primary w-100"
+                    >
+                      <i class="bi bi-download ms-2"></i>
+                      {{ "admissionForm.downloadInvoice" | translate }}
+                    </a>
+                    <span
+                      *ngIf="
+                        !customerRequestData?.noteinsurance_policy_file
+                      "
+                    >
+                      {{ "admissionForm.noInvoiceAvailable" | translate }}
+                    </span>
+                  </div>
+                  }
+                </nz-form-item>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div class="row">
+              <div class="col-8">
+                <li>
+                  <div class="d-flex">
+                    <div *ngIf="role != 'customer'">
+                      <input
+                        formControlName="contract_file_checker"
+                        id="contract_file_checker"
+                        class="form-check-input"
+                        type="checkbox"
+                      />
+                    </div>
+                    <p>
+                      {{
+                        "admissionForm.partyToWhichCoalIsSupplied" | translate
+                      }}
+                    </p>
+                  </div>
+                </li>
+              </div>
+              <div class="col-4">
+                <nz-form-item class="mb-0">
+                  @if(!requestId) {
+                  <label
+                    class="placeHolder d-flex justify-content-center w-100 mb-0"
+                    tabindex="0"
+                    for="contract_file"
+                  >
+                    <div class="row">
+                      <i class="bi bi-paperclip col-2"></i>
+                      <div class="col-8">
+                        <span>{{
+                          contractFileName
+                            ? "..." + contractFileName.substring(0, 10)
+                            : ("admissionForm.fileAttachment" | translate)
+                        }}</span>
+                      </div>
+                    </div>
+                  </label>
+                  <input
+                    type="file"
+                    id="contract_file"
+                    class="d-none"
+                    placeholder="{{ 'admissionForm.attach' | translate }}"
+                    (change)="onSelectContractFile($event.target['files'])"
+                    multiple
+                  />
+                  } @else {
+                  <div class="w-100 my-2">
+                    <a
+                      *ngIf="customerRequestData?.contract_file"
+                      [href]="url + customerRequestData?.contract_file"
+                      target="_blank"
+                      download
+                      class="btn btn-primary w-100"
+                    >
+                      <i class="bi bi-download ms-2"></i>
+                      {{ "admissionForm.downloadInvoice" | translate }}
+                    </a>
+                    <span *ngIf="!customerRequestData?.contract_file">
+                      {{ "admissionForm.noInvoiceAvailable" | translate }}
+                    </span>
+                  </div>
+                  }
+                </nz-form-item>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div class="row">
+              <div class="col-8">
+                <li>
+                  <div class="d-flex">
+                    <div *ngIf="role != 'customer'">
+                      <input
+                        formControlName="registration_data_file_checker"
+                        id="registration_data_file_checker"
+                        class="form-check-input"
+                        type="checkbox"
+                      />
+                    </div>
+                    <p>
+                      {{ "admissionForm.recordingShipmentData" | translate }}
+                    </p>
+                  </div>
+                </li>
+              </div>
+              <div class="col-4">
+                <nz-form-item class="mb-0">
+                  @if (!requestId) {
+                  <label
+                    class="placeHolder d-flex justify-content-center w-100 mb-0"
+                    tabindex="0"
+                    for="registration_data_file"
+                  >
+                    <div class="row">
+                      <i class="bi bi-paperclip col-2"></i>
+                      <div class="col-8">
+                        <span>{{
+                          registrationDataFileName
+                            ? "..." + registrationDataFileName.substring(0, 10)
+                            : ("admissionForm.fileAttachment" | translate)
+                        }}</span>
+                      </div>
+                    </div>
+                  </label>
+                  <input
+                    type="file"
+                    id="registration_data_file"
+                    class="d-none"
+                    placeholder="{{ 'admissionForm.attach' | translate }}"
+                    (change)="
+                      onSelectRegistrationDataFile($event.target['files'])
+                    "
+                    multiple
+                  />
+                  } @else {
+                  <div class="w-100">
+                    <a
+                      *ngIf="customerRequestData?.registration_data_file"
+                      [href]="
+                        url + customerRequestData?.registration_data_file
+                      "
+                      target="_blank"
+                      download
+                      class="btn btn-primary w-100"
+                    >
+                      <i class="bi bi-download ms-2"></i>
+                      {{ "admissionForm.downloadInvoice" | translate }}
+                    </a>
+                    <span
+                      *ngIf="
+                        !customerRequestData?.registration_data_file
+                      "
+                    >
+                      {{ "admissionForm.noInvoiceAvailable" | translate }}
+                    </span>
+                  </div>
+                  }
+                </nz-form-item>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div [ngClass]="{ 'd-none': hookDisabled }" class="row">
+        <h6 class="fw-bold my-4"> 
+          {{ "admissionForm.unloadingOnTheHook" | translate }}
+        </h6>
+        <ul class="position-relative pb-3">
+          <li>
+            <div class="row">
+              <div class="col-8">
+                <li>
+                  <div class="d-flex">
+                    <div *ngIf="role != 'customer'">
+                      <!-- formControlName="hook_approval_file_checker" -->
+                      <input
+                        id="hook_approval_file_checker"
+                        class="form-check-input"
+                        type="checkbox"
+                      />
+                    </div>
+                    <p>
+                      {{ "admissionForm.approvingTheUseOfHook" | translate }}
+                    </p>
+                  </div>
+                </li>
+              </div>
+              <div class="col-4">
+                <div *ngIf="true">
+                  <nz-form-item class="mb-0">
+                    @if(!requestId){
+                    <label
+                      class="placeHolder d-flex justify-content-center w-100 mb-0"
+                      tabindex="0"
+                      for="hook_approval_file"
+                    >
+                      <div class="row">
+                        <i class="bi bi-paperclip col-2"></i>
+                        <div class="col-8">
+                          <span>{{
+                            hookApprovalFileName
+                              ? "..." + hookApprovalFileName.substring(0, 10)
+                              : ("admissionForm.fileAttachment" | translate)
+                          }}</span>
+                        </div>
+                      </div>
+                    </label>
+                    <input
+                      type="file"
+                      id="hook_approval_file"
+                      class="d-none"
+                      placeholder="{{ 'admissionForm.attach' | translate }}"
+                      (change)="
+                        onSelectHookApprovalFile($event.target['files'])
+                      "
+                      multiple
+                    />
+                    } @else {
+                    <div class="w-100">
+                      <a
+                        *ngIf="customerRequestData?.hook_approval_file"
+                        [href]="
+                          url + customerRequestData?.hook_approval_file
+                        "
+                        target="_blank"
+                        download
+                        class="btn btn-primary w-100"
+                      >
+                        <i class="bi bi-download ms-2"></i>
+                        {{ "admissionForm.downloadInvoice" | translate }}
+                      </a>
+                      <span
+                        *ngIf="!customerRequestData?.hook_approval_file"
+                      >
+                        {{ "admissionForm.noInvoiceAvailable" | translate }}
+                      </span>
+                    </div>
+                    }
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="row" >
+        <h6 class="col-auto fw-bold mb-3 px-0 py-2 fw-bold">
+          {{ "admissionForm.insertTheElectronicSeal" | translate }}
+        </h6>
+        <div>
+          <div class="form-check">
+            <input
+              formControlName="expenses_approval"
+              id="expenses_approval"
+              class="form-check-input"
+              type="checkbox"
+            />
+            <label class="form-check-label text-dark" for="expenses_approval">
+              {{ "admissionForm.rovalOfPayment" | translate }}
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              formControlName="commissioner_approval"
+              id="commissioner_approval"
+              class="form-check-input"
+              type="checkbox"
+            />
+            <label
+              class="form-check-label text-dark"
+              for="commissioner_approval"
+            >
+              {{
+                "admissionForm.acknowledgmentFromTheAuthorizedPerson"
+                  | translate
+              }}
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              formControlName="hook_approval"
+              id="hook_approval"
+              class="form-check-input"
+              type="checkbox"
+            />
+            <label class="form-check-label text-dark" for="hook_approval">
+              {{
+                "admissionForm.letterFromThePortApprovingTheUseOfTheHook"
+                  | translate
+              }}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="row mt-2"
+        *ngIf="role != 'customer' && role != 'rdf' "
+      >
+        <!-- <button
+          nz-button
+          [nzLoading]="loading"
+          nzType="primary"
+          class="btn gradient w-100"
+          nzSize="large"
+          (click)="onSubmit()"
+        >
+          {{ "common.reviewDone" | translate }}
+        </button> -->
+
+        <!-- =============RDF Form =========== -->
+        <!-- <app-cement-company-rdf
+          class="mt-4"
+          *ngIf="role == 'rdf'"
+        ></app-cement-company-rdf> -->
+        <!-- =============RDF Form =========== -->
+
+        <app-reviewer-form
+          #reviewerForm
+          [statusNote]="statusNote"
+          [statusNoteLabel]="'customer.addNotesForCoalUnit'"
+          [mainNote]="mainNote"
+          [reviewersList]="reviewersList"
+          [statusArr]="statusArr"
+          [requestId]="requestId"
+          [customerRequest]="customerRequestData"
+          (formCommentEmitter)="addcomment($event)"
+        ></app-reviewer-form>
+      </div>
+    </nz-form>
+
+    <div class="d-flex align-items-center justify-content-between w-100 mt-5">
+      @if(role == 'customer' || role == 'rdf'){ @if(checkRDFValue) {
+      <button
+        nz-button
+        [nzLoading]="loading"
+        nzType="primary"
+        class="btn gradient col-md-2"
+        nzSize="large"
+        (click)="onSubmit()"
+      >
+        {{ "admissionForm.next" | translate }}
+      </button>
+      } @else {
+      <button
+        nz-button
+        [nzLoading]="loading"
+        nzType="primary"
+        class="btn gradient col-md-2"
+        nzSize="large"
+        (click)="onSubmit()"
+      >
+        {{ "admissionForm.submit" | translate }}
+      </button>
+      }  
+      <!-- @else if(role == 'investors'){
+      <button
+        nz-button
+        [nzLoading]="loading"
+        nzType="primary"
+        class="btn gradient col-md-2"
+        nzSize="large"
+      >
+      {{ "admissionForm.next" | translate }}
+    </button>
+  } -->
+} @else if(role == 'environmental.found'){
+    <button
+      nz-button
+      [nzLoading]="loading"
+      nzType="primary"
+      class="btn gradient col-md-2"
+      nzSize="large"
+      [routerLink]="
+        checkRDFValue
+          ? '/operations/rdf/' + requestId
+          : '/operations/feesAndExpenses/' + requestId
+      "
+    >
+    {{ "admissionForm.next" | translate }}
+  </button>
+} @else if(checkRDFValue){
+  <button
+  nz-button
+  [nzLoading]="loading"
+  nzType="primary"
+  class="btn gradient col-md-2"
+  nzSize="large"
+  [routerLink]="
+      '/operations/rdf/' + requestId
+  "
+>
+{{ "admissionForm.next" | translate }}
+</button>
+}
+</div>
+</div>
+</section>
+
+<!-- [routerLink]="
+  requestRdf
+    ? '/operations/rdf/' + requestId
+    : '/operations/feesAndExpenses/' + requestId
+" -->
+<!-- {{ "companyRegistrationForm.companyRegistration" | translate }} -->
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle=""
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+>
+  <div *nzModalContent class="pt-4">
+    <h6 class="fw-bold mb-4 text-center">
+      
+      {{ "common.newCompany" | translate }}
+    </h6>
+
+    <nz-form [formGroup]="addCompanyForm">
+      <div class="row g-3">
+        <div class="col-md-12">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'اسم الشركة مطلوب'">
+              <nz-form-label
+                [nzRequired]="CustomerRequestForm | isRequired : 'name'"
+                for="name"
+                >{{
+                  "companyRegistrationForm.companyName" | translate
+                }}</nz-form-label
+              >
+              <input
+                nz-input
+                nzSize="large"
+                formControlName="name"
+                placeholder="{{
+                  'companyRegistrationForm.companyName' | translate
+                }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-4">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'الملف مطلوب'">
+              <nz-form-label
+                [nzRequired]="CustomerRequestForm | isRequired : 'companyFile'"
+                for="companyFile"
+                >{{ "admissionForm.fileAttachment" | translate }}</nz-form-label
+              >
+              <label
+                class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                tabindex="0"
+                for="companyFile"
+              >
+                <div class="row">
+                  <i class="bi bi-paperclip col-2"></i>
+                  <div class="col-8">
+                    <span>{{
+                      companyFileName
+                        ? "..." + companyFileName.substring(0, 10)
+                        : ("admissionForm.fileAttachment" | translate)
+                    }}</span>
+                  </div>
+                </div>
+              </label>
+              <input
+                type="file"
+                id="companyFile"
+                class="d-none"
+                placeholder="{{ 'admissionForm.fileAttachment' | translate }}"
+                (change)="onSelectCompanyFile($event.target['files'])"
+                multiple
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-4">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'تاريخ الصلاحية مطلوب'">
+              <nz-form-label
+                [nzRequired]="CustomerRequestForm | isRequired : 'dateRelease'"
+                for="dateRelease"
+                >{{ "common.release" | translate }}</nz-form-label
+              >
+              <input
+                nz-input
+                type="date"
+                nzSize="large"
+                formControlName="dateRelease"
+                placeholder="{{ 'common.release' | translate }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-4">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'رقم الموافقة البيئية مطلوب'">
+              <nz-form-label
+                [nzRequired]="CustomerRequestForm | isRequired : 'envNumber'"
+                for="envNumber"
+                >{{
+                  "admissionForm.companyEnvironmentalApprovalNumber" | translate
+                }}</nz-form-label
+              >
+              <input
+                nz-input
+                type="number"
+                nzSize="large"
+                formControlName="envNumber"
+                placeholder="{{
+                  'admissionForm.companyEnvironmentalApprovalNumber' | translate
+                }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-4">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'الملف مطلوب'">
+              <nz-form-label
+                [nzRequired]="CustomerRequestForm | isRequired : 'permitFile'"
+                for="permitFile"
+                >{{ "admissionForm.fileAttachment" | translate }}</nz-form-label
+              >
+              <label
+                class="input-group-text placeHolder d-flex justify-content-between mb-0"
+                tabindex="0"
+                for="permitFile"
+              >
+                <div class="row">
+                  <i class="bi bi-paperclip col-2"></i>
+                  <div class="col-8">
+                    <span>{{
+                      permitFileName
+                        ? "..." + permitFileName.substring(0, 10)
+                        : ("admissionForm.fileAttachment" | translate)
+                    }}</span>
+                  </div>
+                </div>
+              </label>
+              <input
+                type="file"
+                id="permitFile"
+                class="d-none"
+                placeholder="{{ 'admissionForm.fileAttachment' | translate }}"
+                (change)="onSelectPermitFile($event.target['files'])"
+                multiple
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-4">
+          <nz-form-item class="mb-0">
+            <div class="col-md-6 pe-1 ps-0">
+              <nz-form-control [nzErrorTip]="'تاريخ الصلاحية مطلوب'">
+                <nz-form-label
+                  [nzRequired]="
+                    CustomerRequestForm | isRequired : 'permitDateTo'
+                  "
+                  for="permitDateTo"
+                  >{{ "common.to" | translate }}</nz-form-label
+                >
+                <input
+                  nz-input
+                  type="date"
+                  nzSize="large"
+                  formControlName="permitDateTo"
+                  placeholder="{{ 'common.to' | translate }}"
+                />
+              </nz-form-control>
+            </div>
+            <div class="col-md-6 ps-1 pe-0">
+              <nz-form-control [nzErrorTip]="'تاريخ الصلاحية مطلوب'">
+                <nz-form-label
+                  [nzRequired]="
+                    CustomerRequestForm | isRequired : 'permitDateFrom'
+                  "
+                  for="permitDateFrom"
+                  >{{ "common.from" | translate }}</nz-form-label
+                >
+                <input
+                  nz-input
+                  type="date"
+                  nzSize="large"
+                  formControlName="permitDateFrom"
+                  placeholder="{{ 'common.from' | translate }}"
+                />
+              </nz-form-control>
+            </div>
+          </nz-form-item>
+        </div>
+
+        <div class="col-md-4">
+          <nz-form-item class="mb-0">
+            <nz-form-control [nzErrorTip]="'رقم الموافقة البيئية مطلوب'">
+              <nz-form-label
+                [nzRequired]="CustomerRequestForm | isRequired : 'permitNumber'"
+                for="permitNumber"
+                >{{
+                  "companyRegistrationForm.permitRenewalPosition" | translate
+                }}</nz-form-label
+              >
+              <input
+                nz-input
+                type="number"
+                nzSize="large"
+                formControlName="permitNumber"
+                placeholder="{{
+                  'companyRegistrationForm.permitRenewalPosition' | translate
+                }}"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </nz-form>
+  </div>
+</nz-modal>

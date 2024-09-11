@@ -1,0 +1,16 @@
+.is_disabled {
+  cursor: default;
+  text-decoration: none;
+  color: var(--grey);
+}
+.is_disabled:hover {
+  cursor: default;
+  text-decoration: none;
+  color: var(--grey);
+}
+
+.is_active {
+  cursor: pointer;
+  color: var(--light-blue-100);
+  text-decoration: none;
+}

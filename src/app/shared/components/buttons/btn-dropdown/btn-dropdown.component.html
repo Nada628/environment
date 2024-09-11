@@ -1,0 +1,39 @@
+<div class="btn-group" [ngClass]="buttonWidth">
+  <button
+    [class]="
+      'btn dropdown-toggle d-flex align-items-center justify-content-between ' +
+      additionalCss
+    "
+    [style.border-radius.px]="btnRadius"
+    [ngStyle]="{ color: color, 'background-color': background }"
+    type="button"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    <div class="row align-items-center">
+      <div class="col-auto" [class]="currentLang == 'ar' ? 'ps-0' : 'pe-0'">
+        <i [class]="'bi ' + btnIcon"></i>
+      </div>
+      <p class="col-auto">{{ btnText | translate }}</p>
+    </div>
+  </button>
+  <ul
+    class="dropdown-menu"
+    [ngClass]="
+      currentLang === 'ar' ? 'dropdown-menu-start' : 'dropdown-menu-end'
+    "
+  >
+    <li *ngFor="let menuItem of menuList">
+      <ng-container *ngIf="isRouting">
+        <a class="dropdown-item" [routerLink]="menuItem?.path">{{
+          menuItem.name | translate
+        }}</a>
+      </ng-container>
+      <ng-container *ngIf="!isRouting">
+        <button class="dropdown-item" (click)="onBtnClickEmitt(menuItem)">
+          {{ menuItem.name | translate }}
+        </button>
+      </ng-container>
+    </li>
+  </ul>
+</div>

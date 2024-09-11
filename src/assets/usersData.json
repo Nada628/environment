@@ -1,0 +1,48 @@
+{
+  "users": [
+    {
+      "username": "customer",
+      "password": "customer",
+      "role": "customer",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1haG1vdWQiLCJzdWI",
+      "companyName": "منشأة"
+    },
+    {
+      "username": "customer1",
+      "password": "customer1",
+      "role": "customer",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1haG1vdWQiLCJzdWI",
+      "companyName": "منشأة"
+    },
+    {
+      "username": "admin",
+      "password": "admin",
+      "role": "admin",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1haG1vdWQiLCJzdWI"
+    },
+    {
+      "username": "supervisor",
+      "password": "supervisor",
+      "role": "supervisor",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1haG1vdWQiLCJzdWI"
+    },
+    {
+      "username": "manager",
+      "password": "manager",
+      "role": "manager",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1haG1vdWQiLCJzdWI"
+    },
+    {
+      "username": "officer",
+      "password": "officer",
+      "role": "officer",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1haG1vdWQiLCJzdWI"
+    },
+    {
+      "username": "mirna",
+      "password": "12345",
+      "role": "customer",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1pcm5hIiwic3ViIjoiMTIzNDUiLCJpYXQiOjE3MDI4MDMxMzl9"
+    }
+  ]
+}

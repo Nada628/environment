@@ -1,0 +1,41 @@
+<form [formGroup]="loginForm">
+  <div class="row pb-3 form-group required">
+    <label class="col-4 mt-2 control-label" for="email">{{
+      "login.email" | translate
+    }}</label>
+    <input
+      type="name"
+      class="col-6 form-control"
+      id="email"
+      formControlName="email"
+      [placeholder]="'login.email' | translate"
+      required
+    />
+  </div>
+  <div class="row pb-3 form-group required">
+    <label class="col-4 mt-2 control-label" for="password">{{
+      "login.password" | translate
+    }}</label>
+    <input
+      type="password"
+      class="col-6 form-control"
+      id="password"
+      formControlName="password"
+      [placeholder]="'login.password' | translate"
+      required
+    />
+  </div>
+  <div class="hstack justify-content-center gap-2">
+    <button class="col-auto btn gradient-2" (click)="login()">
+      {{ "login.login" | translate }}
+    </button>
+    <div class="vr"></div>
+    <button
+      type="button"
+      class="col-auto btn btn-forgot-pw"
+      (click)="forgotPassword()"
+    >
+      {{ "login.forgotPassword" | translate }}
+    </button>
+  </div>
+</form>

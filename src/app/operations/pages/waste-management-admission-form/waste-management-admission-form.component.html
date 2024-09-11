@@ -1,0 +1,29 @@
+<app-subtitle>{{ "routingHeader.requestsSubmitted" | translate }}</app-subtitle>
+<!-- Print Button -->
+<div class="row justify-content-end pb-3">
+  <div class="col-auto">
+    <button class="btn gradient px-5">
+      {{ "admissionForm.print" | translate }}
+    </button>
+  </div>
+</div>
+<div class="card p-4 disabled">
+  <div class="row">
+    <div class="col-auto p-0">
+      <h6 class="fw-bold">{{ "customer.orderData" | translate }}</h6>
+    </div>
+  </div>
+  <app-dynamic-form [model]="customerData"></app-dynamic-form>
+  <app-rdf-form [isReviewing]="true" [hasCard]="false"></app-rdf-form>
+</div>
+<hr />
+<h5 class="fw-bold">{{ "customer.review" | translate }}</h5>
+<app-rdf-form [isReviewing]="true"></app-rdf-form>
+
+<app-reviewer-form
+  [statusNote]="statusNote"
+  [statusNoteLabel]="'customer.AddNotesRegardingTheWasteDevice'"
+  [reviewersList]="reviewersList"
+  [statusArr]="statusArr"
+  [reviewer]="reviewer"
+></app-reviewer-form>

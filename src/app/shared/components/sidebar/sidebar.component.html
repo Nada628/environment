@@ -1,0 +1,12 @@
+<section class="section">
+  <div class="card custom-card d-flex flex-column">
+    <div class="row justify-content-center" *ngFor="let item of sideBarItems">
+      <a
+        [routerLink]="item.url"
+        routerLinkActive="blue"
+        class="col-8 m-2 pl-2 pr-2 pt-1 pb-1 primary text-center"
+        >{{ item.name | translate }}</a
+      >
+    </div>
+  </div>
+</section>

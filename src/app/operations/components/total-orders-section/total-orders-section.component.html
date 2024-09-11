@@ -1,0 +1,17 @@
+<div class="card shadow my-4 p-4">
+  <div class="row mb-4">
+    <div class="col-auto">
+      <h5 class="fw-bold">
+        {{ "customer.totalNumberOfRequests" | translate }}
+      </h5>
+    </div>
+  </div>
+  <div class="row justify-content-center mb-5">
+    <div *ngFor="let card of totalRequestsCards" class="col-md-4 col-7 mb-3">
+      <app-total-requests-card [card]="card"></app-total-requests-card>
+    </div>
+  </div>
+  <div *ngFor="let total of totals">
+    <app-total-section [total]="total"></app-total-section>
+  </div>
+</div>

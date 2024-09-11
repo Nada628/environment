@@ -1,0 +1,22 @@
+<nav>
+  <ol class="breadcrumb">
+    <div class="d-flex container">
+      <li
+        class="breadcrumb-item"
+        *ngFor="let breadcrumb of breadcrumbs | async"
+      >
+        <a
+          [routerLink]="breadcrumb.url"
+          [routerLinkActive]="
+            currentUrl === breadcrumb.url ? 'is_disabled' : 'is_active'
+          "
+          >{{
+            isNumber(breadcrumb.label)
+              ? breadcrumb.label
+              : ("routingHeader." + breadcrumb.label | translate)
+          }}</a
+        >
+      </li>
+    </div>
+  </ol>
+</nav>

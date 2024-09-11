@@ -1,0 +1,35 @@
+<div class="card shadow p-4 mb-3">
+  <div class="row justify-content-between align-items-start">
+    <div class="col-auto">
+      <div class="d-flex flex-column align-items-center">
+        <h6 class="fw-bold">{{ card.title | translate }}</h6>
+        <p class="grey">
+          <span>{{ "customer.orderNumber" | translate }}</span>
+          <span> {{ card.applicationNumber }}</span>
+        </p>
+        <button
+          class="btn gradient mx-auto px-4 mt-3 mb-2"
+          (click)="orderTracking()"
+        >
+          {{ "customer.orderTracking" | translate }}
+        </button>
+        <p class="mb-3 grey">{{ card.orderDate }}</p>
+      </div>
+    </div>
+    <div class="col-auto">
+      <a class="link" [routerLink]="'/operations/paymentDetails/' + requestId"
+        ><p class="fw-bold details">
+          {{ "customer.orderDetails" | translate }}
+        </p></a
+      >
+    </div>
+  </div>
+  <div>
+    <h6 class="fw-bold">
+      {{ "notificationCards." + card.acceptanceStatus | translate }}
+    </h6>
+    <p class="grey">
+      {{ "notificationCards." + card.acceptanceStatus | translate }}
+    </p>
+  </div>
+</div>

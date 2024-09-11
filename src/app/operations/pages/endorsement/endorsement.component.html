@@ -1,0 +1,99 @@
+<app-subtitle>{{ "routingHeader.importBox" | translate }}</app-subtitle>
+<div class="container">
+  <!-- Print Button -->
+  <div class="row justify-content-end pb-3">
+    <div class="col-auto">
+      <button class="btn gradient px-5">
+        {{ "admissionForm.print" | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+<div class="card px-4 py-5">
+  <h6 class="fw-bold py-2">
+    {{ "endorsement.generalChairmanDirectors" | translate
+    }}<span>{{ orgData.orgName }}</span>
+  </h6>
+  <h6 class="text-center py-2 fw-bold">
+    {{ "endorsement.greeting" | translate }}
+  </h6>
+  <p class="py-2">
+    <span>{{ "endorsement.frameworkOfCooperation" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.orgName }} </span>
+    <span>{{ "endorsement.applicationSubmitted" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.collaporator }} </span>
+    <span>{{ "endorsement.environmentalAffairsAgency" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.admissionDate }} </span>
+    <span>{{ "endorsement.toBenefitFronTheAgency" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.coalType }} </span>
+    <span>{{ "endorsement.byCompany" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.throughTheCompany }} </span>
+    <span>{{ "endorsement.expectedToArriveAtPort" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.port }} </span>
+    <span>{{ "endorsement.onDate" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.arrivalDate }} </span>
+    <span>{{ "endorsement.shipmentInformation" | translate }}</span>
+  </p>
+  <h6 class="text-center fw-bold py-2">
+    {{ "endorsement.shipmentData" | translate }}
+  </h6>
+  <table class="table table-bordered my-2">
+    <tbody>
+      <tr *ngFor="let item of orgData.shipmentData">
+        <td class="p-1">
+          <p>{{ item.name | translate }}</p>
+        </td>
+        <td class="p-1">
+          <p>{{ item.value }}</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="py-2">
+    {{ "endorsement.amendmentToTheExecutiveRegulations" | translate }}
+  </p>
+  <p class="py-2">
+    <span> {{ "endorsement.noObjection" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.throughTheCompany }} </span>
+    <span>{{ "endorsement.unloadingACargoOfCoal" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.coalType }} </span>
+    <span>{{ "endorsement.toBeUsedIn" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.usagePurposes }} </span>
+    <span>{{ "endorsement.referredToAboveManner" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.way }} </span>
+    <span>{{ "endorsement.port" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.port }} </span>
+    <span>{{ "endorsement.where" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.note }} </span>
+    <span> {{ "endorsement.portAuthorityObligates" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.throughTheCompany }} </span>
+    <span>{{ "endorsement.andCompany" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.company2 }} </span>
+    <span>{{ "endorsement.andCompany" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.company3 }} </span>
+    <span>{{ "endorsement.controls" | translate }}</span>
+  </p>
+  <p class="py-2">
+    <span>{{ "endorsement.note" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.admissionDate }} </span>
+    <span>{{ "endorsement.environmentalProtectionFund" | translate }}</span>
+    <span class="fw-bold"> {{ orgData.arrivalDate }} </span>
+    <span>{{ "endorsement.asDecided" | translate }} </span>
+  </p>
+
+  <div class="text-center fw-bold">
+    {{ "endorsement.appreciation" | translate }}
+  </div>
+  <div class="row py-4">
+    <div class="col-4 text-center" *ngFor="let item of orgData.approvals">
+      <h6 class="fw-bold">{{ item.name | translate }}</h6>
+      <p>{{ item.value }}</p>
+    </div>
+  </div>
+  <div class="py-2">
+    <p>
+      {{ "endorsement.generalAdministration" | translate }}
+    </p>
+    <p>{{ "endorsement.review" | translate }}</p>
+  </div>
+</div>

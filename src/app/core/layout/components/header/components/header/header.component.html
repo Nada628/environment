@@ -1,0 +1,5 @@
+<app-main-header></app-main-header>
+<app-menu-header [currentUrl]="currentUrl"></app-menu-header>
+<ng-container *ngIf="!isParent">
+  <app-routing-header [currentUrl]="currentUrl"></app-routing-header>
+</ng-container>

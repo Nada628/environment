@@ -1,0 +1,24 @@
+<section class="section">
+  <app-subtitle>{{ "routingHeader.contact-us" | translate }}</app-subtitle>
+  <div class="container">
+    <div class="row pb-5">
+      <div class="col-lg-6 col-12 mb-5" *ngFor="let item of contactUsDetails">
+        <div class="row align-items-center">
+          <div class="col-auto icon">
+            <i [ngClass]="'bi ' + item.i"></i>
+          </div>
+          <div class="col-auto">
+            <h6>{{ item.title | translate }}</h6>
+            <p>{{ item.description | translate }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center w-100">
+    <div class="col-10">
+      <app-location-map></app-location-map>
+    </div>
+  </div>
+</section>

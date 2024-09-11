@@ -1,0 +1,50 @@
+<div class="container">
+  <!-- Intro form -->
+  <div>
+    <div>
+      <app-dynamic-form
+        [isInlineInput]="true"
+        [model]="approvalIntroModel"
+      ></app-dynamic-form>
+    </div>
+  </div>
+
+  <!-- Shipment Info form -->
+  <div class="section text-center">
+    <h5>{{ "approvalForm.shipmentDetails" | translate }}</h5>
+    <div class="card">
+      <app-dynamic-form [model]="shipmentFormModel"></app-dynamic-form>
+    </div>
+  </div>
+
+  <!-- Terms and Details Info form -->
+  <div class="section">
+    <app-dynamic-form
+      [isInlineInput]="true"
+      [model]="approvalTermsModel"
+    ></app-dynamic-form>
+  </div>
+
+  <!-- Honors -->
+  <h5 class="text-center mb-3">{{ "approvalForm.credit" | translate }}</h5>
+
+  <!-- Credit -->
+  <div class="section credit">
+    <div class="credit credits-info">
+      <div>
+        <h6>{{ "approvalForm.coalManager" | translate }}</h6>
+        <div>ك/نادر علي جاد</div>
+      </div>
+      <div>
+        <h6>{{ "approvalForm.supervisor" | translate }}</h6>
+        <div>ك/ محمد فاروق حسين</div>
+      </div>
+      <div class="align-self-center">
+        <h6>{{ "approvalForm.manager" | translate }}</h6>
+        <div>د/ على أبوسنه</div>
+      </div>
+    </div>
+    <h6>{{ "approvalForm.copyOf" | translate }}</h6>
+    <h6>{{ "approvalForm.revised" | translate }} /</h6>
+  </div>
+</div>

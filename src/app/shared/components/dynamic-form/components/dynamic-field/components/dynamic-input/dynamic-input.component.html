@@ -1,0 +1,20 @@
+<form [formGroup]="formName">
+  <input
+    [readOnly]="field.isDisabled ? true : false"
+    [ngClass]="
+      formName.controls[field.fieldName].invalid &&
+      (formName.controls[field.fieldName].dirty ||
+        formName.controls[field.fieldName].touched)
+        ? 'error'
+        : ''
+    "
+    [ngClass]="field.border"
+    [id]="field.fieldName"
+    class="form-control"
+    [max]="field.max"
+    [type]="field.type"
+    [formControlName]="field.fieldName"
+    [placeholder]="field.label | translate"
+  />
+  <small class="text-danger" style="font-size: 11px;" *ngIf="hasMaxValueError()">{{'common.maxValue' | translate}}</small>
+</form>

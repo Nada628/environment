@@ -1,0 +1,27 @@
+.btn , .btn:active {
+  background-color: var(--light-blue-100);
+  color:var(--white-100);
+}
+.btn:hover {
+  color:var(--white-100);
+}
+.btn:focus {
+  box-shadow: none;
+}
+
+.custom-border {
+  border: 1px solid #0070C4;
+}
+
+
+@media only screen and (max-width: 800px) {
+  .displayNone {
+    border-radius: 50%;
+  }
+  .displayNone .text {
+    display: none;
+  }
+  .icon {
+    padding: 0px;
+  }
+}

@@ -1,0 +1,55 @@
+.flex-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 15px;
+
+  @media (max-width: 767px) {
+    .container {
+      justify-content: baseline;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .flex-item {
+      flex-basis: calc(50% - 12px);
+    }
+  }
+
+  @media (max-width: 460px) {
+    .flex-item {
+      flex-basis: 100%;
+    }
+  }
+}
+
+h3 {
+  color: var(--white-100);
+  font-size: 24px;
+}
+h5 {
+  color: var(--white-100);
+  font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  font-family: "Tajawal-Regular";
+}
+
+a {
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+  color: var(--white-100);
+}
+
+i {
+  font-size: 16px;
+  color: var(--white);
+}

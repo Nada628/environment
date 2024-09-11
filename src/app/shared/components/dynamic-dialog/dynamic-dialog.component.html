@@ -1,0 +1,63 @@
+<div class="modal-container" [dir]="currentLang == 'ar' ? 'rtl' : 'ltr'">
+  <!-- <div class="m-header">{{ options.title | translate }}</div> -->
+  <div class="m-content">
+    @if (formDataModel) {
+    <!-- Form -->
+    <app-dynamic-form
+      #dynamicForm
+      [model]="formDataModel.fields"
+      (formValuesEmitter)="getFormValues($event)"
+    ></app-dynamic-form>
+
+    }@else if (tableData) {
+    <!-- Table -->
+    } @else if (gridData) {
+    <!-- To be changed later for dynamic grid component -->
+    <!-- Grid -->
+    <div class="row row-cols-2 mt-2 align-items-center">
+      <div class="col">
+        <p class="fw-bold">
+          {{ "companyRegistrationForm.companyName" | translate }}
+        </p>
+      </div>
+      <div class="col">
+        {{ data.body.name }}
+      </div>
+    </div>
+    <div class="row row-cols-2 mt-2 align-items-center">
+      <div class="col">
+        <p class="fw-bold">
+          {{ "companyRegistrationForm.comRegisterNum" | translate }}
+        </p>
+      </div>
+      <div class="col">
+        {{ data.body.commercial_number }}
+      </div>
+    </div>
+    <div class="row row-cols-2 mt-2 align-items-center">
+      <div class="col">
+        <p class="fw-bold">
+          {{ "companyRegistrationForm.taxRegisterNum" | translate }}
+        </p>
+      </div>
+      <div class="col">
+        {{ data.body.tax_number }}
+      </div>
+    </div>
+    }@else {
+    <!-- Message -->
+    <div>{{ options.message | translate }}</div>
+    }
+  </div>
+  <div class="m-footer">
+    <div *ngFor="let button of options.buttons">
+      <button
+        class="mt-2 px-4"
+        [class]="button.btnCss"
+        (click)="excuteAction(button.action)"
+      >
+        {{ button.btnName | translate }}
+      </button>
+    </div>
+  </div>
+</div>
