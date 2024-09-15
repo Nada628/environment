@@ -60,6 +60,14 @@ const routes: Routes = [
         data: { breadcrumb: 'cementCompanyPositionOnUse', sideMenu: false },
       },
       {
+        path: 'investorform/:id',
+        loadComponent: () =>
+          import(
+            '@operations/pages/investor-form/investor-form.component'
+          ).then((m) => m.InvestorFormComponent),
+        data: { breadcrumb: 'cementCompanyPositionOnUse', sideMenu: false },
+      },
+      {
         path: 'endorsement',
         loadComponent: () =>
           import('@operations/pages/endorsement/endorsement.component').then(
@@ -116,6 +124,30 @@ const routes: Routes = [
             '@operations/pages/requests-submitted/requests-submitted.component'
           ).then((m) => m.RequestsSubmittedComponent),
         data: { breadcrumb: 'requestsSubmitted' },
+      },
+      {
+        path: 'departments',
+        loadComponent: () =>
+          import(
+            '@operations/pages/departments/departments.component'
+          ).then((m) => m.DepartmentsComponent),
+        data: { breadcrumb: 'department' },
+      },
+      {
+        path: 'addDepartment',
+        loadComponent: () =>
+          import(
+            '@operations/pages/addDepartment/addDepartment.component'
+          ).then((m) => m.AddDepartmentComponent),
+        data: { breadcrumb: 'addDepartment' },
+      },
+      {
+        path: 'editDepartment/:id',
+        loadComponent: () =>
+          import('@operations/pages/edit-department/edit-department.component').then(
+            (m) => m.editDepartmentComponent
+          ),
+        data: { breadcrumb: 'editDepartment' },
       },
       {
         path: 'importBox',

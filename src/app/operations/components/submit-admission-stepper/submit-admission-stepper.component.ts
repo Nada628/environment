@@ -266,12 +266,14 @@ export class SubmitAdmissionStepperComponent {
       if (params['id'] && params['id'] != 'new') {
         this.getRequestById(params['id']);
         this.requestId = params['id'];
-        this.CustomerRequestForm.disable()
+        // this.CustomerRequestForm.disable()
+        this.disableAllExceptCheckboxesAndNzSelect()
         this.edit=true
         this.checkRdf()
       }else{
         this.checkActive()
         this.checkRdf()
+        
         this.ownerCompanies=localStorage.getItem('companyName')
       }
       
@@ -544,6 +546,9 @@ export class SubmitAdmissionStepperComponent {
             input.disabled = true;
           }
         });
+        this.CustomerRequestForm.get('expenses_approval').disable()
+        this.CustomerRequestForm.get('commissioner_approval').disable()
+        this.CustomerRequestForm.get('hook_approval').disable()
       } else {
         console.error('Form element not found.');
       }
@@ -1144,4 +1149,12 @@ export class SubmitAdmissionStepperComponent {
         },
       });
   }
+  check3=false
+  checkAll(event:any){
+    let isChecked = event.target.checked
+      this.CustomerRequestForm.get('noteinsurance_policy_file_checker')?.setValue(isChecked);
+      this.CustomerRequestForm.get('contract_file_checker')?.setValue(isChecked);
+      this.CustomerRequestForm.get('registration_data_file_checker')?.setValue(isChecked);
+  }
+  
 }

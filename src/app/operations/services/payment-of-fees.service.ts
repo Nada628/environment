@@ -72,5 +72,18 @@ export class PaymentOfFeesService {
   approveForm(id:any,data:any){
     return this.http.put(this.apiUrl+'expense-payment/update/import/request/form/data/'+ id,data);
   }
+
+  investorForm(requestId:any,data:any){
+    const url = `${this.apiUrl}investor/attach/${requestId}`;
+    return this.http.post(url, data);
+  }
+
+  getInvestorForm(id:any){
+    return this.http.get(this.apiUrl+'investor/attach/'+ id);
+  }
+
+  Delete(id:any){
+    return this.http.delete(this.apiUrl+'investor/attach/'+ id);
+  }
   
 }

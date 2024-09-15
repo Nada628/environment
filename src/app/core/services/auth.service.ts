@@ -19,6 +19,13 @@ export class AuthService {
 
   companyStatus;
 
+  getUserRole(): string {
+    const role = localStorage.getItem('userRole');
+    console.log('User Role:', role);  // Debugging line
+    return role;
+  }
+  
+
   public permissions: any[];
   constructor(private jwtHelper: JwtHelperService) {
     this.updateLoggedInState(
@@ -59,6 +66,7 @@ export class AuthService {
       localStorage.setItem('companyStatus', JSON.stringify(companyStatus));
       localStorage.setItem('registerType', registerType);
       this.userRole = roles;
+
       // this.registerType = registerType;
     }
     this.isLoggedInSubject.next(status);

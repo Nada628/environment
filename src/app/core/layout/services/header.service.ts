@@ -67,11 +67,26 @@ export class HeaderService {
           name: 'routingHeader.importBox',
           path: '/operations/importBox',
         },
+
         {
           name: 'routingHeader.requestForm',
           path: '/main/services',
           // path: '/operations/requestForm/add/new',
         },
+      ],
+    },
+    {
+      role: ['superadmin'],
+      menuItems: [
+        {
+          name: 'routingHeader.main',
+          path: '/main',
+        },
+         {
+          name: 'routingHeader.department',
+          path: '/operations/departments',
+        },
+
       ],
     },
     {
@@ -287,9 +302,21 @@ export class HeaderService {
 
   constructor() {}
 
-  getMenuHeader(role): MainHeaderItem {
-    return this.menuItems.find((item) => {
-      return item.role.some((itemRole) => role.includes(itemRole));
-    });
+  // getMenuHeader(role): MainHeaderItem {
+  //   return this.menuItems.find((item) => {
+  //     return item.role.some((itemRole) => role.includes(itemRole));
+  //   });
+  // }
+  getMenuHeader(role: string | string[]): MainHeaderItem {
+    const roleArray = Array.isArray(role) ? role.map(r => r.toLowerCase()) : [role.toLowerCase()];
+
+    return (
+      this.menuItems.find((item) => item.role.some((itemRole) => roleArray.includes(itemRole.toLowerCase()))) ||
+      this.menuItems.find((item) => item.role.includes('default')) // fallback to default
+    );
   }
+
+
+
+
 }

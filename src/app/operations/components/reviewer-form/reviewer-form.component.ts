@@ -65,6 +65,8 @@ export class ReviewerFormComponent {
   @Input() requestId;
   @Input() loggerList = [];
   @Input() customerRequest;
+  @Input() checkRdf;
+
   //@Output() formCommentEmitter = new new EventEmitter<any>();
 
   selectedStatus;

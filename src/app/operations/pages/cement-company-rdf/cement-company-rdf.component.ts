@@ -142,6 +142,7 @@ export class CementCompanyRdfComponent {
       next: (data) => {
         this.setRequestData(data['data']);
         this.customerRequestData = data['data'];
+        this.disableAllExceptCheckboxes()
       },
       error: (error) => {
         this.translationService.toastrTranslation(
@@ -299,7 +300,9 @@ export class CementCompanyRdfComponent {
 
   ngAfterViewInit(): void {
     // Ensure that the DOM is fully loaded before querying elements
-    // this.disableAllExceptCheckboxesAndNzSelect();
+    if (this.requestId) {
+      this.disableAllExceptCheckboxesAndNzSelect();
+    }
   }
 
   disableAllExceptCheckboxesAndNzSelect() {
@@ -321,6 +324,24 @@ export class CementCompanyRdfComponent {
     }
   }
 
+  disableAllExceptCheckboxes() {
+  // Disable top-level non-checkbox fields
+  this.rdfForm.controls['total_weight_ton'].disable();
+  this.rdfForm.controls['moreOrEqualPercent'].disable();
+  this.rdfForm.controls['company_confirm'].disable();
+
+  // Iterate over each FormGroup inside the rdf_data FormArray
+  const rdfDataArray = this.rdfForm.controls['rdf_data'] as FormArray;
+
+  rdfDataArray.controls.forEach((group: FormGroup) => {
+    Object.keys(group.controls).forEach(controlName => {
+      // Disable the control if it's not a checkbox (not ending with '_checker')
+      if (!controlName.endsWith('_checker')) {
+        group.controls[controlName].disable();
+      }
+    });
+  });
+}
   // Helper function to extract form controls without checkers
   extractFormWithoutCheckers(formGroup: FormGroup): any {
     const result: any = {};

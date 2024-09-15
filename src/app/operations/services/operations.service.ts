@@ -6,22 +6,29 @@ import { SidebarItem } from '@shared/model/sidebar-item';
 })
 export class OperationsService {
   customerSidebarItems: SidebarItem[];
+  superadminSidebarItems: SidebarItem[];
+
 
   constructor() {
     this.customerSidebarItems = [
       { name: 'routingHeader.statistics', url: '/operations/statistics' },
-      {
-        name: 'routingHeader.requestsSubmitted',
-        url: '/operations/requestsSubmitted',
-      },
+      {name: 'routingHeader.requestsSubmitted',url: '/operations/requestsSubmitted', },
       { name: 'routingHeader.importBox', url: '/operations/importBox' },
       { name: 'routingHeader.paymentOfFees', url: '/operations/paymentOfFees' },
-      {
-        name: 'routingHeader.serviceEvaluation',
-        url: '/operations/serviceEvaluation',
-      },
+      { name: 'routingHeader.serviceEvaluation', url: '/operations/serviceEvaluation', },
       { name: 'routingHeader.complains', url: '/operations/complains' },
     ];
+    this.superadminSidebarItems = [
+          { name: 'routingHeader.department', url: '/operations/departments' },
+          { name: 'routingHeader.statistics', url: '/operations/statistics' },
+
+    ];
+  }
+  getSidebarItems(role: string): SidebarItem[] {
+    if (role === 'superadmin') {
+      return this.superadminSidebarItems;
+    }
+    return this.customerSidebarItems;
   }
 
   getStatus(id) {

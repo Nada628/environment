@@ -1,6 +1,7 @@
 {
   "common": {
     "loading": "Loading",
+    "Description":"Description",
     "add": "Add",
     "addComment": "Add Comment",
     "delete": "Delete",
@@ -15,7 +16,7 @@
     "done": "Done",
     "submit": "Submit",
     "download": "Download",
-    "name": " ",
+    "name": " Name",
     "maxValue": "The number must not exceed 1000 KG",
     "newCompany": "Add New Company",
     "assignUser": "Assign Employee",
@@ -84,7 +85,11 @@
     "paymentSuccess": "Payment successful",
     "transport-company": "performance report for transport",
     "environmentalPerformanceReports": "performance Report",
-    "acceptForm": "digital form 33"
+    "acceptForm": "digital form 33",
+    "addDepartment":"Add  Department",
+    "settings":"settings",
+    "editDepartment":"Department settings",
+    "settingDepartment":"Department settings"
   },
   "footer": {
     "copyright": "Copyright 2023 by Ministry of Environment"
@@ -230,6 +235,7 @@
   "tableHeader": {
     "id": "Id",
     "name": "name",
+    "serialNumber":"Number",
     "company": "company Name",
     "description": "Description",
     "parentId": "Parent Id",
@@ -248,7 +254,12 @@
     "viewFile": "View File",
     "accepted": "Accepted",
     "underReview": "Under review",
-    "rejected": "Rejected"
+    "rejected": "Rejected",
+    "departmentName":"Department",
+    "departmentNumber":"Department Number",
+    "departmentDescription":"Description",
+    "createDate":"Created Date",
+    "settings":"Settings"
   },
   "contactUs": {
     "address": "Address",
@@ -767,5 +778,14 @@
     "theCompanyIsRequiredToReportViolationsRecordedDuringInspectionsConductedByTheEnvironmentalAffairsAgencyAndTheFinesPaidAsWellAsNon-ComplianceIssuesAndCorrectiveActionsTaken": "The company is required to report violations recorded during inspections conducted by the Environmental Affairs Agency, the fines paid, as well as non-compliance issues and corrective actions taken",
     "truckTransportation": "Truck Transportation",
     "truckTransportCompaniesMustObtainEnvironmentalApprovalForCoalTransportationAndTheShippingAndUnloadingCompanyMustEnsureThatTheLandTransportCompanyHasAnEnvironmentalApproval": "Truck transport companies must obtain environmental approval for coal transportation, and the shipping and unloading company must ensure that the land transport company has an environmental approval"
+  },
+  "department":{
+    "addDepartment":"Add  Department",
+    "submit":"add",
+    "update": "update",
+    "cancle": "cancel",
+    "delete" :"delete"
+
+
   }
 }

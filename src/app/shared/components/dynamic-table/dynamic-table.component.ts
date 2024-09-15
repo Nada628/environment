@@ -44,7 +44,7 @@ export class DynamicTableComponent implements OnInit {
   tableData: DynamicTable;
   allHeaders: TableHeader[];
   status: typeof status = status;
-  is33Form
+
   constructor(private changeDetector: ChangeDetectorRef) {}
 
   ngOnInit(): void {
@@ -63,8 +63,15 @@ export class DynamicTableComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
+
   handleButtonClick(key: string, row: any) {
-    this.buttonClick.emit({ key, row });
-    console.log('buttonClickkkkkkkk', this.buttonClick.emit({ key, row }));
+    console.log('Button clicked:', key, row);
+    if (row) {
+      this.buttonClick.emit({ key, row }); 
+    } else {
+      console.error('Row data is undefined');
+    }
   }
+
+
 }

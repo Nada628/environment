@@ -14,35 +14,49 @@ import { RequestSubmittedService } from '@operations/services/request-submitted.
 export class LoginService {
   loginUrl = environment.loginUrl;
   userData = '/assets/usersData.json';
+  baseUrl = environment.apiUrl;
   user;
+
   constructor(
     private auth: AuthService,
     private router: Router,
     private httpClient: HttpClient,
     private translationService: TranslationService,
-    private request :RequestSubmittedService,
+    private request: RequestSubmittedService
   ) {}
 
   login(username: string, password: string) {
     let body = { email: username, password: password };
     this.httpClient.post(this.loginUrl, body).subscribe(
       (response: any) => {
-        if (response.roles.length == 0) {
+        if (response.roles.length === 0) {
           this.router.navigate(['/operations']);
         }
+
         let roles = response.roles.code;
-        localStorage.setItem('activate', response.company_status.is_active)
-        localStorage.setItem('ifCompany',response.company_status.if_company)
-        localStorage.setItem('companyName',response.company_name)
         let companyStatus = response.company_status;
-        // console.log('companyStatus', companyStatus);
+
+        // If SuperAdmin, set companyStatus fields to true
+        if (roles === 'SuperAdmin') {
+          companyStatus.if_company = true;
+          companyStatus.is_active = true;
+          companyStatus.is_trending = true;
+        }
+
+        // Store values in local storage
+        localStorage.setItem('activate', companyStatus.is_active);
+        localStorage.setItem('ifCompany', companyStatus.if_company);
+        localStorage.setItem('companyName', response.company_name);
+        localStorage.setItem('userRole', roles); // Store role in local storage
+
         let permissions = response.roles.permissions.map(
           (permission: any) => permission
         );
+
         this.auth.updateLoggedInState(
           true,
           response.name,
-          response.company_status,
+          companyStatus,
           response.id,
           permissions,
           response.token,
@@ -50,6 +64,7 @@ export class LoginService {
           response.registerType
         );
 
+        // Handle routing based on roles
         switch (roles) {
           case 'admin':
             this.router.navigate(['/admin']);
@@ -66,26 +81,15 @@ export class LoginService {
             }
             break;
           case 'department_supervisor':
-            this.router.navigate(['/operations']);
-            break;
           case 'manager':
-            this.router.navigate(['/operations']);
-            break;
           case 'investors':
-            this.router.navigate(['/operations']);
-            break;
           case 'environmental.found':
-            this.router.navigate(['/operations']);
-            break;
           case 'employee':
-            this.router.navigate(['/operations']);
-            break;
           case 'rdf':
+          case 'SuperAdmin': // Added this to route to operations
             this.router.navigate(['/operations']);
             break;
         }
-        // roles.map((role) => {
-        // });
       },
       (error) => {
         this.translationService.toastrTranslation(
@@ -105,12 +109,11 @@ export class LoginService {
     localStorage.removeItem('userId');
     localStorage.removeItem('permissions');
     localStorage.removeItem('registerType');
+    localStorage.removeItem('userRole');
     this.router.navigate(['/main/login']);
   }
 
-  baseUrl = environment.apiUrl
-
-  forgetPassword(data:any){
-    return this.httpClient.post<ApiResponse>(this.baseUrl+'changePassword',data);
+  forgetPassword(data: any) {
+    return this.httpClient.post<ApiResponse>(this.baseUrl + 'changePassword', data);
   }
 }

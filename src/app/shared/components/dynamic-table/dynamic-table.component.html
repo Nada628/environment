@@ -12,6 +12,11 @@
       <ng-container *ngFor="let h of tableData.headers">
         <td class="text-center align-middle">
           <ng-container [ngSwitch]="h.key">
+            <ng-container *ngSwitchCase="'settings'">
+              <button class="btn" (click)="handleButtonClick(h.key, row)">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              </ng-container>
             <ng-container *ngSwitchCase="'edit'">
               <button class="btn" (click)="handleButtonClick(h.key, row)">
                 <i class="bi bi-pencil-square"></i>
@@ -44,35 +49,24 @@
               </a>
             </ng-container>
             <ng-container *ngSwitchCase="'copyOfApproval'">
-              <a 
-                *ngIf="row.isApprovalForm"
+              <a
                 class="link"
-                [routerLink]="'/operations/approval/'+row.orderNumber + '/approve'"
+                href="assets/images/slider(1).jpg"
+                target="_blank"
               >
                 {{ "tableHeader.viewFile" | translate }}
               </a>
-              <p
-                *ngIf="!row.isApprovalForm"
-              >
-                {{ 'لا يوجد' }}
-             </p>
             </ng-container>
             <ng-container *ngSwitchCase="'modelAutomated'">
-              <!-- form 33 -->
-              <a  *ngIf="row.is_33form" class="link"  [routerLink]="'/operations/acceptInvoiceForm/'+row.orderNumber+'/AppNum'">
+              <a class="link" href="assets/images/slider.jpg" target="_blank">
                 {{ "tableHeader.viewFile" | translate }}
               </a>
-              <p
-              *ngIf="!row.is_33form"
-            >
-              {{ 'لا يوجد' }}
-           </p>
             </ng-container>
             <ng-container *ngSwitchCase="'status'">
               <span
                 *ngIf="row[h.key] !== status.AcceptProtectEEA"
                 [ngStyle]="
-                  row[h.key] == 'مقبول من رئيس الجهاز' ||
+                  row[h.key] == status.accepted ||
                   row[h.key]?.includes('Accept') ||
                   row[h.key] == status.AcceptRDF ||
                   row[h.key] == 'CustomerPAID'
@@ -82,7 +76,7 @@
                     ? { color: 'var(--yellow-50)' }
                     : { color: 'var(--red-100)' }
                 "
-                >{{ row[h.key]}}</span
+                >{{ "status." + row[h.key] | translate }}</span
               >
               <span *ngIf="row[h.key] === status.AcceptProtectEEA">
                 <a

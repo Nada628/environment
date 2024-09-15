@@ -1,4 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'app/core/services/auth.service';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -7,11 +11,19 @@ export class ApprovalFormService {
   shipmentInfoForm;
   approvalIntroForm;
   approvalTermsForm;
-  constructor() {
+  apiUrl = environment.apiUrl;
+  requestId: any
+  response:any
+  constructor(private http: HttpClient, private auth: AuthService, private router: Router,
+    private route: ActivatedRoute,) {
+    
+
+   
+
     this.approvalIntroForm = {
       greetings: {
         type: 'text',
-        value: 'جلال منصور',
+        value: '55',
         col: 'col-md-5 col-12  pb-3',
         label: 'approvalIntroForm.greetings',
         isDisabled:false,
@@ -354,5 +366,16 @@ export class ApprovalFormService {
         },
       },
     };
+    
   }
-}
+
+  sendToClient(params:any) {
+    const url = `${this.apiUrl}expense-payment/update/import/request/form/data/${params}`;
+    let x=""
+    return this.http.put(url,x);
+  }
+  
+
+  
+  }
+  

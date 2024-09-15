@@ -243,12 +243,12 @@
             <nz-form-control [nzErrorTip]="'إجمالي كميات RDF مطلوب'">
               <div class="d-flex">
                 <div *ngIf="role != 'customer'">
-                  <input
+                  <!-- <input
                     formControlName="total_weight_ton_checker"
                     id="total_weight_ton_checker"
                     class="form-check-input"
                     type="checkbox"
-                  />
+                  /> -->
                 </div>
                 <nz-form-label
                   [nzRequired]="rdfForm | isRequired : 'total_weight_ton'"
@@ -368,7 +368,33 @@
     </div>
   </nz-form>
 
+
+
   @if(role == 'customer'){
+    <div class="row mt-2">
+      <!-- <button
+        nz-button
+        [nzLoading]="loading"
+        nzType="primary"
+        class="btn gradient w-100"
+        nzSize="large"
+        (click)="onSubmit()"
+      >
+        {{ "common.reviewDone" | translate }}
+      </button> -->
+  
+      <app-reviewer-form
+        #reviewerForm
+        [statusNote]="statusNote"
+        [statusNoteLabel]="'customer.addNotesForCoalUnit'"
+        [mainNote]="mainNote"
+        [reviewersList]="reviewersList"
+        [statusArr]="statusArr"
+        [requestId]="requestId"
+        [customerRequest]="customerRequestData"
+        (formCommentEmitter)="addComment($event)"
+      ></app-reviewer-form>
+    </div>
   <div class="row mt-5">
     <div class="col-auto">
       <button (click)="onSubmit()" class="btn gradient px-5">
@@ -376,30 +402,41 @@
       </button>
     </div>
   </div>
-  } @else if(role == 'investors'){
-  <div class="row row-cols-2 mt-5">
-    <div class="col">
-      <button
-        nz-button
-        [nzLoading]="loading"
-        nzType="primary"
-        class="btn gradient px-5"
-        nzSize="large"
-        [routerLink]="'/operations/feesAndExpenses/' + requestId"
-      >
-        {{ "admissionForm.next" | translate }}
-      </button>
-    </div>
-
+  <div class="row row-cols-12 mt-5">
     <div class="col text-start">
       <button
-        [routerLink]="'/operations/requestForm/undefined/' + requestId"
+       (click)="previous()"
         class="btn gradient px-5"
       >
         {{ "report1.previous" | translate }}
       </button>
     </div>
   </div>
+  } @else if(role == 'investors' || role == 'department_supervisor'){
+  <div class="row row-cols-12 mt-5 d-flex justify-content-between">
+    <div class="col">
+      <button
+        nz-button
+        [nzLoading]="loading"
+        nzType="primary"
+        class="btn gradient me-auto "
+        nzSize="large"
+        [routerLink]="'/operations/investorform/'+ requestId"
+      >
+        {{ "admissionForm.next" | translate }}
+      </button>
+    </div>
+    <div class="col text-start">
+      <button
+      (click)="previous()"
+      class="btn gradient ms-auto "
+    >
+      {{ "report1.previous" | translate }}
+    </button>
+    </div>
+   
+  </div>
+    
 }@else if(role == 'environmental.found'){
     <button
       nz-button
@@ -413,6 +450,16 @@
     >
     {{ "admissionForm.next" | translate }}
   </button>
+  <div class="row row-cols-12 mt-5">
+    <div class="col text-start">
+      <button
+       (click)="previous()"
+        class="btn gradient px-5"
+      >
+        {{ "report1.previous" | translate }}
+      </button>
+    </div>
+  </div>
   } @else {
   <div class="row mt-2">
     <!-- <button
@@ -438,18 +485,17 @@
       (formCommentEmitter)="addComment($event)"
     ></app-reviewer-form>
   </div>
-  }
-
-  <div class="row row-cols-12 mt-5">
-    <div class="col text-start">
+  
       <button
        (click)="previous()"
         class="btn gradient px-5"
       >
         {{ "report1.previous" | translate }}
       </button>
-    </div>
-  </div>
+   
+  }
+
+ 
    
     
 </div>

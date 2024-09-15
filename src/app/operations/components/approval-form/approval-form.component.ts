@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApprovalFormService } from '@operations/services/approval-form.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-approval-form',
@@ -15,9 +16,20 @@ export class ApprovalFormComponent {
   shipmentFormModel;
   approvalIntroModel;
   approvalTermsModel;
-  constructor(private approvalForm: ApprovalFormService) {
+  
+  constructor(private approvalForm: ApprovalFormService,private router: Router,) {
     this.shipmentFormModel = approvalForm.shipmentInfoForm;
     this.approvalIntroModel = approvalForm.approvalIntroForm;
     this.approvalTermsModel = approvalForm.approvalTermsForm;
+    
+    
+  }
+  onSubmit(){
+    this.approvalForm.sendToClient('51').subscribe({
+      next:(res)=>{
+        this.router.navigateByUrl('/operations/statistics');
+      }
+    })
+
   }
 }

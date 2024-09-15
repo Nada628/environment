@@ -1,0 +1,26 @@
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    height: 36px;
+    margin: 5px;
+    &:focus {
+      outline: none;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+    }
+    &::placeholder {
+      color: #ccc;
+    }
+  }
+  .btn {
+    height: 36px;
+  }
+  .gap-20{
+    gap: 60px;
+  }
+  table th , td{
+    text-align: center;
+  }
+ 
+ 

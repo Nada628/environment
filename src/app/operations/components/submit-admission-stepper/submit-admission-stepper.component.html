@@ -860,12 +860,12 @@
                   <nz-form-control [nzErrorTip]="'الموافقة مطلوبة'">
                     <div class="d-flex">
                       <div *ngIf="role != 'customer'">
-                        <input
+                        <!-- <input
                           formControlName="unload_company_approval_file_checker"
                           id="unload_company_approval_file_checker"
                           class="form-check-input"
                           type="checkbox"
-                        />
+                        /> -->
                       </div>
                       <nz-form-label
                         [nzRequired]="
@@ -1039,12 +1039,7 @@
                   <nz-form-control [nzErrorTip]="'الموافقة مطلوبة'">
                     <div class="d-flex">
                       <div *ngIf="role != 'customer'">
-                        <input
-                          formControlName="transport_company_approval_file_checker"
-                          id="transport_company_approval_file_checker"
-                          class="form-check-input"
-                          type="checkbox"
-                        />
+                        
                       </div>
                       <nz-form-label
                         [nzRequired]="
@@ -1325,12 +1320,7 @@
                   <nz-form-control [nzErrorTip]="'الموافقة مطلوبة'">
                     <div class="d-flex">
                       <div *ngIf="role != 'customer'">
-                        <input
-                          formControlName="store_company_approval_file_checker"
-                          id="store_company_approval_file_checker"
-                          class="form-check-input"
-                          type="checkbox"
-                        />
+                        
                       </div>
                       <nz-form-label
                         [nzRequired]="
@@ -1604,12 +1594,7 @@
                   <nz-form-control [nzErrorTip]="'الموافقة مطلوبة'">
                     <div class="d-flex">
                       <div *ngIf="role != 'customer'">
-                        <input
-                          formControlName="centeral_store_approval_file_checker"
-                          id="centeral_store_approval_file_checker"
-                          class="form-check-input"
-                          type="checkbox"
-                        />
+                       
                       </div>
                       <nz-form-label
                         [nzRequired]="
@@ -1889,12 +1874,7 @@
                   <nz-form-control [nzErrorTip]="'الموافقة مطلوبة'">
                     <div class="d-flex">
                       <div *ngIf="role != 'customer'">
-                        <input
-                          formControlName="river_company_approval_file_checker"
-                          id="river_company_approval_file_checker"
-                          class="form-check-input"
-                          type="checkbox"
-                        />
+                       
                       </div>
                       <nz-form-label
                         [nzRequired]="
@@ -2098,10 +2078,20 @@
         <!-- ========================== -->
       </div>
 
+
+        <!-- with our approval -->
+
       <div class="row">
+        <div class="checker">
+        <input
+        (click)="checkAll($event)"
+        class="form-check-input position-static"
+        type="checkbox"
+      />
         <h6 class="fw-bold my-4">
           {{ "admissionForm.provideUsWithTheFollowingDocuments" | translate }}
         </h6>
+      </div>
         <ul class="pb-3">
           <li>
             <div class="row">
@@ -2328,6 +2318,7 @@
           </li>
         </ul>
       </div>
+      <!-- with our approval -->
 
       <div [ngClass]="{ 'd-none': hookDisabled }" class="row">
         <h6 class="fw-bold my-4"> 
@@ -2413,39 +2404,66 @@
       </div>
 
       <div class="row" >
+        <div class="checker">
+          <input
+              (change)="check3 = !check3"
+              class="form-check-input position-static"
+              type="checkbox"
+            />
         <h6 class="col-auto fw-bold mb-3 px-0 py-2 fw-bold">
           {{ "admissionForm.insertTheElectronicSeal" | translate }}
         </h6>
+      </div>
         <div>
-          <div class="form-check">
+          <div class="checker2 ">
             <input
-              formControlName="expenses_approval"
-              id="expenses_approval"
-              class="form-check-input"
+                [checked]="check3"
+                class="form-check-input position-static"
+                type="checkbox"
+              />
+            <div class="form-check">
+              <input
+                formControlName="expenses_approval"
+                id="expenses_approval"
+                class="form-check-input"
+                type="checkbox"
+              />
+              <label class="form-check-label text-dark" for="expenses_approval">
+                {{ "admissionForm.rovalOfPayment" | translate }}
+              </label>
+            </div>
+        </div>
+          <div class="checker2 ">
+            <input
+                 [checked]="check3"
+                class="form-check-input position-static"
+                type="checkbox"
+              />
+            <div class="form-check">
+              <input
+                formControlName="commissioner_approval"
+                id="commissioner_approval"
+                class="form-check-input"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label text-dark"
+                for="commissioner_approval"
+              >
+                {{
+                  "admissionForm.acknowledgmentFromTheAuthorizedPerson"
+                    | translate
+                }}
+              </label>
+            </div>
+          </div>
+          <div class="checker2 ">
+          <input
+               [checked]="check3"
+              class="form-check-input position-static "
               type="checkbox"
             />
-            <label class="form-check-label text-dark" for="expenses_approval">
-              {{ "admissionForm.rovalOfPayment" | translate }}
-            </label>
-          </div>
-          <div class="form-check">
-            <input
-              formControlName="commissioner_approval"
-              id="commissioner_approval"
-              class="form-check-input"
-              type="checkbox"
-            />
-            <label
-              class="form-check-label text-dark"
-              for="commissioner_approval"
-            >
-              {{
-                "admissionForm.acknowledgmentFromTheAuthorizedPerson"
-                  | translate
-              }}
-            </label>
-          </div>
-          <div class="form-check">
+          <div class="form-check ">
             <input
               formControlName="hook_approval"
               id="hook_approval"
@@ -2460,11 +2478,12 @@
             </label>
           </div>
         </div>
+        </div>
       </div>
 
       <div
         class="row mt-2"
-        *ngIf="role != 'customer' && role != 'rdf' "
+        *ngIf="!checkRDFValue "
       >
         <!-- <button
           nz-button
@@ -2488,6 +2507,8 @@
           #reviewerForm
           [statusNote]="statusNote"
           [statusNoteLabel]="'customer.addNotesForCoalUnit'"
+          [mainNote]="mainNote"
+          [checkRdf]="checkRDFValue"
           [mainNote]="mainNote"
           [reviewersList]="reviewersList"
           [statusArr]="statusArr"

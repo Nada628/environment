@@ -1,0 +1,109 @@
+<app-subtitle>{{
+    "موقف منشأة الاسمنت من استخدام RDF" 
+  }}</app-subtitle>   
+   
+   <div class="d-flex  flex-row  gap-5 justify-content-center  align-items-center mb-5" *ngIf="role == 'investors'">
+        <div class="d-flex gap-2">
+            <input
+            nz-input
+            nzSize="large"
+            type="text"
+            [(ngModel)]="name"
+            placeholder="اسم المستند"
+            #text
+        />
+        </div>
+        <div>
+            <input type="file" #file (change)="onSelectAttach($event) " class="d-none"/>
+            <label
+            (click)="file.click()"
+            class="input-group-text placeHolder d-flex justify-content-between mb-0 "
+            tabindex="0"
+          >
+            <div class="row">
+              <i class="bi bi-paperclip col-2"></i>
+              <div class="col-8">
+                <span>{{fileName || 'اختار فاتورة'}}</span>
+              </div>
+            </div>
+          </label>
+            
+        </div>
+        <button type="button" class="btn gradient px-5 " (click)="onSubmit()"
+            [disabled]="!text.value || !file.value"
+        >
+            حفظ
+        </button>
+    </div>
+
+    <div class="table-responsive w-75 mx-auto text-center">
+        <table class="table table-bordered table-hover text-center">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col"> اسم المستند</th>
+              <th scope="col"> الملفات</th>
+              <th scope="col"> الاجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of myArray; track $index) {
+            <tr>
+              <td> 
+                {{item.title}}
+            </td>
+              <td> <div>
+                
+                <a [href]="url + item.attach" target="_blank" >فتح الملف</a>
+            </div></td>
+              <td> <div>
+                <div
+                class="col-md-1 mx-auto"
+              >
+                <button
+                  class="btn btn-outline-danger btn-sm icon"
+                  (click)="removeIunloadCompaniesFile($index,item.id)"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div></td>
+            </tr>
+              }
+           
+          </tbody>
+        </table>
+      </div>
+
+      <div class="row mt-2">
+    
+        <app-reviewer-form
+          #reviewerForm
+          [statusNote]="statusNote"
+          [statusNoteLabel]="'customer.addNotesForCoalUnit'"
+          [mainNote]="mainNote"
+          [reviewersList]="reviewersList"
+          [statusArr]="statusArr"
+          [requestId]="requestId"
+          [customerRequest]="customerRequestData"
+        ></app-reviewer-form>
+      
+
+    <div class="d-flex ">
+    <button type="button"  nz-button class="btn gradient px-5 mt-5 ms-auto"
+     *ngIf="check33Value" 
+    [routerLink]="'/operations/acceptInvoiceForm/'+ requestId +'/AppNum'">
+        التالي
+    </button>
+    <button type="button"  nz-button class="btn gradient px-5 mt-5 ms-auto"
+     *ngIf="!check33Value" 
+    [routerLink]="'/operations/acceptInvoiceForm/'+ requestId +'/AppNum'">
+        تم
+    </button>
+    <button type="button" class="btn gradient px-5 mt-5 me-auto" (click)="previous()">
+    السابق
+    </button>
+  
+        
+    </div>
+     
+

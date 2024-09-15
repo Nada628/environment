@@ -1,13 +1,14 @@
-<nz-divider class="my-5" nzText="إضافة ملاحظة"></nz-divider>
 
 <!-- Main Note -->
-<div *ngIf="mainNote" class="flex-row">
+<div  class="flex-row">
+
+  <nz-divider class="my-5" nzText="إضافة ملاحظة" *ngIf="role !== 'customer' "></nz-divider>
   <!-- <app-dynamic-form
     [model]="mainNote"
     [submitCommentName]="'common.add' | translate"
   ></app-dynamic-form> -->
-  <div>
-    <nz-comment > 
+  <div >
+    <nz-comment  *ngIf="role !== 'customer'"> 
       <nz-avatar
         nz-comment-avatar
         nzIcon="user"
@@ -35,6 +36,7 @@
 
     <nz-divider class="my-3 ps-md-5" nzText="الملاحظات السابقة"></nz-divider>
 
+    <div >
     @if(gettingComments){
     <div class="text-center my-5">
       <nz-spin nzSimple></nz-spin>
@@ -57,6 +59,7 @@
     </nz-collapse>
     } }
   </div>
+</div>
 
   <!-- <div *ngIf="loggerList">
     <span *ngFor="let log of loggerList; let i = index">
@@ -108,12 +111,13 @@
   </div>
 
   <!-- Review -->
-  <nz-divider
-    class="my-5 ps-md-5"
-    nzText="{{ 'common.reviewRequest' | translate }}"
-  ></nz-divider>
+ 
 
-  <div class="mx-auto col-md-8 row row-cols-md-3 g-3">
+  <div 
+  [ngClass]="{'text-center':statusArr.length==1,
+              'mx-auto col-md-8 row row-cols-md-3 g-3':statusArr.length==3
+  }" 
+  *ngIf="role !== 'customer'">
     <div *ngFor="let status of statusArr" class="col">
       <button
         (click)="onSelectingStatus(status)"

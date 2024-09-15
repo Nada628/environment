@@ -1,5 +1,6 @@
 {
   "common": {
+    "name":"الاسم",
     "loading": "جاري تحميل البيانات",
     "add": "إضافة",
     "addComment": "إضافة ملاحظة",
@@ -20,13 +21,13 @@
     "upload": "رفع",
     "xCoordinate": "إحداثيات الموقع X",
     "yCoordinate": "إحداثيات الموقع Y ",
-    "name": "اسم",
     "maxValue": "لا يمكن ان تكون قيمة الكوتة أكبر من 1000 كج",
     "newCompany": "منشـأة جدبـــدة",
     "assignUser": "تعيين موظف",
     "reviewRequest": "مراجعة الطلب",
     "assignRequest": "تعيين الطلب للموظف",
-    "reviewDone": "تمت مراجعه الطلب"
+    "reviewDone": "تمت مراجعه الطلب",
+    "Description":"الوصف"
   },
   "languages": {
     "en": "English Language",
@@ -90,7 +91,10 @@
     "transport-company": "تقرير الاداء البيئ للنقل",
     "environmentalPerformanceReports": "تقارير الأداء البيئي",
     "acceptForm": "نموذج 33 مميكن",
-    "plant-coal": "فحم نباتى"
+    "plant-coal": "فحم نباتى",
+   "addDepartment":"إضافة قسم",
+    "editDepartment":"إعدادات القسم",
+    "settingDepartment":"إعدادات القسم"
   },
   "footer": {
     "copyright": "حقوق النشر © 2023 وزارة البيئة - جميع الحقوق محفوظة"
@@ -236,6 +240,7 @@
   "tableHeader": {
     "id": "رقم",
     "name": "الاسم",
+    "serialNumber":"الرقم",
     "company": "اسم المنشأة",
     "description": "الوصف",
     "parentId": "الرقم الاساسي",
@@ -260,7 +265,12 @@
     "active": "مفعل",
     "department": "الادارة",
     "country": "البلد",
-    "countryId": "رمز البلد"
+    "countryId": "رمز البلد",
+    "departmentNumber":"رقم القسم",
+    "departmentDescription":"الوصف",
+    "createDate":"تاريخ الانشاء ",
+    "settings":"الإعدادات",
+    "departmentName":"القسم"
   },
   "contactUs": {
     "address": "العنوان",
@@ -968,5 +978,13 @@
     "exportHarbor": "مواني التصدير بحد اقصي خمس مواني",
     "requestNumber": "رقم الطلب",
     "changeRequest": "طلب تغيير مينا"
+  },
+  "department":{
+    "addDepartment":"إضافة قسم",
+        "submit":"إضافة",
+        "update": "تعديل",
+        "cancle": "إلغاء",
+        "delete" :"حذف"
+
   }
 }
