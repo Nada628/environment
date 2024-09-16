@@ -20,7 +20,7 @@ export class OperationsService {
     ];
     this.superadminSidebarItems = [
           { name: 'routingHeader.department', url: '/operations/departments' },
-          { name: 'routingHeader.statistics', url: '/operations/statistics' },
+          // { name: 'routingHeader.statistics', url: '/operations/statistics' },
 
     ];
   }

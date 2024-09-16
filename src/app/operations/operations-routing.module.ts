@@ -128,9 +128,9 @@ const routes: Routes = [
       {
         path: 'departments',
         loadComponent: () =>
-          import(
-            '@operations/pages/departments/departments.component'
-          ).then((m) => m.DepartmentsComponent),
+          import('@operations/pages/departments/departments.component').then(
+            (m) => m.DepartmentsComponent
+          ),
         data: { breadcrumb: 'department' },
       },
       {
@@ -144,8 +144,16 @@ const routes: Routes = [
       {
         path: 'editDepartment/:id',
         loadComponent: () =>
-          import('@operations/pages/edit-department/edit-department.component').then(
-            (m) => m.editDepartmentComponent
+          import(
+            '@operations/pages/edit-department/edit-department.component'
+          ).then((m) => m.editDepartmentComponent),
+        data: { breadcrumb: 'editDepartment' },
+      },
+      {
+        path: 'addUser',
+        loadComponent: () =>
+          import('@operations/pages/add-user/add-user.component').then(
+            (m) => m.AddUserComponent
           ),
         data: { breadcrumb: 'editDepartment' },
       },

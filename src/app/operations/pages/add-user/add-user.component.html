@@ -1,0 +1,21 @@
+<section class="section">
+    <app-subtitle>{{
+      "routingHeader.registerCustomer" | translate
+    }}</app-subtitle>
+    <div class="container text-center">
+      <!-- Form -->
+      <app-dynamic-form
+        #registerForm
+        [model]="model"
+        (formValuesEmitter)="getFormValues($event)"
+      ></app-dynamic-form>
+      <app-btn
+        class="btn"
+        additionalCss="gradient px-5 m-3"
+        btnRadius="10"
+        [btnText]="'common.register'"
+        (onBtnClick)="register()"
+      ></app-btn>
+    </div>
+  </section>
+  
