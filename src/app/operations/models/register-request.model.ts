@@ -6,4 +6,5 @@ export interface RegisterRequest {
   password: string;
   confirmPassword: string;
   department_id: number;
+  role_name: string;
 }

@@ -87,7 +87,7 @@ export class LoginService {
           case 'employee':
           case 'rdf':
           case 'SuperAdmin': // Added this to route to operations
-            this.router.navigate(['/operations']);
+            this.router.navigate(['/operations/departments']);
             break;
         }
       },

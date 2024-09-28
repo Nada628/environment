@@ -20,7 +20,18 @@ export class OperationsService {
     ];
     this.superadminSidebarItems = [
           { name: 'routingHeader.department', url: '/operations/departments' },
-          // { name: 'routingHeader.statistics', url: '/operations/statistics' },
+          { name: 'routingHeader.Users', url: '/operations/Users' },
+          { name: 'routingHeader.logs', url: '/operations/logs' },
+          { name: 'routingHeader.coalRdf', url: '/operations/coalRdf' },
+          { name: 'routingHeader.coalTypes', url: '/operations/coalTypes' },
+          { name: 'routingHeader.City', url: '/operations/City' },
+          { name: 'routingHeader.Country', url: '/operations/Country' },
+          { name: 'routingHeader.Currency', url: '/operations/Currency' },
+          { name: 'routingHeader.unloadType', url: '/operations/unloadType' },
+          { name: 'routingHeader.Harbors', url: '/operations/Harbors' },
+
+
+
 
     ];
   }

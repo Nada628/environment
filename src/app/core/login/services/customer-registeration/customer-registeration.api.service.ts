@@ -13,6 +13,7 @@ export class CustomerRegisterationAPIService {
   registerType() {
     return this.httpClient.get(`${this.Url}departments`);
   }
+  
 
   registerCustomerAPI(registerRequest) {
     return this.httpClient.post(`${this.Url}register`, registerRequest);

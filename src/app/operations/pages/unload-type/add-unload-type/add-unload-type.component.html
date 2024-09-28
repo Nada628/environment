@@ -1,0 +1,47 @@
+<div class="container mt-4">
+  <app-subtitle>{{ "routingHeader.AddUnloadType" | translate }}</app-subtitle>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <!-- unloadType Field -->
+      <div class="form-group">
+        <label for="name">{{ "common.unloadType" | translate }} <span class="required">*</span> </label>
+        <input type="text" id="name" class="form-control" formControlName="unloadType" />
+        <div *ngIf="formGroup.get('unloadType')?.hasError('required') && formGroup.get('unloadType')?.touched" class="invalid-feedback">
+          unloadType is required.
+        </div>
+      </div>
+
+      <!-- notes Field -->
+      <div class="form-group">
+        <label for="notes">{{ "common.notes" | translate }} <span class="required">*</span> </label>
+        <input type="text" id="notes" class="form-control" formControlName="notes" />
+        <div *ngIf="submitted && formGroup.get('notes')?.errors?.['required']" class="invalid-feedback">
+          notes are required.
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <!-- price Field -->
+      <div class="form-group">
+        <label for="name">{{ "common.price" | translate }} <span class="required">*</span> </label>
+        <input type="text" id="name" class="form-control" formControlName="price" />
+        <div *ngIf="formGroup.get('price')?.hasError('required') && formGroup.get('price')?.touched" class="invalid-feedback">
+          price is required.
+        </div>
+      </div>
+
+      <!-- form_type Field -->
+      <div class="form-group">
+        <label for="form_type">{{ "common.form_type" | translate }} <span class="required">*</span> </label>
+        <input type="text" id="form_type" class="form-control" formControlName="form_type" />
+        <div *ngIf="submitted && formGroup.get('form_type')?.errors?.['required']" class="invalid-feedback">
+          form_type are required.
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn gradient mt-3 ">{{ "common.add" | translate }}</button>
+    </div>
+    </form>
+</div>

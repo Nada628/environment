@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <app-subtitle>{{ "routingHeader.addCurrency" | translate }}</app-subtitle>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <!-- currency Field -->
+      <div class="form-group">
+        <label for="name">{{ "common.currency" | translate }} <span class="required">*</span> </label>
+        <input type="text" id="name" class="form-control" formControlName="currency" />
+        <div *ngIf="formGroup.get('currency')?.hasError('required') && formGroup.get('currency')?.touched" class="invalid-feedback">
+          currency is required.
+        </div>
+      </div>
+
+      <!-- code Field -->
+      <div class="form-group">
+        <label for="code">{{ "common.code" | translate }} <span class="required">*</span> </label>
+        <input type="text" id="code" class="form-control" formControlName="code" />
+        <div *ngIf="submitted && formGroup.get('code')?.errors?.['required']" class="invalid-feedback">
+          code are required.
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn gradient mt-3 ">{{ "department.submit" | translate }}</button>
+    </div>
+    </form>
+</div>

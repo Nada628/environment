@@ -128,7 +128,7 @@ const routes: Routes = [
       {
         path: 'departments',
         loadComponent: () =>
-          import('@operations/pages/departments/departments.component').then(
+          import('@operations/pages/departments/all-departments/departments.component').then(
             (m) => m.DepartmentsComponent
           ),
         data: { breadcrumb: 'department' },
@@ -137,7 +137,7 @@ const routes: Routes = [
         path: 'addDepartment',
         loadComponent: () =>
           import(
-            '@operations/pages/addDepartment/addDepartment.component'
+            '@operations/pages/departments/add-department/addDepartment.component'
           ).then((m) => m.AddDepartmentComponent),
         data: { breadcrumb: 'addDepartment' },
       },
@@ -145,17 +145,156 @@ const routes: Routes = [
         path: 'editDepartment/:id',
         loadComponent: () =>
           import(
-            '@operations/pages/edit-department/edit-department.component'
+            '@operations/pages/departments/edit-department/edit-department.component'
           ).then((m) => m.editDepartmentComponent),
         data: { breadcrumb: 'editDepartment' },
       },
       {
+        path: 'Users',
+        loadComponent: () =>
+          import('@operations/pages/users/all-users/users.component').then(
+            (m) => m.UsersComponent
+          ),
+        data: { breadcrumb: 'Users' },
+      },
+      {
         path: 'addUser',
         loadComponent: () =>
-          import('@operations/pages/add-user/add-user.component').then(
+          import('@operations/pages/users/add-user/add-user.component').then(
             (m) => m.AddUserComponent
           ),
-        data: { breadcrumb: 'editDepartment' },
+        data: { breadcrumb: 'addUser' },
+      },
+      {
+        path: 'editUser/:id',
+        loadComponent: () =>
+          import('@operations/pages/users/edit-user/edit-user.component').then(
+            (m) => m.EditUserComponent
+          ),
+        data: { breadcrumb: 'editUser' },
+      },
+      {
+        path: 'logs',
+        loadComponent: () =>
+          import('@operations/pages/logs/logs.component').then(
+            (m) => m.LogsComponent
+          ),
+        data: { breadcrumb: 'logs' },
+      },
+
+      {
+        path: 'coalRdf',
+        loadComponent: () =>
+          import('@operations/pages/coal-type-rdf/coal-type-rdf.component').then(
+            (m) => m.CoalRdfComponent
+          ),
+        data: { breadcrumb: 'coalRdf' },
+      },
+      {
+        path: 'coalTypes',
+        loadComponent: () =>
+          import('@operations/pages/coal-types/all-coal-types/coal-types.component').then(
+            (m) => m.CoalTypesComponent
+          ),
+        data: { breadcrumb: 'coalTypes' },
+      },
+      {
+        path: 'addCoalType',
+        loadComponent: () =>
+          import('@operations/pages/coal-types/add-coal-type/add-coal-type.component').then(
+            (m) => m.AddCoalTypeComponent
+          ),
+        data: { breadcrumb: 'addCoalType' },
+      },
+      {
+        path: 'editCoalType/:id',
+        loadComponent: () =>
+          import('@operations/pages/coal-types/edit-coal-type/edit-coal-type.component').then(
+            (m) => m.EditCoalTypeComponent
+
+          ),
+        data: { breadcrumb: 'editCoalType' },
+      },
+      {
+        path: 'City',
+        loadComponent: () =>
+          import('@operations/pages/Cities/City/city.component').then(
+            (m) => m.CityComponent
+
+          ),
+        data: { breadcrumb: 'City' },
+      },
+      {
+        path: 'addCity',
+        loadComponent: () =>
+          import('@operations/pages/Cities/add-city/add-city.component').then(
+            (m) => m.AddCityComponent
+
+          ),
+        data: { breadcrumb: 'addCity' },
+      },
+      {
+        path: 'editCity/:id',
+        loadComponent: () =>
+          import('@operations/pages/Cities/edit-city/edit-city.component').then(
+            (m) => m.EditCityComponent
+
+          ),
+        data: { breadcrumb: 'editCity' },
+      },
+      {
+        path: 'Country',
+        loadComponent: () =>
+          import('@operations/pages/country/all-country/country.component').then(
+            (m) => m.CountryComponent
+
+          ),
+        data: { breadcrumb: 'Country' },
+      },
+      {
+        path: 'addCountry',
+        loadComponent: () =>
+          import('@operations/pages/country/add-country/add-country.component').then(
+            (m) => m.AddCountryComponent
+
+          ),
+        data: { breadcrumb: 'addCountry' },
+      },
+      {
+        path: 'editCountry/:id',
+        loadComponent: () =>
+          import('@operations/pages/country/edit-country/edit-country.component').then(
+            (m) => m.EditCountryComponent
+
+          ),
+        data: { breadcrumb: 'editCountry' },
+      },
+      {
+        path: 'Currency',
+        loadComponent: () =>
+          import('@operations/pages/currency/all-currency/currency.component').then(
+            (m) => m.CurrencyComponent
+
+          ),
+        data: { breadcrumb: 'Currency' },
+      },
+      {
+        path: 'addCurrency',
+        loadComponent: () =>
+          import('@operations/pages/currency/add-currency/add-currency.component').then(
+            (m) => m.AddCurrencyComponent
+
+          ),
+        data: { breadcrumb: 'addCurrency' },  
+      },
+      {
+        path: 'editCurrency/:id',
+        loadComponent: () =>
+          import('@operations/pages/currency/edit-currency/edit-currency.component').then(
+            (m) => m.EditCurrencyComponent
+
+          ),
+        data: { breadcrumb: 'editCurrency' },
       },
       {
         path: 'importBox',
@@ -164,6 +303,57 @@ const routes: Routes = [
             (m) => m.ImportBoxComponent
           ),
         data: { breadcrumb: 'importBox' },
+      },
+      {
+        path: 'unloadType',
+        loadComponent: () =>
+          import('@operations/pages/unload-type/all-unload-type/unload-type.component').then(
+            (m) => m.UnLoadTypeComponent
+          ),
+        data: { breadcrumb: 'unloadType' },
+      },
+      {
+        path: 'AddUnloadType',
+        loadComponent: () =>
+          import('@operations/pages/unload-type/add-unload-type/add-unload-type.component').then(
+            (m) => m.AddUnLoadTypeComponent
+          ),
+        data: { breadcrumb: 'AddUnloadType' },
+      },
+      {
+        path: 'editUnLoadType/:id',
+        loadComponent: () =>
+          import('@operations/pages/unload-type/edit-unload-type/edit-unload-type.component').then(
+            (m) => m.EditUnLoadTypeComponent
+
+          ),
+        data: { breadcrumb: 'editUnLoadType' },
+      },
+
+      {
+        path: 'Harbors',
+        loadComponent: () =>
+          import('@operations/pages/harbor/all-harbors/harbors.component').then(
+            (m) => m.HarborsComponent
+          ),
+        data: { breadcrumb: 'Harbors' },
+      },
+      {
+        path: 'addHarbor',
+        loadComponent: () =>
+          import('@operations/pages/harbor/add-harbor/add-harbor.component').then(
+            (m) => m.AddHarborComponent
+          ),
+        data: { breadcrumb: 'addHarbor' },
+      },
+      {
+        path: 'editHarbor/:id',
+        loadComponent: () =>
+          import('@operations/pages/harbor/edit-harbor/edit-harbor.component').then(
+            (m) => m.EditHarborComponent
+
+          ),
+        data: { breadcrumb: 'editHarbor' },
       },
       {
         path: 'paymentOfFees',

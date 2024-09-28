@@ -1,0 +1,53 @@
+<div class="container mt-4">
+  <app-subtitle>{{ "routingHeader.addHarbor" | translate }}</app-subtitle>
+  <form [formGroup]="formGroup" (ngSubmit)="onUpdate()">
+    <div class="form-row">
+      <!-- harbor Field -->
+      <div class="form-group">
+        <label for="harbor">{{ "common.harbor" | translate }} <span class="required">*</span></label>
+        <input type="text" id="harbor" class="form-control" formControlName="harbor" />
+        <div *ngIf="formGroup.get('harbor')?.hasError('required') && formGroup.get('harbor')?.touched" class="invalid-feedback">
+          {{ "common.harbor_required" | translate }}
+        </div>
+      </div>
+
+      <!-- code Field -->
+      <div class="form-group">
+        <label for="code">{{ "common.code" | translate }} <span class="required">*</span></label>
+        <input type="text" id="code" class="form-control" formControlName="code" />
+        <div *ngIf="submitted && formGroup.get('code')?.errors?.['required']" class="invalid-feedback">
+          {{ "common.code_required" | translate }}
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <!-- harbor_type Field -->
+      <div class="form-group">
+        <label for="harbor_type">{{ "common.harbor_type" | translate }} <span class="required">*</span></label>
+        <input type="number" id="harbor_type" class="form-control" formControlName="harbor_type" />
+        <div *ngIf="formGroup.get('harbor_type')?.hasError('required') && formGroup.get('harbor_type')?.touched" class="invalid-feedback">
+          {{ "common.harbor_type_required" | translate }}
+        </div>
+      </div>
+
+      <!-- country_id Field -->
+      <div class="form-group">
+        <label for="country_id">{{ "common.country" | translate }} <span class="required">*</span></label>
+        <select id="country_id" class="form-control" formControlName="country_id">
+          <option *ngFor="let country of countries" [value]="country.id">
+            {{ country.name }}
+          </option>
+        </select>
+        <div *ngIf="submitted && formGroup.get('country_id')?.errors?.['required']" class="invalid-feedback">
+          {{ "common.country_required" | translate }}
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn blue m-2">{{ "department.update" | translate }} </button>
+      <button type="button" class="btn red m-2" (click)="onDelete()">{{ "department.delete" | translate }}</button>
+      <button type="button" class="btn btn-secondary m-2" (click)="onCancel()">{{ "department.cancle" | translate }}</button>
+    </div>
+  </form>
+</div>

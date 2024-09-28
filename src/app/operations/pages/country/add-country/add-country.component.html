@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <app-subtitle>{{ "routingHeader.addCountry" | translate }}</app-subtitle>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <!-- Country Field -->
+      <div class="form-group">
+        <label for="name">{{ "common.country" | translate }} <span class="required">*</span> </label>
+        <input type="text" id="name" class="form-control" formControlName="Country" />
+        <div *ngIf="formGroup.get('Country')?.hasError('required') && formGroup.get('Country')?.touched" class="invalid-feedback">
+          Country is required.
+        </div>
+      </div>
+
+      <!-- Notes Field -->
+      <div class="form-group">
+        <label for="notes">{{ "common.notes" | translate }} <span class="required">*</span> </label>
+        <input type="text" id="notes" class="form-control" formControlName="notes" />
+        <div *ngIf="submitted && formGroup.get('notes')?.errors?.['required']" class="invalid-feedback">
+          Notes are required.
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn gradient mt-3 ">{{ "department.submit" | translate }}</button>
+    </div>
+    </form>
+</div>

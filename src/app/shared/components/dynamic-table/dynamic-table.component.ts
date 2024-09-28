@@ -3,9 +3,10 @@ import {
   Component,
   EventEmitter,
   OnInit,
+  Input,
   Output,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule} from '@angular/common';
 import { DynamicTable, TableHeader } from '@shared/model/dynamic-table.model';
 import { BtnComponent } from '../buttons/btn/btn.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -44,6 +45,9 @@ export class DynamicTableComponent implements OnInit {
   tableData: DynamicTable;
   allHeaders: TableHeader[];
   status: typeof status = status;
+  @Input() headers: any[] = [];
+  @Input() data: any[] = [];  //
+
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 

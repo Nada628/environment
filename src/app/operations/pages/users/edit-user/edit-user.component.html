@@ -1,0 +1,72 @@
+<div class="container mt-4">
+    <app-subtitle>{{ "routingHeader.editUser" | translate }}</app-subtitle>
+    <form [formGroup]="formGroup" (ngSubmit)="onUpdate()">
+      <div class="form-row">
+        <!-- Name Field -->
+        <div class="form-group">
+          <label for="name">{{ "common.name" | translate }} <span class="required">*</span></label>
+          <input type="text" id="name" class="form-control" formControlName="name" />
+        </div>
+  
+        <!-- Username Field -->
+        <div class="form-group">
+          <label for="username">{{ "common.username" | translate }} <span class="required">*</span></label>
+          <input type="text" id="username" class="form-control" formControlName="username" />
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <!-- Email Field -->
+        <div class="form-group">
+          <label for="email">{{ "common.email" | translate }} <span class="required">*</span></label>
+          <input type="email" id="email" class="form-control" formControlName="email" />
+        </div>
+
+         <!-- Department Field -->
+         <div class="form-group">
+          <label for="departmentName">{{ "common.departmentName" | translate }} <span class="required">*</span></label>
+          <select id="departmentName" class="form-control" formControlName="departmentName">
+            <option *ngFor="let department of departments" [value]="department.name">
+              {{ department.name }}
+            </option>
+          </select>
+        </div>
+
+      </div>
+  
+      <div class="form-row">
+
+          <!-- Password Field -->
+        <div class="form-group">
+          <label for="password">{{ "common.password" | translate }} <span class="required">*</span></label>
+          <input type="password" id="password" class="form-control" formControlName="password" />
+        </div>
+        <!-- Confirm Password Field -->
+        <div class="form-group">
+          <label for="confirmPassword">{{ "common.confirmPassword" | translate }} <span class="required">*</span></label>
+          <input type="password" id="confirmPassword" class="form-control" formControlName="confirmPassword" />
+        </div>
+  
+       
+      </div>
+  
+      <div class="form-row">
+        <!-- Role Field -->
+        <div class="form-group">
+          <label for="roleName">{{ "common.roleName" | translate }} <span class="required">*</span></label>
+          <select id="roleName" class="form-control" formControlName="roleName">
+            <option *ngFor="let role of roles" [value]="role.name">
+              {{ role.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+  
+      <div class="text-center">
+        <button type="submit" class="btn blue m-2">{{ "department.update" | translate }} </button>
+        <button type="button" class="btn red m-2" (click)="onDelete()">{{ "department.delete" | translate }}</button>
+        <button type="button" class="btn btn-secondary m-2" (click)="onCancel()">{{ "department.cancle" | translate }}</button>
+      </div>
+    </form>
+  </div>
+  

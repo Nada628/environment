@@ -82,6 +82,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     this.form = this.formService.buildForm(this.model, this.checkerForm);
     this.dynamicFormGroup = this.form.formgroup;
     this.fields = this.form.fields;
+
   }
 
   onSubmitForm() {

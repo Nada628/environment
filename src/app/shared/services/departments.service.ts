@@ -15,7 +15,6 @@ export class DepartmentsApiService {
       headers: [
         'tableHeader.serialNumber',
         'tableHeader.departmentName',
-        // 'tableHeader.departmentNumber',
         'tableHeader.departmentDescription',
         'tableHeader.createDate',
         'tableHeader.settings',

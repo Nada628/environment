@@ -51,6 +51,7 @@ export class CustomerRegisterationComponent {
       email: values.email,
       active: true,
       department_id: values.registerType,
+      role_name: values.registerType,
     };
   }
 

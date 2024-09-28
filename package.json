@@ -34,6 +34,7 @@
     "glob": "^11.0.0",
     "license-webpack-plugin": "^4.0.2",
     "ng-zorro-antd": "^17.1.0",
+    "ngx-pagination": "^6.0.3",
     "ngx-toastr": "^19.0.0",
     "path-browserify": "^1.0.1",
     "production": "^0.0.2",
