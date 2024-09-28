@@ -14,6 +14,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SubDepartmentsApiService } from '@shared/services/sub-departments.service';
 
 @Component({
   selector: 'app-edit-coal-type',
@@ -40,11 +41,13 @@ export class EditCoalTypeComponent implements OnInit {
   submitted = false;
   roles: any[] = [];
   departments: any[] = [];
+  subdepartments: any[] = [];
   coalId!: number;
 
   constructor(
     private fb: FormBuilder,
     private coalTypesService: CoalTypesApiService,
+    private subDepartmentsService: SubDepartmentsApiService,
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
@@ -56,11 +59,14 @@ export class EditCoalTypeComponent implements OnInit {
       Code: ['', [Validators.required,]],
       ratioPrice: ['', Validators.required],
       departmentName: ['', Validators.required],
+      subdepartmentName: ['', Validators.required],
       Percentage: ['', Validators.required],
     });
 
-    // Fetch departments
+    // Fetch departments and sub-departments
     this.fetchDepartments();
+    this.fetchSubDepartments();
+
    
 
     // Get the Coal ID from the route
@@ -85,6 +91,7 @@ export class EditCoalTypeComponent implements OnInit {
             Code: data.code || '',
             ratioPrice: data.ratio_price_per_ton || '',
             departmentName: data.department_name || '', 
+            subdepartmentName: data.sub_department_name || '',
             Percentage: data.hander_percent,
           });
         }
@@ -110,7 +117,16 @@ export class EditCoalTypeComponent implements OnInit {
       }
     );
   }
-
+  fetchSubDepartments() {
+    this.subDepartmentsService.getAll().subscribe(
+      (response: any) => {
+        this.subdepartments = response.data;
+      },
+      (error) => {
+        console.error('Error fetching subdepartments:', error);
+      }
+    );
+  }
   onUpdate() {
     this.submitted = true;
   
@@ -119,31 +135,31 @@ export class EditCoalTypeComponent implements OnInit {
   
       const formValue = this.formGroup.value;
       
+      const departmentId = this.getDepartmentIdByName(formValue.departmentName);
+      const subDepartmentId = this.getSubDepartmentIdByName(formValue.subdepartmentName);
       const formData = {
-        id: this.coalId, 
+        id: this.coalId,
         name: formValue.name,
         code: formValue.Code,
-        ratio_price_per_ton: formValue.ratioPrice, 
-        department_name: this.getDepartmentIdByName(formValue.departmentName), 
-        hander_percent: formValue.Percentage, 
+        ratio_price_per_ton: formValue.ratioPrice,
+        department_id: departmentId, 
+        sub_department_id: subDepartmentId,  
+        hander_percent: formValue.Percentage,
       };
   
       this.coalTypesService.updateCoalType(formData).subscribe(
         () => {
-          this.snackBar.open('Coal updated successfully!', 'Close', {
-            duration: 3000,
-          });
+          this.snackBar.open('Coal updated successfully!', 'Close', { duration: 3000 });
           this.router.navigate(['operations/coalTypes']);
         },
         (error) => {
-          this.snackBar.open('Failed to update coal. Please try again.', 'Close', {
-            duration: 3000,
-          });
+          this.snackBar.open('Failed to update coal. Please try again.', 'Close', { duration: 3000 });
           console.error('Error updating coal:', error);
         }
       );
     }
   }
+  
   
 
   onCancel() {
@@ -171,7 +187,13 @@ export class EditCoalTypeComponent implements OnInit {
 
   getDepartmentIdByName(name: string): number | null {
     const department = this.departments.find(d => d.name === name);
-    return department ? department.id : null;
+    return department ? department.id : null;  // Return department ID
   }
+  
+  getSubDepartmentIdByName(name: string): number | null {
+    const subdepartment = this.subdepartments.find(s => s.name === name);
+    return subdepartment ? subdepartment.id : null;  // Return sub-department ID
+  }
+  
 
 }

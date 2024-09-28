@@ -97,15 +97,22 @@ export class AddCoalTypeComponent implements OnInit {
     if (this.formGroup.valid) {
       this.formGroup.markAllAsTouched();
       const formValue = this.formGroup.value;
+  
+      const subDepartmentId = this.getSubDepartmentIdByName(formValue.subdepartmentName);
+      const departmentId = this.getDepartmentIdByName(formValue.departmentName);
+      
+      if (subDepartmentId === null || departmentId === null) {
+        this.snackBar.open('Invalid Department or Subdepartment selected. Please try again.', 'Close', { duration: 3000 });
+        return;
+      }
       
       const formData = {
         name: formValue.name,  
         code: formValue.Code,  
         ratio_price_per_ton: formValue.ratioPrice,  
         hander_percent: formValue.Percentage,  
-        department_id: this.getDepartmentIdByName(formValue.departmentName),  
-        subdepartment_id: this.getSubDepartmentIdByName(formValue.subdepartmentName), 
-
+        department_id: departmentId,  
+        sub_department_id: subDepartmentId,  // Correct field name with underscore
       };
   
       this.coalTypesService.addCoalType(formData).subscribe(
@@ -120,6 +127,8 @@ export class AddCoalTypeComponent implements OnInit {
       );
     }
   }
+  
+  
   
 
   getSubDepartmentIdByName(name: string): number | null {

@@ -60,7 +60,7 @@ export class CoalTypesComponent implements OnInit {
           Code: res['data'][i].code,
           ratioPrice: res['data'][i].ratio_price_per_ton,
           departmentName: res['data'][i].department_name,
-          subDepatment: res['data'][i].subDepatment,
+          subDepartmentName: res['data'][i].sub_department_name || 'null',
           Percentage: res['data'][i].hander_percent,
           id: res['data'][i].id, 
         });

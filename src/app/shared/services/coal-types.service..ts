@@ -18,6 +18,7 @@ export class CoalTypesApiService {
         'tableHeader.Code',
         'tableHeader.ratioPrice',
         'tableHeader.departmentName',
+        'tableHeader.subDepartmentName',
         'tableHeader.Percentage',
         'tableHeader.settings',
       ],
