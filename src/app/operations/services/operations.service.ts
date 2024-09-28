@@ -20,6 +20,7 @@ export class OperationsService {
     ];
     this.superadminSidebarItems = [
           { name: 'routingHeader.department', url: '/operations/departments' },
+          { name: 'routingHeader.SubDepartments', url: '/operations/SubDepartments' },
           { name: 'routingHeader.Users', url: '/operations/Users' },
           { name: 'routingHeader.logs', url: '/operations/logs' },
           { name: 'routingHeader.coalRdf', url: '/operations/coalRdf' },
@@ -29,9 +30,9 @@ export class OperationsService {
           { name: 'routingHeader.Currency', url: '/operations/Currency' },
           { name: 'routingHeader.unloadType', url: '/operations/unloadType' },
           { name: 'routingHeader.Harbors', url: '/operations/Harbors' },
-
-
-
+          { name: 'routingHeader.Services', url: '/operations/Services' },
+          { name: 'routingHeader.CompanyActivity', url: '/operations/CompanyActivity' },
+          { name: 'routingHeader.Roles', url: '/operations/Roles' },
 
     ];
   }

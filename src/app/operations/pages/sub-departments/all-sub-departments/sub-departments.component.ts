@@ -4,18 +4,23 @@ import { FilterComponent } from '../../../components/filter/filter.component';
 import { SearchComponent } from '../../../components/search/search.component';
 import { DynamicTableComponent } from '../../../../shared/components/dynamic-table/dynamic-table.component';
 import { CommonModule } from '@angular/common';
-import {FormGroup,ReactiveFormsModule,FormBuilder,Validators,} from '@angular/forms';
+import {
+  FormGroup,
+  ReactiveFormsModule,
+  FormBuilder,
+  Validators,
+} from '@angular/forms';
 import { BtnDropdownComponent } from '@shared/components/buttons/btn-dropdown/btn-dropdown.component';
 import { SubmitButtonComponent } from '@shared/components/buttons/submit-button/submit-button.component';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { SearchBarComponent } from '@shared/components/search-bar/search-bar.component';
 import { SharedModule } from '@shared/shared.module';
-import { CoalTypesApiService } from '@shared/services/coal-types.service.';
+import { SubDepartmentsApiService } from '@shared/services/sub-departments.service';
 import { TableHeader } from '@shared/model/dynamic-table.model';
-import { ActivatedRoute, Router } from '@angular/router'; 
+import { Router } from '@angular/router'; 
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-sub-departments',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,38 +35,32 @@ import { ActivatedRoute, Router } from '@angular/router';
     FilterComponent,
     SearchComponent,
   ],
-  templateUrl: './coal-types.component.html',
-  styleUrl: './coal-types.component.scss',
+  templateUrl: './sub-departments.component.html',
+  styleUrl: './sub-departments.component.scss',
 })
-export class CoalTypesComponent implements OnInit {
+export class SubDepartmentsComponent implements OnInit {
   formGroup!: FormGroup;
-  id!: string;
 
   @ViewChild('dynamicTableWrapper', { static: false })
   dynamicTableWrapper: DynamicTableComponent;
   headers;
   tableData: any[];
   constructor(
-    private route: ActivatedRoute,
-    private coalTypesService: CoalTypesApiService,
+    private subDepartmentService: SubDepartmentsApiService,
     private router: Router 
-    
   ) {
-    this.headers = this.coalTypesService.tableHeader;
+    this.headers = this.subDepartmentService.tableHeader;
   }
   ngOnInit() {
-    this.coalTypesService.getCoalTypes().subscribe((res) => {
+    this.subDepartmentService.getAll().subscribe((res) => {
       this.tableData = [];
 
       for (let i = 0; i < (res['data'] as []).length; i++) {
         this.tableData.push({
           serialNumber: i + 1, 
-          name: res['data'][i].name,
-          Code: res['data'][i].code,
-          ratioPrice: res['data'][i].ratio_price_per_ton,
-          departmentName: res['data'][i].department_name,
-          subDepatment: res['data'][i].subDepatment,
-          Percentage: res['data'][i].hander_percent,
+          subDepartmentName: res['data'][i].name,
+          mainDepartment: res['data'][i].department_name,
+          departmentDescription: res['data'][i].description,
           id: res['data'][i].id, 
         });
       }
@@ -84,9 +83,9 @@ export class CoalTypesComponent implements OnInit {
     }
   }
 
-
-  openAddCoalTypeForm() {
-    this.router.navigate(['operations/addCoalType']) 
+ 
+  openAddDepartmentForm() {
+    this.router.navigate(['operations/AddSubDepartment']); 
   }
 
   handleButtonClick(event: any) {
@@ -94,11 +93,11 @@ export class CoalTypesComponent implements OnInit {
 
     if (event && event.row && event.row.id) {
       this.router.navigate([
-        'operations/editCoalType',
+        'operations/editSubDepartment',
         event.row.id
       ]).then(success => {
         if (success) {
-          console.log('Navigation successful to:', `operations/editCoalType/${event.row.id}`);
+          console.log('Navigation successful to:', `operations/editSubDepartment/${event.row.id}`);
         } else {
           console.error('Navigation failed.');
         }
@@ -106,8 +105,7 @@ export class CoalTypesComponent implements OnInit {
         console.error('Navigation error:', err);
       });
     } else {
-      console.error('User ID is missing in event.row.');
+      console.error('Sub department ID is missing in event.row.');
     }
   }
-  
 }

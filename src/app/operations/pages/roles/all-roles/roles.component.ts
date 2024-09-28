@@ -15,12 +15,12 @@ import { SubmitButtonComponent } from '@shared/components/buttons/submit-button/
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { SearchBarComponent } from '@shared/components/search-bar/search-bar.component';
 import { SharedModule } from '@shared/shared.module';
-import { UsersApiService } from '@shared/services/users.service';
+import { RolesApiService } from '@shared/services/roles.service';
 import { TableHeader } from '@shared/model/dynamic-table.model';
 import { ActivatedRoute, Router } from '@angular/router'; 
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-roles',
   standalone: true,
   imports: [
     CommonModule,
@@ -35,10 +35,10 @@ import { ActivatedRoute, Router } from '@angular/router';
     FilterComponent,
     SearchComponent,
   ],
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.scss',
+  templateUrl: './roles.component.html',
+  styleUrl: './roles.component.scss',
 })
-export class UsersComponent implements OnInit {
+export class RolesComponent implements OnInit {
   formGroup!: FormGroup;
   id!: string; // Declare 'id' property
 
@@ -48,38 +48,37 @@ export class UsersComponent implements OnInit {
   tableData: any[];
   constructor(
     private route: ActivatedRoute,
-    private usersService: UsersApiService,
+    private rolesService: RolesApiService,
     private router: Router 
     
   ) {
-    this.headers = this.usersService.tableHeader;
+    this.headers = this.rolesService.tableHeader;
   }
   ngOnInit() {
-    this.usersService.getUsers().subscribe((res) => {
+    // Fetch roles from the API and populate the table
+    this.rolesService.getAll().subscribe((res) => {
       this.tableData = [];
 
-      for (let i = 0; i < (res['users'] as []).length; i++) {
+      for (let i = 0; i < (res['data'] as []).length; i++) {
         this.tableData.push({
-          serialNumber: i + 1, 
-          name: res['users'][i].name,
-          email: res['users'][i].email,
-          username: res['users'][i].username,
-          departmentName: res['users'][i]['department_name'],
-          id: res['users'][i].id, 
+          serialNumber: i + 1, // Add serial number
+          role: res['data'][i].name, // Add role name
+          id: res['data'][i].id, 
         });
       }
-      this.getTable();
+
+      this.getTable(); // Call method to render table
     });
   }
+
   getTable() {
     const headers = this.headers.headers.map(
-      (header, i) =>
-        ({
-          key: header.substring(12),
-          translatedKey: header,
-          index: i,
-          isSelected: true,
-        } as TableHeader)
+      (header, i) => ({
+        key: header.substring(12),
+        translatedKey: header,
+        index: i,
+        isSelected: true,
+      } as TableHeader)
     );
 
     if (this.tableData?.length > 0) {
@@ -87,29 +86,31 @@ export class UsersComponent implements OnInit {
     }
   }
 
-
   openAddUserForm() {
-    this.router.navigate(['operations/addUser']); 
+    this.router.navigate(['operations/addRole']);
   }
 
   handleButtonClick(event: any) {
     console.log('Button clicked:', event);
-    if (event && event.row && event.row.id) {
-      this.router.navigate([
-        'operations/editUser',
-        event.row.id
-      ]).then(success => {
-        if (success) {
-          console.log('Navigation successful to:', `operations/editUser/${event.row.id}`);
-        } else {
-          console.error('Navigation failed.');
-        }
-      }).catch(err => {
-        console.error('Navigation error:', err);
-      });
+    console.log('Event Row:', event.row); // Log the row object
+
+    if (event && event.row) {
+      const roleId = event.row.id; // Access the id property directly
+      if (roleId) {
+        this.router.navigate(['operations/editRole', roleId]).then((success) => {
+          if (success) {
+            console.log('Navigation successful to:', `operations/editRole/${roleId}`);
+          } else {
+            console.error('Navigation failed.');
+          }
+        }).catch((err) => {
+          console.error('Navigation error:', err);
+        });
+      } else {
+        console.error('Role ID is missing in event.row.');
+      }
     } else {
-      console.error('User ID is missing in event.row.');
+      console.error('Event row is missing or invalid.');
     }
   }
-  
 }

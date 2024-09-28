@@ -356,6 +356,105 @@ const routes: Routes = [
         data: { breadcrumb: 'editHarbor' },
       },
       {
+        path: 'Services',
+        loadComponent: () =>
+          import('@operations/pages/services/all-services/services.component').then(
+            (m) => m.ServiceComponent
+          ),
+        data: { breadcrumb: 'Services' },
+      },
+      {
+        path: 'addService',
+        loadComponent: () =>
+          import('@operations/pages/services/add-service/add-service.component').then(
+            (m) => m.AddServiceComponent
+          ),
+        data: { breadcrumb: 'addService' },
+      },
+      {
+        path: 'editService/:id',
+        loadComponent: () =>
+          import('@operations/pages/services/edit-service/edit-service.component').then(
+            (m) => m.EditServiceComponent
+
+          ),
+        data: { breadcrumb: 'editService' },
+      },
+      {
+        path: 'CompanyActivity',
+        loadComponent: () =>
+          import('@operations/pages/company-activities/all-company-activity/company-activity.component').then(
+            (m) => m.CompanyActivityComponent
+          ),
+        data: { breadcrumb: 'CompanyActivity' },
+      },
+      {
+        path: 'addCompanyActivity',
+        loadComponent: () =>
+          import('@operations/pages/company-activities/add-company-activity/add-company-activity.component').then(
+            (m) => m.AddCompanyActivityComponent
+          ),
+        data: { breadcrumb: 'addCompanyActivity' },
+      },
+      {
+        path: 'editCompanyActivity/:id',
+        loadComponent: () =>
+          import('@operations/pages/company-activities/edit-company-activity/edit-company-activity.component').then(
+            (m) => m.EditCompanyActivityComponent
+          ),
+        data: { breadcrumb: 'editCompanyActivity' },
+      },
+     
+      {
+        path: 'Roles',
+        loadComponent: () =>
+          import('@operations/pages/roles/all-roles/roles.component').then(
+            (m) => m.RolesComponent
+          ),
+        data: { breadcrumb: 'Roles' },
+      },
+      {
+        path: 'addRole',
+        loadComponent: () =>
+          import('@operations/pages/roles/add-role/add-role.component').then(
+            (m) => m.AddRoleComponent
+          ),
+        data: { breadcrumb: 'addRole' },
+      },
+      {
+        path: 'editRole/:id',
+        loadComponent: () =>
+          import('@operations/pages/roles/edit-role/edit-role.component').then(
+            (m) => m.EditRoleComponent
+          ),
+        data: { breadcrumb: 'editRole' },
+      },
+      {
+        path: 'SubDepartments',
+        loadComponent: () =>
+          import('@operations/pages/sub-departments/all-sub-departments/sub-departments.component').then(
+            (m) => m.SubDepartmentsComponent
+          ),
+        data: { breadcrumb: 'SubDepartments' },
+      },
+      {
+        path: 'AddSubDepartment',
+        loadComponent: () =>
+          import('@operations/pages/sub-departments/add-sub-department/add-sub-department.component').then(
+            (m) => m.AddSubDepartmentComponent
+          ),
+        data: { breadcrumb: 'AddSubDepartment' },
+      },
+      {
+        path: 'editSubDepartment/:id',
+        loadComponent: () =>
+          import('@operations/pages/sub-departments/edit-sub-department/edit-sub-department.component').then(
+            (m) => m.EditSubDepartmentComponent
+          ),
+        data: { breadcrumb: 'editSubDepartment' },
+      },
+      
+      {
         path: 'paymentOfFees',
         loadComponent: () =>
           import(

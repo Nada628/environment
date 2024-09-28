@@ -1,0 +1,44 @@
+<div class="container mt-4">
+  <app-subtitle>{{ "routingHeader.editRole" | translate }}</app-subtitle>
+  <form [formGroup]="formGroup" (ngSubmit)="onUpdate()">
+    <div class="form-row">
+      <div class="form-group col">
+        <label for="role">{{ "common.role" | translate }} <span class="required">*</span></label>
+        <input 
+          type="text" 
+          id="role" 
+          class="form-control" 
+          formControlName="role" 
+          [ngClass]="{'is-invalid': formGroup.get('role')?.invalid && formGroup.get('role')?.touched}" 
+        />
+        <div *ngIf="formGroup.get('role')?.hasError('required') && formGroup.get('role')?.touched" class="invalid-feedback">
+          Role is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div formArrayName="permissions">
+        <div class="row mb-3"> 
+          <div *ngFor="let permission of permissions; let i = index" class="col-md-4 mb-2"> 
+            <div class="form-check">
+              <input
+                type="checkbox"
+                [formControlName]="i" 
+                class="form-check-input" 
+                id="permissionCheck{{i}}" 
+              />
+              <label class="form-check-label" [for]="'permissionCheck' + i">{{ permission.name }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="text-center">
+      <button type="submit" class="btn blue m-2">{{ "department.update" | translate }}</button>
+      <button type="button" class="btn red m-2" (click)="onDelete()">{{ "department.delete" | translate }}</button>
+      <button type="button" class="btn btn-secondary m-2" (click)="onCancel()">{{ "department.cancle" | translate }}</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,113 @@
+.title {
+  top: 304px;
+  left: 1125px;
+  width: fit-content;
+  height: 37px;
+  text-align: left;
+  letter-spacing: 1px;
+  color: #0070c4;
+  font: normal normal bold 20px/40px Tajawal;
+}
+.font {
+  font: normal normal bold 16px Tajawal;
+}
+
+img {
+  margin-left: 45px !important;
+  margin-top: 15px !important;
+}
+.line {
+  height: 3px;
+  background-color: rgba(0, 0, 0, 0.156);
+}
+
+.line::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: 0;
+  width: 30%;
+  height: 5px;
+  background-color: #dfb50b;
+}
+
+.bt-bg {
+  position: relative;
+  top: 0;
+  right: 88%;
+  width: 141px;
+  height: 34px;
+  background: transparent linear-gradient(90deg, #0070c4e3 0%, #00b8c4 100%) 0%
+    0% no-repeat padding-box;
+  letter-spacing: 1px;
+  font: normal normal bold 20px/20px Tajawal;
+}
+.bt-end {
+  background: transparent linear-gradient(90deg, #0070c4e3 0%, #00b8c4 100%) 0%
+    0% no-repeat padding-box;
+  right: 50%;
+  width: 150px;
+  transform: translateX(50%);
+}
+
+form {
+  font: normal normal bold 20px/20px Tajawal;
+  letter-spacing: 0.5px;
+}
+
+.birth {
+  right: 75%;
+  width: fit-content;
+}
+
+.birth input {
+  outline: none;
+}
+
+.num {
+  width: 100px;
+}
+
+.st-paragrph {
+  font: normal normal bold 20px Tajawal;
+  right: 20%;
+}
+
+.line-p {
+  text-decoration: underline;
+}
+
+.w-p {
+  width: fit-content;
+}
+
+.p2 {
+  font-family: Tajawal;
+}
+
+.c-22 {
+  color: #222222;
+}
+
+/* end index */
+.contant_RCQ {
+  box-shadow: 0 0 5px #22222240;
+}
+
+input::placeholder {
+  font-size: 16px;
+}
+
+.w_h {
+  width: 150px;
+  height: 30px;
+}
+
+textarea {
+  height: 100px;
+}
+
+.blue {
+  background-color: #045fa4;
+  color: white;
+}

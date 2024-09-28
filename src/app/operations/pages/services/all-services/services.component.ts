@@ -4,18 +4,24 @@ import { FilterComponent } from '../../../components/filter/filter.component';
 import { SearchComponent } from '../../../components/search/search.component';
 import { DynamicTableComponent } from '../../../../shared/components/dynamic-table/dynamic-table.component';
 import { CommonModule } from '@angular/common';
-import {FormGroup,ReactiveFormsModule,FormBuilder,Validators,} from '@angular/forms';
+import {
+  FormGroup,
+  ReactiveFormsModule,
+  FormBuilder,
+  Validators,
+} from '@angular/forms';
 import { BtnDropdownComponent } from '@shared/components/buttons/btn-dropdown/btn-dropdown.component';
 import { SubmitButtonComponent } from '@shared/components/buttons/submit-button/submit-button.component';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { SearchBarComponent } from '@shared/components/search-bar/search-bar.component';
 import { SharedModule } from '@shared/shared.module';
-import { CoalTypesApiService } from '@shared/services/coal-types.service.';
+import { ServiceApiService } from '@shared/services/services.service';
 import { TableHeader } from '@shared/model/dynamic-table.model';
 import { ActivatedRoute, Router } from '@angular/router'; 
+import {DepartmentsApiService} from'@shared/services/departments.service';
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-services',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,12 +36,12 @@ import { ActivatedRoute, Router } from '@angular/router';
     FilterComponent,
     SearchComponent,
   ],
-  templateUrl: './coal-types.component.html',
-  styleUrl: './coal-types.component.scss',
+  templateUrl: './services.component.html',
+  styleUrl: './services.component.scss',
 })
-export class CoalTypesComponent implements OnInit {
+export class ServiceComponent implements OnInit {
   formGroup!: FormGroup;
-  id!: string;
+  id!: string; // Declare 'id' property
 
   @ViewChild('dynamicTableWrapper', { static: false })
   dynamicTableWrapper: DynamicTableComponent;
@@ -43,31 +49,36 @@ export class CoalTypesComponent implements OnInit {
   tableData: any[];
   constructor(
     private route: ActivatedRoute,
-    private coalTypesService: CoalTypesApiService,
+    private serviceService: ServiceApiService,
+    private departmentsService: DepartmentsApiService,
     private router: Router 
     
   ) {
-    this.headers = this.coalTypesService.tableHeader;
+    this.headers = this.serviceService.tableHeader;
   }
   ngOnInit() {
-    this.coalTypesService.getCoalTypes().subscribe((res) => {
-      this.tableData = [];
-
-      for (let i = 0; i < (res['data'] as []).length; i++) {
-        this.tableData.push({
-          serialNumber: i + 1, 
-          name: res['data'][i].name,
-          Code: res['data'][i].code,
-          ratioPrice: res['data'][i].ratio_price_per_ton,
-          departmentName: res['data'][i].department_name,
-          subDepatment: res['data'][i].subDepatment,
-          Percentage: res['data'][i].hander_percent,
-          id: res['data'][i].id, 
-        });
-      }
-      this.getTable();
+    this.serviceService.getDepartments().subscribe((departmentsRes) => {
+      const departments = departmentsRes['data']; 
+      
+      const departmentMap = departments.reduce((map: any, department: any) => {
+        map[department.id] = department.name;
+        return map;
+      }, {});
+  
+      this.serviceService.getAll().subscribe((servicesRes) => {
+        this.tableData = servicesRes['data'].map((service: any, index: number) => ({
+          serialNumber: index + 1,
+          service: service.name,
+          departmentName: departmentMap[service.department_id] || 'Unknown', 
+          desc: service.desc,
+          id: service.id,
+        }));
+          this.getTable();
+      });
     });
   }
+  
+
   getTable() {
     const headers = this.headers.headers.map(
       (header, i) =>
@@ -85,20 +96,19 @@ export class CoalTypesComponent implements OnInit {
   }
 
 
-  openAddCoalTypeForm() {
-    this.router.navigate(['operations/addCoalType']) 
+  openAddUserForm() {
+    this.router.navigate(['operations/addService']); 
   }
 
   handleButtonClick(event: any) {
     console.log('Button clicked:', event);
-
     if (event && event.row && event.row.id) {
       this.router.navigate([
-        'operations/editCoalType',
+        'operations/editService',
         event.row.id
       ]).then(success => {
         if (success) {
-          console.log('Navigation successful to:', `operations/editCoalType/${event.row.id}`);
+          console.log('Navigation successful to:', `operations/editService/${event.row.id}`);
         } else {
           console.error('Navigation failed.');
         }
@@ -106,7 +116,7 @@ export class CoalTypesComponent implements OnInit {
         console.error('Navigation error:', err);
       });
     } else {
-      console.error('User ID is missing in event.row.');
+      console.error('Service ID is missing in event.row.');
     }
   }
   

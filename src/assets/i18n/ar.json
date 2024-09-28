@@ -48,7 +48,21 @@
     "unloadType":"نوع التفريغ ",
     "form_type":"النوع",
     "harbor":"الميناء",
-    "harbor_type":"نوع الميناء"
+    "harbor_type":"نوع الميناء",
+    "desc":"الوصف",
+    "department":"القسم",
+    "activity":"النشاط",
+    "company_type_id":"نوع الشركة",
+    "rdf":"المخلفات",
+    "role":"الصلاحية",
+    "permission":"الاذن",
+    "description":"الوصف",
+    "company_type_name":"نوع الشركة",
+    "mainDepartment": "القسم الرئيسى ",
+    "subdepartmentName":"القسم الفرعي"
+
+
+
 
   },
   "languages": {
@@ -141,7 +155,21 @@
     "editUnLoadType":"إعدادات أنواع التفريغ  ",
     "Harbors":"الموانئ",
     "addHarbor": "إضافة ميناء",
-    "editHarbor":"إعدادات الميناء"
+    "editHarbor":"إعدادات الميناء",
+    "Services":"الخدمات",
+    "addService":"إضافة خدمة  ",
+    "editService": "إعدادت الخدمات  ",
+    "CompanyActivity":"نشاط الشركة ",
+    "addCompanyActivity":"إضافة نشاط شركة  ",
+    "editCompanyActivity":"إعدادات نشاط الشركة ",
+    "Roles":"الصلاحيات",
+    "addRole": "إضافة صلاحية ",
+    "editRole" :"إعدادات الصلاحيات ",
+    "SubDepartments":"الأقسام الفرعية ",
+    "AddSubDepartment":"إضافة قسم فرعي"  ,
+    "editSubDepartment":"إعدادات الأقسام الفرعية"
+    
+
   },
   "footer": {
     "copyright": "حقوق النشر © 2023 وزارة البيئة - جميع الحقوق محفوظة"
@@ -340,7 +368,16 @@
     "price":"السعر",
     "form_type":"النوع",
     "harbor": "الميناء",
-    "harbor_type":"نوع الميناء"
+    "harbor_type":"نوع الميناء",
+    "service":"الخدمة",
+    "activity":"النشاط",
+    "rdf":"مخلفات",
+    "role":"الصلاحية",
+    "company_type_name":"نوع الشركة  ",
+     "subDepartmentName":"القسم الفرعي  ",
+    "mainDepartment":"القسم الرئيسى ",
+    "Code":"الرمز"
+
   },
   "contactUs": {
     "address": "العنوان",

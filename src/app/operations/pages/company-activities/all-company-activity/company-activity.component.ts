@@ -10,12 +10,12 @@ import { SubmitButtonComponent } from '@shared/components/buttons/submit-button/
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { SearchBarComponent } from '@shared/components/search-bar/search-bar.component';
 import { SharedModule } from '@shared/shared.module';
-import { CoalTypesApiService } from '@shared/services/coal-types.service.';
 import { TableHeader } from '@shared/model/dynamic-table.model';
 import { ActivatedRoute, Router } from '@angular/router'; 
+import { CompanyActivityApiService } from '@shared/services/company-activity.service';
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-company-activity',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,10 +30,10 @@ import { ActivatedRoute, Router } from '@angular/router';
     FilterComponent,
     SearchComponent,
   ],
-  templateUrl: './coal-types.component.html',
-  styleUrl: './coal-types.component.scss',
+  templateUrl: './company-activity.component.html',
+  styleUrl: './company-activity.component.scss',
 })
-export class CoalTypesComponent implements OnInit {
+export class CompanyActivityComponent implements OnInit {
   formGroup!: FormGroup;
   id!: string;
 
@@ -43,26 +43,23 @@ export class CoalTypesComponent implements OnInit {
   tableData: any[];
   constructor(
     private route: ActivatedRoute,
-    private coalTypesService: CoalTypesApiService,
+    private companyActivityService: CompanyActivityApiService,
     private router: Router 
     
   ) {
-    this.headers = this.coalTypesService.tableHeader;
+    this.headers = this.companyActivityService.tableHeader;
   }
   ngOnInit() {
-    this.coalTypesService.getCoalTypes().subscribe((res) => {
+    this.companyActivityService.getAll().subscribe((res) => {
       this.tableData = [];
 
-      for (let i = 0; i < (res['data'] as []).length; i++) {
+      for (let i = 0; i < (res['company_activities'] as []).length; i++) {
         this.tableData.push({
           serialNumber: i + 1, 
-          name: res['data'][i].name,
-          Code: res['data'][i].code,
-          ratioPrice: res['data'][i].ratio_price_per_ton,
-          departmentName: res['data'][i].department_name,
-          subDepatment: res['data'][i].subDepatment,
-          Percentage: res['data'][i].hander_percent,
-          id: res['data'][i].id, 
+          activity: res['company_activities'][i].name,
+          desc: res['company_activities'][i].description,
+          company_type_name: res['company_activities'][i].company_type_name,
+          id: res['company_activities'][i].id, 
         });
       }
       this.getTable();
@@ -85,8 +82,8 @@ export class CoalTypesComponent implements OnInit {
   }
 
 
-  openAddCoalTypeForm() {
-    this.router.navigate(['operations/addCoalType']) 
+  openAddForm() {
+    this.router.navigate(['operations/addCompanyActivity']) 
   }
 
   handleButtonClick(event: any) {
@@ -94,11 +91,11 @@ export class CoalTypesComponent implements OnInit {
 
     if (event && event.row && event.row.id) {
       this.router.navigate([
-        'operations/editCoalType',
+        'operations/editCompanyActivity',
         event.row.id
       ]).then(success => {
         if (success) {
-          console.log('Navigation successful to:', `operations/editCoalType/${event.row.id}`);
+          console.log('Navigation successful to:', `operations/editCompanyActivity/${event.row.id}`);
         } else {
           console.error('Navigation failed.');
         }
@@ -106,7 +103,7 @@ export class CoalTypesComponent implements OnInit {
         console.error('Navigation error:', err);
       });
     } else {
-      console.error('User ID is missing in event.row.');
+      console.error('Company activity ID is missing in event.row.');
     }
   }
   

@@ -1,0 +1,52 @@
+<div class="container mt-4">
+  <app-subtitle>{{ "routingHeader.editSubDepartment" | translate }}</app-subtitle>
+  <form [formGroup]="formGroup" (ngSubmit)="onUpdate()">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">{{ "common.name" | translate }}</label>
+        <input
+          type="text"
+          id="name"
+          class="form-control"
+          formControlName="name"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="description">{{ "common.Description" | translate }}</label>
+        <input
+          id="description"
+          class="form-control"
+          type="text"
+          formControlName="description"
+          required
+        />
+      </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+          <label for="mainDepartment">{{ "common.mainDepartment" | translate }}</label>
+          <select
+            id="mainDepartment"
+            class="form-control"
+            formControlName="mainDepartment"
+            required
+          >
+            <option value="" disabled selected>Select a department</option>
+            <option *ngFor="let department of departments" [value]="department.id">
+              {{ department.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      
+    
+
+      <div class="text-center">
+        <button type="submit" class="btn blue m-2">{{ "department.update" | translate }} </button>
+        <button type="button" class="btn red m-2" (click)="onDelete()">{{ "department.delete" | translate }}</button>
+        <button type="button" class="btn btn-secondary m-2" (click)="onCancel()">{{ "department.cancle" | translate }}</button>
+      </div>
+  </form>
+</div>

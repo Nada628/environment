@@ -43,7 +43,19 @@
     "unloadType":"Unload Type",
     "form_type":"Form type",
     "harbor":"Hardor",
-    "harbor_type":"Harbor type"
+    "harbor_type":"Harbor type",
+    "desc":"Description",
+    "department":"Department",
+    "activity":"Activity",
+    "company_type_name":"Company type ",
+    "rdf":"Rdf",
+    "role":"Role",
+    "permission":"Permission",
+    "description":"Description",
+    "company type":"Company type",
+    "mainDepartment": "Main Department",
+    "subdepartmentName":"Sub Department "
+
 
   },
   "languages": {
@@ -136,9 +148,19 @@
     "editUnLoadType":"UnLoad Type Settings",
     "Harbors":"Harbors",
     "addHarbor": "Add Harbor",
-    "editHarbor":" Harbor Settings"
-
-
+    "editHarbor":" Harbor Settings",
+    "Services":"Services",
+    "addService":"Add Service ",
+    "editService": "Services Settings ",
+    "CompanyActivity":"Company Activity",
+    "addCompanyActivity":"Add Company Activity",
+    "editCompanyActivity":"Edit Company Activity ",
+    "Roles":"Roles",
+    "addRole": "Add Role",
+    "editRole" :"Roles Settings",
+    "SubDepartments":"Sub Departments",
+    "AddSubDepartment":"Add Sub Department"    ,
+    "editSubDepartment": "Sub Departments Settings" 
   },
   "footer": {
     "copyright": "Copyright 2023 by Ministry of Environment"
@@ -331,7 +353,16 @@
     "price":"Price",
     "form_type":"Form type",
     "harbor": "Hardor",
-    "harbor_type":"Harbor type"
+    "harbor_type":"Harbor type",
+    "service":"Service",
+    "activity":"Activity",
+    "company_type_id":" Company type",
+    "rdf":"Rdf",
+    "role":"Role",
+    "company_type_name":"Company type ",
+    "subDepartmentName":"Sub Department Name",
+    "mainDepartment":"Main Department",
+    "Code":"Code"
 
   },
   "contactUs": {

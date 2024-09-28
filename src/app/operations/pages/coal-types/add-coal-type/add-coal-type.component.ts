@@ -13,6 +13,7 @@ import { SharedModule } from '@shared/shared.module';
 import { CoalTypesApiService } from '@shared/services/coal-types.service.';
 import { Router, ActivatedRoute } from '@angular/router'; 
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
+import { SubDepartmentsApiService } from '@shared/services/sub-departments.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
@@ -40,12 +41,13 @@ export class AddCoalTypeComponent implements OnInit {
   departmentId: number | null = null;
   formGroup!: FormGroup;
   submitted = false;
-  roles: any[] = []; 
   departments: any[] = []; 
+  subdepartments: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private coalTypesService: CoalTypesApiService,
+    private subDepartmentsService: SubDepartmentsApiService,
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
@@ -58,14 +60,26 @@ export class AddCoalTypeComponent implements OnInit {
       ratioPrice: ['', Validators.required],
       departmentName: ['', Validators.required],
       Percentage: ['', Validators.required],
+      subdepartmentName: ['', Validators.required]  
+
     });
 
     this.fetchDepartments();
+    this.fetchSubDepartments();
 
     const idParam = this.route.snapshot.paramMap.get('id');
     this.departmentId = idParam !== null ? Number(idParam) : null;
   }
-
+  fetchSubDepartments() {
+    this.subDepartmentsService.getAll().subscribe(
+      (response: any) => {
+        this.subdepartments = response.data;  
+      },
+      (error) => {
+        console.error('Error fetching subdepartments:', error);
+      }
+    );
+  }
 
   fetchDepartments() {
     this.coalTypesService.getDepartments().subscribe(
@@ -90,6 +104,8 @@ export class AddCoalTypeComponent implements OnInit {
         ratio_price_per_ton: formValue.ratioPrice,  
         hander_percent: formValue.Percentage,  
         department_id: this.getDepartmentIdByName(formValue.departmentName),  
+        subdepartment_id: this.getSubDepartmentIdByName(formValue.subdepartmentName), 
+
       };
   
       this.coalTypesService.addCoalType(formData).subscribe(
@@ -103,6 +119,12 @@ export class AddCoalTypeComponent implements OnInit {
         }
       );
     }
+  }
+  
+
+  getSubDepartmentIdByName(name: string): number | null {
+    const subdepartment = this.subdepartments.find(s => s.name === name);
+    return subdepartment ? subdepartment.id : null;
   }
   
   getDepartmentIdByName(name: string): number | null {

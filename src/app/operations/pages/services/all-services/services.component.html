@@ -1,11 +1,11 @@
-<app-subtitle>{{ "routingHeader.coalRdf" | translate }}</app-subtitle>
+<app-subtitle>{{ "routingHeader.Services" | translate }}</app-subtitle>
 <!-- <app-filter></app-filter> -->
 <app-search></app-search>
 
 <div class="container mt-3">
-  <!-- <button class="btn blue mb-3" (click)="openAddUserForm()">
-    {{ "routingHeader.addCoalRdf" | translate }}
-  </button> -->
+  <button class="btn blue mb-3" (click)="openAddUserForm()">
+    {{ "routingHeader.addService" | translate }}
+  </button>
   <app-dynamic-table
     #dynamicTableWrapper
     (buttonClick)="handleButtonClick($event)"

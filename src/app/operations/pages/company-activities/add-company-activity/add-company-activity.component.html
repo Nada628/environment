@@ -1,0 +1,52 @@
+<div class="container mt-4">
+  <app-subtitle>{{ "routingHeader.addCompanyActivity" | translate }}</app-subtitle>
+
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <!-- name Field (activity) -->
+      <div class="form-group">
+        <label for="activity">{{ "common.activity" | translate }} <span class="required">*</span></label>
+        <input type="text" id="activity" class="form-control" formControlName="activity" />
+        <div *ngIf="formGroup.get('activity')?.hasError('required') && formGroup.get('activity')?.touched" class="invalid-feedback">
+          Activity name is required.
+        </div>
+      </div>
+
+      <!-- description Field (desc) -->
+      <div class="form-group">
+        <label for="desc">{{ "common.description" | translate }} <span class="required">*</span></label>
+        <input type="text" id="desc" class="form-control" formControlName="desc" />
+        <div *ngIf="formGroup.get('desc')?.hasError('required') && formGroup.get('desc')?.touched" class="invalid-feedback">
+          Description is required.
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-row">
+      <!-- company_type Field (dropdown) -->
+      <div class="form-group">
+        <label for="company_type_id">{{ "common.company_type_name" | translate }} <span class="required">*</span></label>
+        <select id="company_type_id" class="form-control" formControlName="company_type_id">
+          <option value="" disabled selected>Select a company type</option>
+          <option *ngFor="let type of companyTypes" [value]="type.id">{{ type.name }}</option>
+        </select>        
+        <div *ngIf="submitted && formGroup.get('company_type_id')?.errors?.['required']" class="invalid-feedback">
+          Company Type is required.
+        </div>
+      </div>
+
+      <!-- rdf Field -->
+      <div class="form-group">
+        <label for="rdf">{{ "common.rdf" | translate }} <span class="required">*</span></label>
+        <input type="text" id="rdf" class="form-control" formControlName="rdf" />
+        <div *ngIf="formGroup.get('rdf')?.hasError('required') && formGroup.get('rdf')?.touched" class="invalid-feedback">
+          RDF is required.
+        </div>
+      </div>    
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn gradient mt-3">{{ "common.add" | translate }}</button>
+    </div>
+  </form>
+</div>

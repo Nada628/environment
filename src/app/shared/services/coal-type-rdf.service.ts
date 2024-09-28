@@ -19,7 +19,7 @@ export class CoalTypeRdfApiService {
         'tableHeader.ratioPrice',
         'tableHeader.departmentName',
         'tableHeader.Percentage',
-        'tableHeader.settings',
+        // 'tableHeader.settings',
       ],
     };
   }
