@@ -16,6 +16,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ServiceApiService } from '@shared/services/services.service';
 import {DepartmentsApiService} from'@shared/services/departments.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-add-service',
@@ -42,7 +44,17 @@ export class AddServiceComponent implements OnInit {
   departmentId: number | null = null;
   formGroup!: FormGroup;
   submitted = false;
-  departments: any[] = []; // To store departments fetched from API
+  departments: any[] = []; 
+
+  requests = [
+    { id: 4, name: 'اصدار خطاب عدم ممانعة شحنات الفحم ( حجري - بترولي ) ' },
+    { id: 1, name: 'اصدار خطاب الموافقة على تصدير فحم نباتي' },
+    { id: 2, name: 'الموافقة على استكمال كمية شحنة مصدرة وموانئ تصدير' },
+    { id: 3, name: 'خدمة طلب اعتماد نموذج انتاج فحم نباتي' },
+    { id: 5, name: 'اعتماد تقرير الاداء البيئي سنويا' },
+
+
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -50,7 +62,7 @@ export class AddServiceComponent implements OnInit {
     private departmentService: DepartmentsApiService, 
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private toast: ToastrService
   ) {}
 
 
@@ -59,6 +71,8 @@ export class AddServiceComponent implements OnInit {
       name: ['', Validators.required],
       department_id: [null, Validators.required], 
       desc: ['', Validators.required],
+      cost:[ , Validators.required],
+      request_type: [  ,Validators.required]
     });
 
     this.fetchDepartments();
@@ -81,22 +95,21 @@ export class AddServiceComponent implements OnInit {
     if (this.formGroup.valid) {
       const formData = {
         name: this.formGroup.value.name,
-        department_id: this.formGroup.value.department_id, // Send department_id
+        department_id: this.formGroup.value.department_id, 
         desc: this.formGroup.value.desc,
+        cost: this.formGroup.value.cost,
+        request_type: this.formGroup.value.request_type
+
       };
 
       // Submit the form data to the API
       this.serviceService.add(formData).subscribe(
         () => {
-          this.snackBar.open('Service added successfully!', 'Close', {
-            duration: 3000,
-          });
+          this.toast.success('تم إضافة الخدمة بنجاح');
           this.router.navigate(['operations/Services']);
         },
         (error) => {
-          this.snackBar.open('Failed to add service. Please try again.', 'Close', {
-            duration: 3000,
-          });
+          this.toast.error('خطأ في إضافة الخدمة حاول مرة أخرى');
           console.error('Error adding service:', error);
         }
       );

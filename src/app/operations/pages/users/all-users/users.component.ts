@@ -4,6 +4,7 @@ import { FilterComponent } from '../../../components/filter/filter.component';
 import { SearchComponent } from '../../../components/search/search.component';
 import { DynamicTableComponent } from '../../../../shared/components/dynamic-table/dynamic-table.component';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 import {
   FormGroup,
   ReactiveFormsModule,
@@ -40,7 +41,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class UsersComponent implements OnInit {
   formGroup!: FormGroup;
-  id!: string; // Declare 'id' property
+  id!: string; 
 
   @ViewChild('dynamicTableWrapper', { static: false })
   dynamicTableWrapper: DynamicTableComponent;
@@ -49,7 +50,8 @@ export class UsersComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private usersService: UsersApiService,
-    private router: Router 
+    private router: Router ,
+    private toastr: ToastrService
     
   ) {
     this.headers = this.usersService.tableHeader;

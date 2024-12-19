@@ -13,6 +13,7 @@ import { SharedModule } from '@shared/shared.module';
 import { TableHeader } from '@shared/model/dynamic-table.model';
 import { ActivatedRoute, Router } from '@angular/router'; 
 import { CompanyActivityApiService } from '@shared/services/company-activity.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-company-activity',
@@ -44,7 +45,8 @@ export class CompanyActivityComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private companyActivityService: CompanyActivityApiService,
-    private router: Router 
+    private router: Router,
+    private toastr: ToastrService
     
   ) {
     this.headers = this.companyActivityService.tableHeader;

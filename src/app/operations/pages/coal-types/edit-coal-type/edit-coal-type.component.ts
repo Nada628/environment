@@ -16,6 +16,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SubDepartmentsApiService } from '@shared/services/sub-departments.service';
 
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-edit-coal-type',
   templateUrl: './edit-coal-type.component.html',
@@ -50,7 +52,8 @@ export class EditCoalTypeComponent implements OnInit {
     private subDepartmentsService: SubDepartmentsApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -149,11 +152,11 @@ export class EditCoalTypeComponent implements OnInit {
   
       this.coalTypesService.updateCoalType(formData).subscribe(
         () => {
-          this.snackBar.open('Coal updated successfully!', 'Close', { duration: 3000 });
+          this.toastr.success('تم تعديل بيانات نوع الفحم بنجاح');
           this.router.navigate(['operations/coalTypes']);
         },
         (error) => {
-          this.snackBar.open('Failed to update coal. Please try again.', 'Close', { duration: 3000 });
+          this.toastr.error('خطأ اثناء تعديل بيانات نوع الفحم حاول مرة أخرى');
           console.error('Error updating coal:', error);
         }
       );
@@ -170,15 +173,12 @@ export class EditCoalTypeComponent implements OnInit {
     if (this.coalId) {
       this.coalTypesService.deleteCoalType(this.coalId).subscribe(
         () => {
-          this.snackBar.open('coal deleted successfully', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.success('تم حذف نوع الفحم بنجاح');
           this.router.navigate(['operations/coalTypes']);
         },
         (error) => {
-          this.snackBar.open('Failed to delete coal', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.error('خطأ اثناء حذف نوع الفحم حاول مرة أخرى');
+          
           console.error('Error deleting coal:', error);
         }
       );
@@ -187,12 +187,12 @@ export class EditCoalTypeComponent implements OnInit {
 
   getDepartmentIdByName(name: string): number | null {
     const department = this.departments.find(d => d.name === name);
-    return department ? department.id : null;  // Return department ID
+    return department ? department.id : null; 
   }
   
   getSubDepartmentIdByName(name: string): number | null {
     const subdepartment = this.subdepartments.find(s => s.name === name);
-    return subdepartment ? subdepartment.id : null;  // Return sub-department ID
+    return subdepartment ? subdepartment.id : null;  
   }
   
 

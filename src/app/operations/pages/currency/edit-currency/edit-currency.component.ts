@@ -13,8 +13,7 @@ import { CurrencyApiService } from '@shared/services/currency.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-edit-currency',
   templateUrl: './edit-currency.component.html',
@@ -42,19 +41,18 @@ export class EditCurrencyComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private currencyService: CurrencyApiService, // Correct spelling
+    private currencyService: CurrencyApiService, 
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
     this.formGroup = this.fb.group({
-      currency: ['', Validators.required],  // Correct form controls
-      code: ['', Validators.required],      // Correct form controls
+      currency: ['', Validators.required],  
+      code: ['', Validators.required],      
     });
   
-    // Get the currency ID from the route
     const idParam = this.route.snapshot.paramMap.get('id');
     this.currencyId = idParam !== null ? Number(idParam) : null;
   
@@ -70,18 +68,14 @@ export class EditCurrencyComponent implements OnInit {
         
         const data = response.data;
 
-        // Pre-fill the form with the fetched currency data
         if (data) {
           this.formGroup.patchValue({
-            currency: data.name || '',  // Ensure the form control names match
-            code: data.code || '',      // Ensure the form control names match
+            currency: data.name || '',  
+            code: data.code || '',      
           });
         }
       },
       (error) => {
-        this.snackBar.open('Failed to load currency data', 'Close', {
-          duration: 3000,
-        });
         console.error('Error fetching currency data:', error);
       }
     );
@@ -97,23 +91,19 @@ export class EditCurrencyComponent implements OnInit {
       
       const formData = {
         id: this.currencyId, 
-        name: formValue.currency,  // Correct mapping
-        code: formValue.code,      // Correct mapping
-        entity_id: '1',            // Static value
-        changer_id: '1'            // Static value
+        name: formValue.currency,  
+        code: formValue.code,      
+        entity_id: '1',            
+        changer_id: '1'            
       };
   
       this.currencyService.update(formData).subscribe(
         () => {
-          this.snackBar.open('Currency updated successfully!', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.success('تم تعديل العملة بنجاح');
           this.router.navigate(['operations/Currency']);
         },
         (error) => {
-          this.snackBar.open('Failed to update Currency. Please try again.', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.error('خطأ اثناء تعديل العملة حاول مرة أخرى');
           console.error('Error updating Currency:', error);
         }
       );
@@ -128,15 +118,11 @@ export class EditCurrencyComponent implements OnInit {
     if (this.currencyId) {
       this.currencyService.delete(this.currencyId).subscribe(
         () => {
-          this.snackBar.open('Currency deleted successfully', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.success('تم حذف العملة بنجاح');
           this.router.navigate(['operations/Currency']);
         },
         (error) => {
-          this.snackBar.open('Failed to delete Currency', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.error('خطأ أثناء حذف العملة برجاء المحاولة مرة أخرى');
           console.error('Error deleting Currency:', error);
         }
       );

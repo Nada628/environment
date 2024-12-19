@@ -15,10 +15,10 @@ import { SubmitButtonComponent } from '@shared/components/buttons/submit-button/
 import { SearchBarComponent } from '@shared/components/search-bar/search-bar.component';
 import { SharedModule } from '@shared/shared.module';
 import { DepartmentsApiService } from '@shared/services/departments.service';
-import { Router, ActivatedRoute } from '@angular/router'; // Import Router for navigation
+import { Router, ActivatedRoute } from '@angular/router';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-addDepartment',
@@ -49,26 +49,24 @@ export class AddDepartmentComponent implements OnInit {
     private fb: FormBuilder,
     private departmentService: DepartmentsApiService,
     private router: Router,
-    private route: ActivatedRoute // For accessing route parameters
-  ) {}
+    private route: ActivatedRoute,
+    private message: NzMessageService
+    ) {}
 
   ngOnInit() {
     this.formGroup = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
     });
-    // Access the 'id' parameter from the route and convert it to a number
     const idParam = this.route.snapshot.paramMap.get('id');
     this.departmentId = idParam !== null ? Number(idParam) : null;
     console.log(this.departmentId);
 
     if (this.departmentId) {
-      // Load the department data for editing
       this.loadDepartment(this.departmentId);
     }
   }
   loadDepartment(id: number) {
-    // Fetch and load the department data using the ID
     console.log('Loading department with ID:', id);
   }
   onSubmit() {
@@ -82,9 +80,16 @@ export class AddDepartmentComponent implements OnInit {
         updated_at: new Date().toISOString(),
       };
 
-      this.departmentService.addDepartment(formData).subscribe(() => {
-        this.router.navigate(['operations/departments']);
+      this.departmentService.addDepartment(formData).subscribe({
+        next: () => {
+          this.message.success('تم إضافة القسم بنجاح');
+          this.router.navigate(['operations/departments']);
+        },
+        error: (err) => {
+          this.message.error('حدث خطأ أثناء إضافة القسم. حاول مرة أخرى.');
+          console.error('Error:', err);
+        }
       });
     }
+    }
   }
-}

@@ -15,6 +15,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-add-city',
   templateUrl: './add-city.component.html',
@@ -44,7 +45,8 @@ export class AddCityComponent implements OnInit {
     private cityService: CityApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -71,11 +73,11 @@ export class AddCityComponent implements OnInit {
   
       this.cityService.addCity(formData).subscribe(
         () => {
-          this.snackBar.open('City added successfully!', 'Close', { duration: 3000 });
+          this.toastr.success('تم إضافة مدينة بنجاح');
           this.router.navigate(['operations/City']);
         },
         (error) => {
-          this.snackBar.open('Failed to add city. Please try again.', 'Close', { duration: 3000 });
+          this.toastr.error(' خطأ في إضافة المدينة حاول مرة أخرى');
           console.error('Error adding city:', error);
         }
       );

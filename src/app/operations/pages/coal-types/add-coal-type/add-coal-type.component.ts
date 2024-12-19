@@ -16,6 +16,7 @@ import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-fo
 import { SubDepartmentsApiService } from '@shared/services/sub-departments.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-add-coal-type',
   templateUrl: './add-coal-type.component.html',
@@ -50,7 +51,8 @@ export class AddCoalTypeComponent implements OnInit {
     private subDepartmentsService: SubDepartmentsApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -112,16 +114,16 @@ export class AddCoalTypeComponent implements OnInit {
         ratio_price_per_ton: formValue.ratioPrice,  
         hander_percent: formValue.Percentage,  
         department_id: departmentId,  
-        sub_department_id: subDepartmentId,  // Correct field name with underscore
+        sub_department_id: subDepartmentId,  
       };
   
       this.coalTypesService.addCoalType(formData).subscribe(
         () => {
-          this.snackBar.open('Coal type added successfully!', 'Close', { duration: 3000 });
+          this.toastr.success('تم إضافة نوع فحم بنجاح');
           this.router.navigate(['operations/coalTypes']);
         },
         (error) => {
-          this.snackBar.open('Failed to add coal type. Please try again.', 'Close', { duration: 3000 });
+          this.toastr.error('خطأ أثناء اضافة نوع فحم حاول مرة أخرى');
           console.error('Error adding coal type:', error);
         }
       );

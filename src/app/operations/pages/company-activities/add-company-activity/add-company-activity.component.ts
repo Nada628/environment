@@ -15,6 +15,7 @@ import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-fo
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CompanyActivityApiService } from '@shared/services/company-activity.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -51,24 +52,24 @@ export class AddCompanyActivityComponent implements OnInit {
     private companyActivityService: CompanyActivityApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private toast: ToastrService
   ) {}
 
   ngOnInit() {
     this.formGroup = this.fb.group({
       activity: ['', Validators.required],
       desc: ['', Validators.required],
-      company_type_id: ['', Validators.required],  // Change to store ID
+      company_type_id: ['', Validators.required], 
       rdf: ['', Validators.required],
     });
 
-    this.getCompanyTypes(); // Fetch company types on initialization
+    this.getCompanyTypes();
   }
   getCompanyTypes() {
     this.companyActivityService.getAllCompanyType().subscribe(
       (response) => {
-        console.log('Company Types:', response.data); // Check this output
-        this.companyTypes = response.data; // Access the data property
+        console.log('Company Types:', response.data); 
+        this.companyTypes = response.data; 
       },
       (error) => {
         console.error('Error fetching company types:', error);
@@ -100,11 +101,11 @@ export class AddCompanyActivityComponent implements OnInit {
 
     this.companyActivityService.add(formData).subscribe(
       (response) => {
-        this.snackBar.open('Company activity added successfully!', 'Close', { duration: 1000 });
+        this.toast.success('تم إضافة نشاط شركة بمجاح');
         this.router.navigate(['operations/CompanyActivity']);
       },
       (error) => {
-        this.snackBar.open('Failed to add company activity. Please try again.', 'Close', { duration: 1000 });
+        this.toast.error('خطأ اثناء إضافة نشاط شركة حاول مرة أخرى');
         console.error('Error adding company activity:', error);
       }
     );

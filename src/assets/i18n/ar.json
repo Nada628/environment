@@ -376,7 +376,8 @@
     "company_type_name":"نوع الشركة  ",
      "subDepartmentName":"القسم الفرعي  ",
     "mainDepartment":"القسم الرئيسى ",
-    "Code":"الرمز"
+    "Code":"الرمز",
+    "cost":"التكلفة"
 
   },
   "contactUs": {

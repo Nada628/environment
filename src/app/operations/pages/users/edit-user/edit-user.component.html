@@ -38,12 +38,12 @@
 
           <!-- Password Field -->
         <div class="form-group">
-          <label for="password">{{ "common.password" | translate }} <span class="required">*</span></label>
+          <label for="password">{{ "common.password" | translate }} </label>
           <input type="password" id="password" class="form-control" formControlName="password" />
         </div>
         <!-- Confirm Password Field -->
         <div class="form-group">
-          <label for="confirmPassword">{{ "common.confirmPassword" | translate }} <span class="required">*</span></label>
+          <label for="confirmPassword">{{ "common.confirmPassword" | translate }} </label>
           <input type="password" id="confirmPassword" class="form-control" formControlName="confirmPassword" />
         </div>
   
@@ -56,7 +56,7 @@
           <label for="roleName">{{ "common.roleName" | translate }} <span class="required">*</span></label>
           <select id="roleName" class="form-control" formControlName="roleName">
             <option *ngFor="let role of roles" [value]="role.name">
-              {{ role.name }}
+              {{ role.desc }}
             </option>
           </select>
         </div>

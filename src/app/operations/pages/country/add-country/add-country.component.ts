@@ -15,6 +15,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-add-country',
   templateUrl: './add-country.component.html',
@@ -44,7 +45,8 @@ export class AddCountryComponent implements OnInit {
     private countryService: CountryApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private toast: ToastrService
   ) {}
 
   ngOnInit() {
@@ -70,11 +72,11 @@ export class AddCountryComponent implements OnInit {
   
       this.countryService.addCountry(formData).subscribe(
         () => {
-          this.snackBar.open('Country added successfully!', 'Close', { duration: 3000 });
+          this.toast.success('تم إضافة دولة بنجاح');
           this.router.navigate(['operations/Country']);
         },
         (error) => {
-          this.snackBar.open('Failed to add Country. Please try again.', 'Close', { duration: 3000 });
+          this.toast.error('خطأ في إضافة الدولة حاول مرة أخرى');
           console.error('Error adding Country:', error);
         }
       );

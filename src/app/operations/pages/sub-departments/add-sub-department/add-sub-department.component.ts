@@ -4,6 +4,8 @@ import { FilterComponent } from '../../../components/filter/filter.component';
 import { SearchComponent } from '../../../components/search/search.component';
 import { DynamicTableComponent } from '../../../../shared/components/dynamic-table/dynamic-table.component';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+
 import {
   FormGroup,
   ReactiveFormsModule,
@@ -53,24 +55,23 @@ export class AddSubDepartmentComponent implements OnInit {
     private subDepartmentService: SubDepartmentsApiService,
     private router: Router,
     private route: ActivatedRoute ,
-    private snackBar: MatSnackBar
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
     this.formGroup = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      mainDepartment: ['', Validators.required], // Store department ID
+      mainDepartment: ['', Validators.required], 
     });
   
-    // Fetch departments for the dropdown
     this.departmentService.getDepartments().subscribe(
       (response) => {
-        console.log('Fetched departments:', response); // Log the response
-        this.departments = response.data; // Access the departments array from the data property
+        console.log('Fetched departments:', response); 
+        this.departments = response.data; 
       },
       (error) => {
-        console.error('Error fetching departments:', error); // Log any errors
+        console.error('Error fetching departments:', error); 
       }
     );
   
@@ -95,11 +96,11 @@ export class AddSubDepartmentComponent implements OnInit {
   
       this.subDepartmentService.addSubDepartment(formData).subscribe(
         () => {
-          this.snackBar.open('Sub Department added successfully!', 'Close', { duration: 3000 });
+          this.toastr.success('تم إضافة القسم الفرعي بنجاح', 'نجاح');
           this.router.navigate(['operations/SubDepartments']);
         },
         (error) => {
-          this.snackBar.open('Failed to add Sub Department. Please try again.', 'Close', { duration: 3000 });
+          this.toastr.error('حدث خطأ أثناء إضافة القسم الفرعي. حاول مرة أخرى.', 'خطأ');
           console.error('Error adding Sub Department:', error);
         }
       );

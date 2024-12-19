@@ -4,12 +4,7 @@ import { FilterComponent } from '../../../components/filter/filter.component';
 import { SearchComponent } from '../../../components/search/search.component';
 import { DynamicTableComponent } from '../../../../shared/components/dynamic-table/dynamic-table.component';
 import { CommonModule } from '@angular/common';
-import {
-  FormGroup,
-  ReactiveFormsModule,
-  FormBuilder,
-  Validators,
-} from '@angular/forms';
+import {FormGroup,ReactiveFormsModule,FormBuilder,Validators} from '@angular/forms';
 import { BtnDropdownComponent } from '@shared/components/buttons/btn-dropdown/btn-dropdown.component';
 import { SubmitButtonComponent } from '@shared/components/buttons/submit-button/submit-button.component';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
@@ -40,7 +35,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class RolesComponent implements OnInit {
   formGroup!: FormGroup;
-  id!: string; // Declare 'id' property
+  id!: string; 
 
   @ViewChild('dynamicTableWrapper', { static: false })
   dynamicTableWrapper: DynamicTableComponent;
@@ -55,19 +50,18 @@ export class RolesComponent implements OnInit {
     this.headers = this.rolesService.tableHeader;
   }
   ngOnInit() {
-    // Fetch roles from the API and populate the table
     this.rolesService.getAll().subscribe((res) => {
       this.tableData = [];
 
       for (let i = 0; i < (res['data'] as []).length; i++) {
         this.tableData.push({
-          serialNumber: i + 1, // Add serial number
-          role: res['data'][i].name, // Add role name
+          serialNumber: i + 1, 
+          role: res['data'][i].desc, 
           id: res['data'][i].id, 
         });
       }
 
-      this.getTable(); // Call method to render table
+      this.getTable(); 
     });
   }
 
@@ -92,10 +86,10 @@ export class RolesComponent implements OnInit {
 
   handleButtonClick(event: any) {
     console.log('Button clicked:', event);
-    console.log('Event Row:', event.row); // Log the row object
+    console.log('Event Row:', event.row); 
 
     if (event && event.row) {
-      const roleId = event.row.id; // Access the id property directly
+      const roleId = event.row.id; 
       if (roleId) {
         this.router.navigate(['operations/editRole', roleId]).then((success) => {
           if (success) {

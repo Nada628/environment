@@ -79,7 +79,7 @@
         <label for="roleName">{{ "common.roleName" | translate }} <span class="required">*</span> </label>
         <select id="roleName" class="form-control" formControlName="roleName">
           <option *ngFor="let role of roles" [value]="role.name">
-            {{ role.name }}
+            {{ role.desc }}
           </option>
         </select>
         <div *ngIf="submitted && formGroup.get('roleName')?.errors?.['required']" class="invalid-feedback">

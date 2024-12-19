@@ -14,7 +14,7 @@ import { CurrencyApiService } from '@shared/services/currency.service';
 import { Router, ActivatedRoute } from '@angular/router'; 
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-add-currency',
   templateUrl: './add-currency.component.html',
@@ -44,7 +44,7 @@ export class AddCurrencyComponent implements OnInit {
     private currencyService: CurrencyApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -65,17 +65,17 @@ export class AddCurrencyComponent implements OnInit {
       const formData = {
         name: formValue.currency,   
         code: formValue.code,  
-        entity_id: 1 ,// Static value
-        changer_id:1 // Static value
+        entity_id: 1 ,
+        changer_id:1 
       };
   
       this.currencyService.add(formData).subscribe(
         () => {
-          this.snackBar.open('currency added successfully!', 'Close', { duration: 3000 });
+          this.toastr.success('تم إضافة العملة بنجاح');
           this.router.navigate(['operations/Currency']);
         },
         (error) => {
-          this.snackBar.open('Failed to add currency. Please try again.', 'Close', { duration: 3000 });
+          this.toastr.error('خطأ في إضافة العملة حاول مرة أخرى');
           console.error('Error adding currency:', error);
         }
       );

@@ -21,6 +21,8 @@ import { SearchBarComponent } from '@shared/components/search-bar/search-bar.com
 import { SharedModule } from '@shared/shared.module';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-edit-sub-department',
@@ -44,7 +46,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class EditSubDepartmentComponent implements OnInit {
   SubDepartmentId: number | null = null;
-  departments: any[] = []; // Add this array to hold department data
+  departments: any[] = []; 
   formGroup!: FormGroup;
 
   constructor(
@@ -53,20 +55,21 @@ export class EditSubDepartmentComponent implements OnInit {
     private departmentService: DepartmentsApiService,
     private subDepartmentService: SubDepartmentsApiService,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private toastr: ToastrService
+
   ) {}
 
   ngOnInit() {
     this.formGroup = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      mainDepartment: ['', Validators.required], // Store department ID
+      mainDepartment: ['', Validators.required], 
     });
 
-    // Fetch departments for the dropdown
     this.departmentService.getDepartments().subscribe(
       (response) => {
-        this.departments = response.data; // Access the departments array from the data property
+        this.departments = response.data;
       },
       (error) => {
         this.snackBar.open('Failed to load departments', 'Close', { duration: 3000 });
@@ -88,12 +91,11 @@ export class EditSubDepartmentComponent implements OnInit {
       (response) => {
         const data = response.data;
 
-        // Pre-fill the form with the fetched data
         if (data) {
           this.formGroup.patchValue({
             name: data.name || '',
             description: data.description || '',
-            mainDepartment: data.department_id || '', // Assuming `department_id` is the correct field
+            mainDepartment: data.department_id || '', 
           });
         }
       },
@@ -113,22 +115,18 @@ export class EditSubDepartmentComponent implements OnInit {
       const formValue = this.formGroup.value;
       const formData = {
         id: this.SubDepartmentId,
-        name: formValue.name, // Match with HTML
-        description: formValue.description, // Match with HTML
-        department_id: formValue.mainDepartment, // Match with HTML
+        name: formValue.name, 
+        description: formValue.description, 
+        department_id: formValue.mainDepartment, 
       };
 
       this.subDepartmentService.updateSubDepartment(formData).subscribe(
         () => {
-          this.snackBar.open('Sub department updated successfully!', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.success('تم تعديل القسم الفرعي بنجاح');
           this.router.navigate(['operations/SubDepartments']);
         },
         (error) => {
-          this.snackBar.open('Failed to update sub department. Please try again.', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.error('حدث خطأ أثناء تعديل القسم الفرعي. حاول مرة أخرى.');
           console.error('Error updating sub department:', error);
         }
       );
@@ -143,15 +141,13 @@ export class EditSubDepartmentComponent implements OnInit {
     if (this.SubDepartmentId) {
       this.subDepartmentService.deleteSubDepartment(this.SubDepartmentId).subscribe(
         () => {
-          this.snackBar.open('Sub department deleted successfully', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.success('تم حذف القسم الفرعي بنجاح');
+
           this.router.navigate(['operations/SubDepartments']);
         },
         (error) => {
-          this.snackBar.open('Failed to delete sub department', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.error('حدث خطأ أثناء حذف القسم الفرعي. حاول مرة أخرى.');
+
           console.error('Error deleting sub department:', error);
         }
       );

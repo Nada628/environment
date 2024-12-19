@@ -14,6 +14,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-country',
@@ -45,7 +46,8 @@ export class EditCountryComponent implements OnInit {
     private countryService: CountryApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -56,7 +58,6 @@ export class EditCountryComponent implements OnInit {
     
 
   
-    // Get the country ID from the route
     const idParam = this.route.snapshot.paramMap.get('id');
     this.countryId = idParam !== null ? Number(idParam) : null;
   
@@ -74,10 +75,9 @@ export class EditCountryComponent implements OnInit {
         
         const data = response.country;
   
-        // Pre-fill the form with the fetched country data
         if (data) {
           this.formGroup.patchValue({
-            country: data.name || '',  // Use 'country' here
+            country: data.name || '', 
             notes: data.description || '',       
           });
         }
@@ -106,20 +106,16 @@ export class EditCountryComponent implements OnInit {
         id: this.countryId, 
         name: formValue.country,
         description: formValue.notes, 
-        entity_id: "1", //static
+        entity_id: "1",
       };
   
       this.countryService.updateCountry(formData).subscribe(
         () => {
-          this.snackBar.open('Country updated successfully!', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.success('تم تعديل بيانات الدولة بنجاح');
           this.router.navigate(['operations/Country']);
         },
         (error) => {
-          this.snackBar.open('Failed to update Country. Please try again.', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.error('خطأ أثناء تعديل بيانات الدولة حاول مرة أخرى');
           console.error('Error updating Country:', error);
         }
       );
@@ -135,15 +131,13 @@ export class EditCountryComponent implements OnInit {
     if (this.countryId) {
       this.countryService.deleteCountry(this.countryId).subscribe(
         () => {
-          this.snackBar.open('Country deleted successfully', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.success('تم حذف الدولة بنجاح');
+
           this.router.navigate(['operations/Country']);
         },
         (error) => {
-          this.snackBar.open('Failed to delete Country', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.error('خطأ أثناء حذف الدولة حاول مرة أخرى');
+
           console.error('Error deleting Country:', error);
         }
       );

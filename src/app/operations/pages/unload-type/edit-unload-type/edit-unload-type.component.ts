@@ -13,8 +13,7 @@ import { UnLoadTypeApiService } from '@shared/services/unload-type.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-edit-unload-type',
   templateUrl: './edit-unload-type.component.html',
@@ -45,7 +44,7 @@ export class EditUnLoadTypeComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private unloadTypeService: UnLoadTypeApiService,
-    private snackBar: MatSnackBar
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -84,7 +83,6 @@ export class EditUnLoadTypeComponent implements OnInit {
         }
       },
       (error) => {
-        this.snackBar.open('Failed to load unloadType data', 'Close', { duration: 3000 });
         console.error('Error fetching unloadType data:', error);
       }
     );
@@ -107,12 +105,12 @@ export class EditUnLoadTypeComponent implements OnInit {
   
       this.unloadTypeService.update(formData).subscribe(
         () => {
-          this.snackBar.open('Unload type updated successfully!', 'Close', { duration: 3000 });
+          this.toastr.success('تم تعديل نوع تفريغ بنجاح');
           this.router.navigate(['operations/unloadType']);
         },
         (error) => {
-          this.snackBar.open('Failed to update unload type. Please try again.', 'Close', { duration: 3000 });
-          console.error('Error updating unload type:', error);
+          this.toastr.error('خطأ في تعديل نوع التفريغ حاول مرة أخرى.');
+          console.error('Error adding unload type:', error);
         }
       );
     }
@@ -127,16 +125,12 @@ export class EditUnLoadTypeComponent implements OnInit {
     if (this.unloadId) {
       this.unloadTypeService.delete(this.unloadId).subscribe(
         () => {
-          this.snackBar.open('unloadType deleted successfully', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.success('تم حذف نوع تفريغ بنجاح');
           this.router.navigate(['operations/unloadType']);
         },
         (error) => {
-          this.snackBar.open('Failed to delete unloadType', 'Close', {
-            duration: 3000,
-          });
-          console.error('Error deleting unloadType:', error);
+          this.toastr.error('خطأ في حذف نوع التفريغ حاول مرة أخرى.');
+          console.error('Error adding unload type:', error);
         }
       );
     }

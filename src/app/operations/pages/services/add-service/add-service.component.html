@@ -7,13 +7,13 @@
         <label for="name">{{ "common.name" | translate }} <span class="required">*</span></label>
         <input type="text" id="name" class="form-control" formControlName="name" />
         <div *ngIf="submitted && formGroup.get('name')?.hasError('required')" class="invalid-feedback">
-          Name is required.
+        الاسم مطلوب
         </div>
       </div>
 
       <!-- Department Dropdown Field -->
       <div class="form-group">
-        <label for="department">{{ "common.department" | translate }} <span class="required">*</span></label>
+        <label for="department">{{ "common.department" | translate }} <span class="required"> *</span></label>
         <select id="department" class="form-control" formControlName="department_id">
           <option value="" disabled>Select Department</option>
           <option *ngFor="let department of departments" [value]="department.id">
@@ -21,7 +21,37 @@
           </option>
         </select>
         <div *ngIf="submitted && formGroup.get('department_id')?.hasError('required')" class="invalid-feedback">
-          Department is required.
+          القسم مطلوب
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <!-- cost  -->
+      <div class="form-group">
+        <label for="cost">التكلفة  <span class="required">*</span></label>
+        <input 
+          type="number" 
+          id="cost"
+          class="form-control"
+          formControlName="cost" 
+        />
+        <div *ngIf="submitted && formGroup.get('cost')?.hasError('required')" class="invalid-feedback">
+          التكلفة مطلوب
+        </div>
+      </div>
+
+      <!-- request type   -->
+      <div class="form-group">
+        <label for="request_type">نوع الخدمة <span class="required">*</span></label>
+        <select id="request_type" class="form-control" formControlName="request_type">
+          <option value="" disabled> اختر الخدمة</option>
+          <option *ngFor="let request of requests" [value]="request.id">
+            {{request.name}}
+          </option>
+        </select>
+        <div *ngIf="submitted && formGroup.get('request_type')?.hasError('required')" class="invalid-feedback">
+          نوع الخدمة مطلوب
         </div>
       </div>
     </div>
@@ -32,7 +62,7 @@
         <label for="desc">{{ "common.desc" | translate }} <span class="required">*</span></label>
         <input type="text" id="desc" class="form-control" formControlName="desc" />
         <div *ngIf="submitted && formGroup.get('desc')?.hasError('required')" class="invalid-feedback">
-          Description is required.
+        الوصف مطلوب
         </div>
       </div>
     </div>

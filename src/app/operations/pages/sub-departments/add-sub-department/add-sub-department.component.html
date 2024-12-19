@@ -33,7 +33,7 @@
             formControlName="mainDepartment"
             required
           >
-            <option value="" disabled selected>Select a department</option>
+            <option value="" disabled selected>القسم الرئيسي</option>
             <option *ngFor="let department of departments" [value]="department.id">
               {{ department.name }}
             </option>

@@ -20,6 +20,8 @@ import { SearchBarComponent } from '@shared/components/search-bar/search-bar.com
 import { SharedModule } from '@shared/shared.module';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NzMessageService } from 'ng-zorro-antd/message';
+
 
 @Component({
   selector: 'app-edit-department',
@@ -50,7 +52,9 @@ export class editDepartmentComponent implements OnInit {
     private departmentService: DepartmentsApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar // For notifications
+    private snackBar: MatSnackBar ,
+    private message: NzMessageService
+
   ) {}
 
   ngOnInit() {
@@ -59,7 +63,6 @@ export class editDepartmentComponent implements OnInit {
       description: ['', Validators.required],
     });
 
-    // Get the 'id' parameter from the route and convert it to a number
     const idParam = this.route.snapshot.paramMap.get('id');
     this.departmentId = idParam !== null ? Number(idParam) : null;
 
@@ -72,7 +75,6 @@ export class editDepartmentComponent implements OnInit {
       (response) => {
         const departmentData = response.data;
 
-        // Pre-fill the form with the fetched department data
         this.formGroup.patchValue({
           name: departmentData.name,
           description: departmentData.description,
@@ -91,7 +93,7 @@ export class editDepartmentComponent implements OnInit {
     if (this.formGroup.valid) {
       const formData = {
         ...this.formGroup.value,
-        id: this.departmentId, // Set the department ID for editing
+        id: this.departmentId, 
         changer_id: '1',
         entity_id: '1',
         updated_at: new Date().toISOString(),
@@ -99,39 +101,31 @@ export class editDepartmentComponent implements OnInit {
 
       this.departmentService.updateDepartment(formData).subscribe(
         () => {
-          this.snackBar.open('Department updated successfully', 'Close', {
-            duration: 3000,
-          });
+          this.message.success('تم تعديل القسم بنجاح');
+
           this.router.navigate(['operations/departments']);
         },
         (error) => {
-          this.snackBar.open('Failed to update department', 'Close', {
-            duration: 3000,
-          });
+          this.message.error('خطأ في تعديل القسم حاول مرة أخرى');
+
         }
       );
     }
   }
 
-  // Cancel navigation
   onCancel() {
     this.router.navigate(['operations/departments']);
   }
-  // Delete the department by ID
   onDelete() {
     if (this.departmentId) {
       this.departmentService.deleteDepartment(this.departmentId).subscribe(
         () => {
-          this.snackBar.open('Department deleted successfully', 'Close', {
-            duration: 3000,
-          });
+          this.message.success('تم حذف القسم بنجاح  ');
           this.router.navigate(['operations/departments']);
         },
         (error) => {
-          this.snackBar.open('Failed to delete department', 'Close', {
-            duration: 3000,
-          });
-        }
+          this.message.error('خطأ في حذف الفسم حاول مرة أخرى   ')
+          }
       );
     }
   }

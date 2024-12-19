@@ -15,6 +15,7 @@ import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-fo
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UnLoadTypeApiService } from '@shared/services/unload-type.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-add-unload-type',
   templateUrl: './add-unload-type.component.html',
@@ -44,7 +45,7 @@ export class AddUnLoadTypeComponent implements OnInit {
     private unloadTypeService: UnLoadTypeApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -70,15 +71,15 @@ export class AddUnLoadTypeComponent implements OnInit {
         form_type: formValue.form_type,
       };
   
-      console.log('Form data to be submitted:', formData); // Debugging line
+      console.log('Form data to be submitted:', formData);
   
       this.unloadTypeService.add(formData).subscribe(
         () => {
-          this.snackBar.open('Unload type added successfully!', 'Close', { duration: 3000 });
+          this.toastr.success('تم إضافة نوع تفريغ بنجاح');
           this.router.navigate(['operations/unloadType']);
         },
         (error) => {
-          this.snackBar.open('Failed to add unload type. Please try again.', 'Close', { duration: 3000 });
+          this.toastr.error('خطأ في إضافة نوع التفريغ حاول مرة أخرى.');
           console.error('Error adding unload type:', error);
         }
       );

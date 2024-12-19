@@ -17,6 +17,7 @@ export class ServiceApiService {
         'tableHeader.service',
         'tableHeader.departmentName',
         'tableHeader.desc',
+        'tableHeader.cost',
         'tableHeader.settings',
       ],
     };

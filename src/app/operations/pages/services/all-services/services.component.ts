@@ -68,9 +68,10 @@ export class ServiceComponent implements OnInit {
       this.serviceService.getAll().subscribe((servicesRes) => {
         this.tableData = servicesRes['data'].map((service: any, index: number) => ({
           serialNumber: index + 1,
-          service: service.name,
+          service: service.title,
           departmentName: departmentMap[service.department_id] || 'Unknown', 
-          desc: service.desc,
+          desc: service.description,
+          cost:service.cost,
           id: service.id,
         }));
           this.getTable();

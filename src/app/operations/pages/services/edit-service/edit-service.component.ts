@@ -14,8 +14,7 @@ import { ServiceApiService } from '@shared/services/services.service';
 import {DepartmentsApiService} from'@shared/services/departments.service';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-edit-service',
   templateUrl: './edit-service.component.html',
@@ -42,14 +41,22 @@ export class EditServiceComponent implements OnInit {
   roles: any[] = [];
   departments: any[] = [];
   Serviceid!: number;
+  requests = [
+    { id: 4, name: 'اصدار خطاب عدم ممانعة شحنات الفحم ( حجري - بترولي ) ' },
+    { id: 1, name: 'اصدار خطاب الموافقة على تصدير فحم نباتي' },
+    { id: 2, name: 'الموافقة على استكمال كمية شحنة مصدرة وموانئ تصدير' },
+    { id: 3, name: 'خدمة طلب اعتماد نموذج انتاج فحم نباتي' },
+    { id: 5, name: 'اعتماد تقرير الاداء البيئي سنويا' },
 
+
+  ];
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private serviceService: ServiceApiService,
     private departmentService: DepartmentsApiService, 
-    private snackBar: MatSnackBar
+    private toast: ToastrService
   ) {}
 
   ngOnInit() {
@@ -80,16 +87,17 @@ export class EditServiceComponent implements OnInit {
         // Pre-fill the form with the fetched service data
         if (data) {
           this.formGroup.patchValue({
-            name: data.name || '',
+            name: data.title || '',
             department_id: data.department_id || '', 
-            desc: data.desc || ''
+            desc: data.description || '',
+            cost: data.cost ,
+            request_type: data.request_type ,
+
           });
         }
       },
       (error) => {
-        this.snackBar.open('Failed to load service data', 'Close', {
-          duration: 3000,
-        });
+       
         console.error('Error fetching service data:', error);
       }
     );
@@ -115,22 +123,24 @@ export class EditServiceComponent implements OnInit {
 
       const formValue = this.formGroup.value;
       const formData = {
-        name: formValue.name,
+        title: formValue.name,
         department_id: formValue.department_id, 
-        desc: formValue.desc,
+        description: formValue.desc,
+        cost: formValue.cost,
+        request_type: formValue.request_type
+
+
       };
 
       this.serviceService.update(this.Serviceid, formData).subscribe(
         () => {
-          this.snackBar.open('Services updated successfully!', 'Close', {
-            duration: 3000,
-          });
+          this.toast.success('تم تعديل الخدمة بنجاح');
+
           this.router.navigate(['operations/Services']);
         },
         (error) => {
-          this.snackBar.open('Failed to update services. Please try again.', 'Close', {
-            duration: 3000,
-          });
+          this.toast.error('خطأ في تعديل الخدمة حاول مرة أخرى');
+
           console.error('Error updating services:', error);
         }
       );
@@ -145,15 +155,12 @@ export class EditServiceComponent implements OnInit {
     if (this.Serviceid) {
       this.serviceService.delete(this.Serviceid).subscribe(
         () => {
-          this.snackBar.open('Service deleted successfully', 'Close', {
-            duration: 3000,
-          });
+          this.toast.success('تم حذف الخدمة بنجاح');
+
           this.router.navigate(['operations/Services']);
         },
         (error) => {
-          this.snackBar.open('Failed to delete service', 'Close', {
-            duration: 3000,
-          });
+          this.toast.error('خطأ في حذف الخدمة حاول مرة أخرى')
           console.error('Error deleting service:', error);
         }
       );

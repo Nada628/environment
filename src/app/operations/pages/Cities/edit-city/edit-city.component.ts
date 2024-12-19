@@ -14,6 +14,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-city',
@@ -45,7 +46,8 @@ export class EditCityComponent implements OnInit {
     private cityService: CityApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -110,15 +112,11 @@ export class EditCityComponent implements OnInit {
   
       this.cityService.updateCity(formData).subscribe(
         () => {
-          this.snackBar.open('City updated successfully!', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.success('تم تعديل بيانات مدينة بنجاح');
           this.router.navigate(['operations/City']);
         },
         (error) => {
-          this.snackBar.open('Failed to update City. Please try again.', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.error('خطأ في تعديل بيانات المدينة حاول مرة أخرى');
           console.error('Error updating City:', error);
         }
       );
@@ -134,15 +132,13 @@ export class EditCityComponent implements OnInit {
     if (this.cityId) {
       this.cityService.deleteCity(this.cityId).subscribe(
         () => {
-          this.snackBar.open('city deleted successfully', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.success('تم  حذف مدينة بنجاح');
+
           this.router.navigate(['operations/City']);
         },
         (error) => {
-          this.snackBar.open('Failed to delete city', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.error('خطأ في حذف المدينة حاول مرة أخرى');
+
           console.error('Error deleting city:', error);
         }
       );

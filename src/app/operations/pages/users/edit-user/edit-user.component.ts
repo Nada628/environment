@@ -14,6 +14,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-user',
@@ -47,7 +48,8 @@ export class EditUserComponent implements OnInit {
     private usersService: UsersApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -55,17 +57,15 @@ export class EditUserComponent implements OnInit {
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
+      password: [''],
+      confirmPassword: [''],
       departmentName: ['', Validators.required],
       roleName: ['', Validators.required],
     });
 
-    // Fetch roles and departments
     this.fetchRoles();
     this.fetchDepartments();
 
-    // Get the user ID from the route
     const idParam = this.route.snapshot.paramMap.get('id');
     this.Userid = idParam !== null ? Number(idParam) : null;
 
@@ -80,16 +80,15 @@ export class EditUserComponent implements OnInit {
         
         const UserData = response.user;
   
-        // Pre-fill the form with the fetched user data
         if (UserData) {
           this.formGroup.patchValue({
             name: UserData.name || '',
             email: UserData.email || '',
             username: UserData.username || '',
-            password: '', // Assume password is not pre-filled for security reasons
-            confirmPassword: '', // Assume confirmPassword is not pre-filled for security reasons
-            departmentName: UserData.department_name || '', // Correctly set departmentName
-            roleName: UserData.roles.length > 0 ? UserData.roles[0].name : '', // Access first role name
+            password: '',
+            confirmPassword: '', 
+            departmentName: UserData.department_name || '', 
+            roleName: UserData.roles.length > 0 ? UserData.roles[0].name : '', 
           });
         }
       },
@@ -144,15 +143,12 @@ export class EditUserComponent implements OnInit {
 
       this.usersService.updateUsers(this.Userid, formData).subscribe(
         () => {
-          this.snackBar.open('User updated successfully!', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.success('تم تعديل بيانات المستخدم بنجاح')
           this.router.navigate(['operations/Users']);
         },
         (error) => {
-          this.snackBar.open('Failed to update user. Please try again.', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.error('خطأ في تعديل بيانات المستخدم حاول مرة أخرى')
+
           console.error('Error updating user:', error);
         }
       );
@@ -167,15 +163,12 @@ export class EditUserComponent implements OnInit {
     if (this.Userid) {
       this.usersService.deleteUser(this.Userid).subscribe(
         () => {
-          this.snackBar.open('User deleted successfully', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.success('تم حذف المستخدم بنجاح')
+
           this.router.navigate(['operations/Users']);
         },
         (error) => {
-          this.snackBar.open('Failed to delete user', 'Close', {
-            duration: 3000,
-          });
+          this.toastr.error('خطأ في حذف المستخدم حاول مرة أخرى')
           console.error('Error deleting user:', error);
         }
       );

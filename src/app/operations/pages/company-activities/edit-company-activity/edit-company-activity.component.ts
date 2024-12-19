@@ -14,6 +14,7 @@ import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-fo
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CompanyActivityApiService } from '@shared/services/company-activity.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -47,7 +48,7 @@ export class EditCompanyActivityComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private companyActivityService: CompanyActivityApiService,
-    private snackBar: MatSnackBar
+    private toast: ToastrService
   ) {}
 
   ngOnInit() {
@@ -58,14 +59,12 @@ export class EditCompanyActivityComponent implements OnInit {
       rdf: ['', Validators.required],   
     });
   
-    // Get the company types to the dropdown
     this.companyActivityService.getAllCompanyType().subscribe((response) => {
       this.companyTypes = response.data || [];  
       console.log('Company Types:', this.companyTypes); 
     });
     
   
-    // Get the ID from the route
     const idParam = this.route.snapshot.paramMap.get('id');
     this.activityId = idParam !== null ? Number(idParam) : null;
   
@@ -75,8 +74,6 @@ export class EditCompanyActivityComponent implements OnInit {
   }
   
   
-
-  // Fetch all company types
   fetchCompanyTypes() {
     this.companyActivityService.getAllCompanyType().subscribe(
       (response) => {
@@ -88,7 +85,6 @@ export class EditCompanyActivityComponent implements OnInit {
     );
   }
 
-  // Load activity data to pre-fill the form
   loadData(id: number) {
     this.companyActivityService.getoneById(id).subscribe(
       (response) => {
@@ -96,7 +92,6 @@ export class EditCompanyActivityComponent implements OnInit {
         
         const data = response.company_activity;  
   
-        // Pre-fill the form 
         if (data) {
           this.formGroup.patchValue({
             activity: data.name || '', 
@@ -107,13 +102,11 @@ export class EditCompanyActivityComponent implements OnInit {
         }
       },
       (error) => {
-        this.snackBar.open('Failed to load company activity data', 'Close', { duration: 3000 });
         console.error('Error fetching company activity data:', error);
       }
     );
   }
   
-  // Handle form submission for updating the activity
   onUpdate() {
     this.submitted = true;
   
@@ -126,18 +119,18 @@ export class EditCompanyActivityComponent implements OnInit {
         desc: formValue.desc,     
         company_type_id: formValue.company_type_id,  
         rdf: formValue.rdf,   
-        code: "1",       //static value
-        changer_id: "1", //static value
-        entity_id: "1",  //static value 
+        code: "1",       
+        changer_id: "1", 
+        entity_id: "1",   
       };
   
       this.companyActivityService.update(formData).subscribe(
         () => {
-          this.snackBar.open('Company activity updated successfully!', 'Close', { duration: 3000 });
+          this.toast.success('تم تعديل نشاط الشركة بنجاح');
           this.router.navigate(['operations/CompanyActivity']);
         },
         (error) => {
-          this.snackBar.open('Failed to update company activity. Please try again.', 'Close', { duration: 3000 });
+          this.toast.error('خطأ اثناء تعديل نشاط الشركة حاول مرة أخرى');
           console.error('Error updating company activity:', error);
         }
       );
@@ -148,15 +141,13 @@ export class EditCompanyActivityComponent implements OnInit {
     if (this.activityId) {
       this.companyActivityService.delete(this.activityId).subscribe(
         () => {
-          this.snackBar.open('Company activity deleted successfully', 'Close', {
-            duration: 3000,
-          });
+          this.toast.success('تم حذف نشاط الشركة بنجاح');
+
           this.router.navigate(['operations/CompanyActivity']);
         },
         (error) => {
-          this.snackBar.open('Failed to delete company activity', 'Close', {
-            duration: 3000,
-          });
+          this.toast.error('خطأ اثناء حذف نشاط الشركة حاول مرة أخرى');
+
           console.error('Error deleting company activity:', error);
         }
       );
