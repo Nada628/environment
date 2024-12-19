@@ -83,13 +83,11 @@ export class LogsComponent implements OnInit {
     this.pagedTableData = this.tableData.slice(start, end);
   }
 
-  // Manually change pages
   pageChanged(newPage: number) {
     this.page = newPage;
     this.updateTableData();
   }
 
-  // Optional: Go to next or previous page
   nextPage() {
     if (this.page < Math.ceil(this.tableData.length / this.itemsPerPage)) {
       this.page++;

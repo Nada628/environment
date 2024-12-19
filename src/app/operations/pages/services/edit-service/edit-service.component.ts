@@ -42,10 +42,10 @@ export class EditServiceComponent implements OnInit {
   departments: any[] = [];
   Serviceid!: number;
   requests = [
-    { id: 4, name: 'اصدار خطاب عدم ممانعة شحنات الفحم ( حجري - بترولي ) ' },
     { id: 1, name: 'اصدار خطاب الموافقة على تصدير فحم نباتي' },
     { id: 2, name: 'الموافقة على استكمال كمية شحنة مصدرة وموانئ تصدير' },
     { id: 3, name: 'خدمة طلب اعتماد نموذج انتاج فحم نباتي' },
+    { id: 4, name: 'اصدار خطاب عدم ممانعة شحنات الفحم ( حجري - بترولي ) ' },
     { id: 5, name: 'اعتماد تقرير الاداء البيئي سنويا' },
 
 
@@ -64,12 +64,12 @@ export class EditServiceComponent implements OnInit {
       name: ['', Validators.required],
       department_id: ['', Validators.required], 
       desc: ['', Validators.required],
+      cost: [, Validators.required],
+      request_type: [, Validators.required]
     });
 
-    // Fetch departments
     this.fetchDepartments();
 
-    // Get the ID from the route
     const idParam = this.route.snapshot.paramMap.get('id');
     this.Serviceid = idParam !== null ? Number(idParam) : null;
 
