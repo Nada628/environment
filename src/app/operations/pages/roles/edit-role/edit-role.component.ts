@@ -21,6 +21,7 @@ import { IsRequiredPipe } from '@shared/pipes/is-required.pipe';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-role',
@@ -46,28 +47,29 @@ import { Observable } from 'rxjs';
 export class EditRoleComponent implements OnInit {
   formGroup!: FormGroup;
   submitted = false;
-  permissions: any[] = []; // To store fetched permissions
-  roleId: string | null = null; // To store the role ID
+  permissions: any[] = []; 
+  roleId: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private rolesService: RolesApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
     this.formGroup = this.fb.group({
       role: ['', Validators.required],
-      permissions: this.fb.array([]), // Initialize the FormArray
+      desc:['', Validators.required],
+      permissions: this.fb.array([]), 
     });
 
-    this.roleId = this.route.snapshot.paramMap.get('id'); // Get the role ID from route parameters
+    this.roleId = this.route.snapshot.paramMap.get('id'); 
 
-    this.getAllPermissions(); // Fetch permissions
+    this.getAllPermissions(); 
     if (this.roleId) {
-      this.fetchRoleData(this.roleId); // Fetch and pre-fill role data
+      this.fetchRoleData(this.roleId); 
     }
   }
 
@@ -86,31 +88,27 @@ export class EditRoleComponent implements OnInit {
       if (response.success) {
         const roleData = response.data;
   
-        // Pre-fill the role name
         this.formGroup.patchValue({
           role: roleData.name,
+          desc: roleData.desc,
         });
   
-        // Get the permissions FormArray
         const permissionsFormArray = this.formGroup.get('permissions') as FormArray;
   
-        // Log permissions for debugging
         console.log('Fetched Role Data:', roleData);
         console.log('Available Permissions:', this.permissions);
   
-        // Create a set of permission IDs for quick lookup
         const rolePermissionIds = new Set(roleData.permissions.map((perm: { id: number }) => perm.id));
   
-        // Loop through the permissions and set the checkboxes
         this.permissions.forEach((perm, index) => {
-          const hasPermission = rolePermissionIds.has(perm.id); // Check if the current permission ID exists in the role's permissions
-          permissionsFormArray.at(index).setValue(hasPermission); // Set true or false based on role permissions
+          const hasPermission = rolePermissionIds.has(perm.id); 
+          permissionsFormArray.at(index).setValue(hasPermission); 
         });
       } else {
-        this.snackBar.open('Failed to load role data. Please try again.', 'Close', { duration: 3000 });
+        this.toastr.error('Failed to load role data. Please try again.');
       }
     }, error => {
-      this.snackBar.open('Error fetching role data. Please try again.', 'Close', { duration: 3000 });
+      this.toastr.error('Error fetching role data. Please try again.');
       console.error('Error fetching role data:', error);
     });
   }
@@ -126,18 +124,19 @@ export class EditRoleComponent implements OnInit {
         .filter((id: number | null) => id !== null);
 
       const formData = {
-        id: this.roleId, // Include the role ID
+        id: this.roleId, 
         name: formValue.role,
+        desc: formValue.desc,
         permissions: selectedPermissions,
       };
 
       this.rolesService.update(formData).subscribe(
         () => {
-          this.snackBar.open('Role updated successfully!', 'Close', { duration: 3000 });
+          this.toastr.success('تم تعديل الصلاحية بنجاح');
           this.router.navigate(['operations/Roles']);
         },
         (error) => {
-          this.snackBar.open('Failed to update Role. Please try again.', 'Close', { duration: 3000 });
+          this.toastr.error('خطأ في تعديل الصلاحية');
           console.error('Error updating Role:', error);
         }
       );
@@ -149,19 +148,19 @@ export class EditRoleComponent implements OnInit {
 
   onDelete() {
     if (this.roleId) {
-      const roleIdNumber = +this.roleId; // Convert string to number
+      const roleIdNumber = +this.roleId; 
       this.rolesService.delete(roleIdNumber).subscribe(
         () => {
-          this.snackBar.open('Role deleted successfully!', 'Close', { duration: 3000 });
+          this.toastr.success('تم حذف الصلاحية بنجاح');
           this.router.navigate(['operations/Roles']);
         },
         (error) => {
-          this.snackBar.open('Failed to delete Role. Please try again.', 'Close', { duration: 3000 });
+          this.toastr.error('خطأ في حذف الصلاحية');
           console.error('Error deleting Role:', error);
         }
       );
     } else {
-      this.snackBar.open('Role ID is missing.', 'Close', { duration: 3000 });
+      // this.snackBar.open('Role ID is missing.', 'Close', { duration: 3000 });
     }
   }
   

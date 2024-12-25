@@ -56,7 +56,7 @@ export class RolesComponent implements OnInit {
       for (let i = 0; i < (res['data'] as []).length; i++) {
         this.tableData.push({
           serialNumber: i + 1, 
-          role: res['data'][i].name, 
+          role: res['data'][i].desc || 'null', 
           id: res['data'][i].id, 
         });
       }

@@ -21,6 +21,7 @@ import { IsRequiredPipe } from '@shared/pipes/is-required.pipe';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-role',
@@ -47,24 +48,24 @@ export class AddRoleComponent implements OnInit {
   departmentId: number | null = null;
   formGroup!: FormGroup;
   submitted = false;
-  permissions: any[] = []; // To store fetched permissions
-
+  permissions: any[] = []; 
 
   constructor(
     private fb: FormBuilder,
     private rolesService: RolesApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
     this.formGroup = this.fb.group({
       role: ['', Validators.required],
-      permissions: this.fb.array([]), // Initialize the FormArray
+      permissions: this.fb.array([]), 
+      desc: ['', Validators.required],
     });
   
-    this.getAllPermissions(); // Fetch permissions and set up the FormArray
+    this.getAllPermissions(); 
   }
   
 
@@ -75,7 +76,6 @@ export class AddRoleComponent implements OnInit {
         console.log('Permissions fetched:', this.permissions);
   
         const permissionsFormArray = this.formGroup.get('permissions') as FormArray;
-        // Clear existing controls (in case this method is called multiple times)
         permissionsFormArray.clear();
         this.permissions.forEach(() => permissionsFormArray.push(this.fb.control(false)));
       }
@@ -87,26 +87,23 @@ export class AddRoleComponent implements OnInit {
     this.submitted = true;
     if (this.formGroup.valid) {
       const formValue = this.formGroup.value;
-  
-      // Map the selected permissions to their IDs
-      const selectedPermissions = formValue.permissions
+        const selectedPermissions = formValue.permissions
         .map((checked: boolean, index: number) => (checked ? this.permissions[index].id : null))
-        .filter((id: number | null) => id !== null); // Filter out null values
-  
-      // Prepare the form data
+        .filter((id: number | null) => id !== null); 
+
       const formData = {
         name: formValue.role,
-        permissions: selectedPermissions, // Set permissions as an array of IDs
+        desc: formValue.desc,
+        permissions: selectedPermissions, 
       };
   
-      // Call the add method on your roles service
       this.rolesService.add(formData).subscribe(
         () => {
-          this.snackBar.open('Role added successfully!', 'Close', { duration: 3000 });
+          this.toastr.success('تم إضافة الصلاحية بنجاح');
           this.router.navigate(['operations/Roles']);
         },
         (error) => {
-          this.snackBar.open('Failed to add Role. Please try again.', 'Close', { duration: 3000 });
+          this.toastr.error('خطأ في إضافة الصلاحية');
           console.error('Error adding Role:', error);
         }
       );
