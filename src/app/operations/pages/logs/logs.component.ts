@@ -112,12 +112,10 @@ export class LogsComponent implements OnInit {
         { key: 'managerName', translatedKey: 'tableHeader.managerName', index: 1, isSelected: true },
         { key: 'employeeName', translatedKey: 'tableHeader.employeeName', index: 2, isSelected: true },
         { key: 'desc', translatedKey: 'tableHeader.desc', index: 3, isSelected: true},
-        // { key: 'ipAddress', translatedKey: 'tableHeader.ipAddress', index: 4, isSelected: true },
         { key: 'macAddress', translatedKey: 'tableHeader.macAddress', index: 5, isSelected: true },
         { key: 'date', translatedKey: 'tableHeader.date', index: 8, isSelected: true },
 
-        // { key: 'context', translatedKey: 'tableHeader.context', index: 6, isSelected: true },
-        // { key: 'entityType', translatedKey: 'tableHeader.entityType', index: 7, isSelected: true }
+        
       ];
       
   }

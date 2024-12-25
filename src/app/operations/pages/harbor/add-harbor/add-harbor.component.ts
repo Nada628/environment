@@ -15,6 +15,7 @@ import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-fo
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HarborApiService } from '@shared/services/harbor.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-add-harbor',
   templateUrl: './add-harbor.component.html',
@@ -29,17 +30,14 @@ import { HarborApiService } from '@shared/services/harbor.service';
     DynamicFormComponent,
     SubmitButtonComponent,
     ReactiveFormsModule,
-    DynamicTableComponent,
-    BtnDropdownComponent,
-    FilterComponent,
-    SearchComponent,
+  
   ],
   styleUrls: ['./add-harbor.component.scss'],
 })
 export class AddHarborComponent implements OnInit {
   formGroup!: FormGroup;
   submitted = false;
-  countries: any[] = []; // To store countries
+  countries: any[] = []; 
 
 
   constructor(
@@ -47,7 +45,7 @@ export class AddHarborComponent implements OnInit {
     private harborService: HarborApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -58,10 +56,9 @@ export class AddHarborComponent implements OnInit {
       country_id: ['', Validators.required],   
     });
 
-    // Fetch countries when the component initializes
     this.harborService.getCountry().subscribe(
       (res) => {
-        this.countries = res['countries']; // Adjust according to the actual structure
+        this.countries = res['countries']; 
       },
       (error) => {
         console.error('Error fetching countries:', error);
@@ -89,11 +86,11 @@ export class AddHarborComponent implements OnInit {
   
       this.harborService.add(formData).subscribe(
         () => {
-          this.snackBar.open('Harbor added successfully!', 'Close', { duration: 3000 });
+          this.toastr.success('تم إضافةالميناء بنجاح');
           this.router.navigate(['operations/Harbors']);
         },
         (error) => {
-          this.snackBar.open('Failed to add harbor. Please try again.', 'Close', { duration: 3000 });
+          this.toastr.error('خطأ في إضافة الميناء حاول مرة أخرى');
           console.error('Error adding harbor:', error);
         }
       );

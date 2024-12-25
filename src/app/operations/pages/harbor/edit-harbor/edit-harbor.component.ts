@@ -13,8 +13,7 @@ import { HarborApiService } from '@shared/services/harbor.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-edit-harbor',
   templateUrl: './edit-harbor.component.html',
@@ -39,14 +38,13 @@ export class EditHarborComponent implements OnInit {
   formGroup!: FormGroup;
   submitted = false;
   harborId!: number;
-  countries: any[] = []; // Store the countries here
-
+  countries: any[] = []; 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private harborService: HarborApiService,
-    private snackBar: MatSnackBar
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -57,14 +55,12 @@ export class EditHarborComponent implements OnInit {
       country_id: ['', Validators.required],    
     });
 
-   // Fetch the countries and harbor data when the component initializes
    this.harborService.getCountry().subscribe(
     (response) => {
-      this.countries = response.countries || []; // Adjust based on the actual structure of your API response
+      this.countries = response.countries || []; 
       this.loadHarbor(this.route.snapshot.paramMap.get('id'));
     },
     (error) => {
-      this.snackBar.open('Failed to load countries', 'Close', { duration: 3000 });
       console.error('Error fetching countries:', error);
     }
   );
@@ -86,7 +82,6 @@ loadHarbor(id: string | null) {
         }
       },
       (error) => {
-        this.snackBar.open('Failed to load harbor data', 'Close', { duration: 3000 });
         console.error('Error fetching harbor data:', error);
       }
     );
@@ -109,11 +104,11 @@ onUpdate() {
 
     this.harborService.update(formData).subscribe(
       () => {
-        this.snackBar.open('Harbor updated successfully!', 'Close', { duration: 3000 });
+        this.toastr.success('تم تعديل الميناء بنجاح');
         this.router.navigate(['operations/Harbors']);
       },
       (error) => {
-        this.snackBar.open('Failed to update harbor. Please try again.', 'Close', { duration: 3000 });
+        this.toastr.error('خطأ في تعديل الميناء حاول مرة أخرى');
         console.error('Error updating harbor:', error);
       }
     );
@@ -128,11 +123,11 @@ onUpdate() {
     if (this.harborId) {
       this.harborService.delete(this.harborId).subscribe(
         () => {
-          this.snackBar.open('Harbor deleted successfully', 'Close', { duration: 3000 });
+          this.toastr.success('تم حذف الميناء بنجاح');
           this.router.navigate(['operations/Harbors']);
         },
         (error) => {
-          this.snackBar.open('Failed to delete harbor', 'Close', { duration: 3000 });
+          this.toastr.error('خطأ في حذف الميناء حاول مرة أخرى');
           console.error('Error deleting harbor:', error);
         }
       );

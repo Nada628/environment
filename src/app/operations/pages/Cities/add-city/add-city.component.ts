@@ -30,7 +30,6 @@ import { ToastrService } from 'ngx-toastr';
     DynamicFormComponent,
     SubmitButtonComponent,
     ReactiveFormsModule,
-    DynamicTableComponent,
     BtnDropdownComponent,
     FilterComponent,
     SearchComponent,
